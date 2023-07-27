@@ -1,3 +1,14 @@
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<div align="center">
+  <img src="docs/images/captain-tsubasa-logo.png" height="256">
+</div>
+
+<div align="center">
+<br />
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
 # Captain Tsubasa
 
 Captain Tsubasa onchain game running on Starknet Appchain.
