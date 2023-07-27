@@ -1,21 +1,21 @@
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <div align="center">
-  <img src="docs/images/captain-tsubasa-logo.png" height="256">
+  <img src="docs/images/tsubasa-logo.png" height="256">
 </div>
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
-# Captain Tsubasa
+# Tsubasa
 
-Captain Tsubasa onchain game running on Starknet Appchain.
+Tsubasa onchain game running on Starknet Appchain.
 
-[![Project license](https://img.shields.io/github/license/keep-starknet-strange/captain-tsubasa.svg?style=flat-square)](LICENSE)
-[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/keep-starknet-strange/captain-tsubasa/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+[![Project license](https://img.shields.io/github/license/keep-starknet-strange/tsubasa.svg?style=flat-square)](LICENSE)
+[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/keep-starknet-strange/tsubasa/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
 ## About
 
-Captain Tsubasa is a football game based on the popular manga series of the same name. It's a simulation based on the rules of the game, but with a twist: the players are able to use superhuman techniques, such as the Tiger Shot, to make the game more exciting.
+Tsubasa is a football game based on the popular manga series of the same name. It's a simulation based on the rules of the game, but with a twist: the players are able to use superhuman techniques, such as the Tiger Shot, to make the game more exciting.
 
 The game leverages the [Dojo Engine](https://dojoengine.org/), a provable game engine and toolchain for building onchain games and autonomous worlds with Cairo.
 
@@ -61,7 +61,7 @@ Tests: 2 passed, 0 failed, 0 skipped
 ## 🤝 Contribute
 
 We're always looking for passionate developers to join our community and
-contribute to Captain Tsubasa. Check out our [contributing guide](./docs/CONTRIBUTING.md)
+contribute to Tsubasa. Check out our [contributing guide](./docs/CONTRIBUTING.md)
 for more information on how to get started.
 
 ## 📖 License
@@ -82,7 +82,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abdelhamidbakhta"><img src="https://avatars.githubusercontent.com/u/45264458?v=4?s=100" width="100px;" alt="Abdel @ StarkWare "/><br /><sub><b>Abdel @ StarkWare </b></sub></a><br /><a href="https://github.com/keep-starknet-strange/captain-tsubasa/commits?author=abdelhamidbakhta" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abdelhamidbakhta"><img src="https://avatars.githubusercontent.com/u/45264458?v=4?s=100" width="100px;" alt="Abdel @ StarkWare "/><br /><sub><b>Abdel @ StarkWare </b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=abdelhamidbakhta" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

@@ -2,10 +2,10 @@
 
 ## Reporting a Vulnerability
 
-If there are any vulnerabilities in **captain-tsubasa**, don't hesitate to _report them_.
+If there are any vulnerabilities in **tsubasa**, don't hesitate to _report them_.
 
 1. Use any of the
-   [private contact addresses](https://github.com/keep-starknet-strange/captain-tsubasa#support).
+   [private contact addresses](https://github.com/keep-starknet-strange/tsubasa#support).
 2. Describe the vulnerability.
 
    If you have a fix, that is most welcome -- please attach or summarize it in
