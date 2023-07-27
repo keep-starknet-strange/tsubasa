@@ -3,9 +3,6 @@
 <div align="center">
   <img src="docs/images/captain-tsubasa-logo.png" height="256">
 </div>
-
-<div align="center">
-<br />
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
