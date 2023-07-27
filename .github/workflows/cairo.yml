@@ -19,6 +19,11 @@ jobs:
       - uses: software-mansion/setup-scarb@v1
         with:
           scarb-version: ${{ env.SCARB_VERSION }}
+      - name: Install starknet foundry
+        run: curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
       - name: Check cairo format
         working-directory: ${{env.working-directory}}
         run: scarb fmt --check
+      - name: Run cairo tests
+        working-directory: ${{env.working-directory}}
+        run: snforge
