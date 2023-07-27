@@ -61,7 +61,7 @@ Tests: 2 passed, 0 failed, 0 skipped
 ## 🤝 Contribute
 
 We're always looking for passionate developers to join our community and
-contribute to Madara. Check out our [contributing guide](./docs/CONTRIBUTING.md)
+contribute to Captain Tsubasa. Check out our [contributing guide](./docs/CONTRIBUTING.md)
 for more information on how to get started.
 
 ## 📖 License
