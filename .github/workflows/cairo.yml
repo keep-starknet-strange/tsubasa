@@ -1,6 +1,6 @@
 on: [push, pull_request]
 env:
-  CAIRO_VERSION: v2.1.0-rc2
+  SCARB_VERSION: 0.6.0-alpha.2
 
 name: Contracts
 jobs:
@@ -10,16 +10,14 @@ jobs:
       working-directory: contracts
     steps:
       - uses: actions/checkout@v3
-      - name: Install the cairo toolchain
-        run: >
-          wget https://github.com/starkware-libs/cairo/releases/download/${{env.CAIRO_VERSION}}/release-x86_64-unknown-linux-musl.tar.gz
-      - name: Install scarb
-        run: curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: ${{ env.SCARB_VERSION }}
       - name: Install starknet foundry
         run: curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
       - name: Check cairo format
         working-directory: ${{env.working-directory}}
-        run: which cairo-format && scarb fmt --check
+        run: scarb fmt --check
       - name: Run cairo tests
         working-directory: ${{env.working-directory}}
         run: snforge

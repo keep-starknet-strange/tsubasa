@@ -56,5 +56,8 @@ fn test_get_card() {
 fn test_register_deck() {
     let contract_address = deploy_captain_tsubasa();
     let safe_dispatcher = ICaptainTsubasaSafeDispatcher { contract_address };
-    assert(safe_dispatcher.register_deck(array![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).unwrap() == (), 'Couldnt register deck');
+    assert(
+        safe_dispatcher.register_deck(array![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).unwrap() == (),
+        'Couldnt register deck'
+    );
 }
