@@ -1,5 +1,5 @@
 [package]
-name = "starknet_forge_template"
+name = "Tsubasa"
 version = "0.1.0"
 
 # See more keys and their definitions at https://docs.swmansion.com/scarb/docs/reference/manifest
@@ -8,7 +8,7 @@ version = "0.1.0"
 sierra = true
 
 [dependencies]
-starknet = "2.0.1"
+starknet = "2.1.0-rc2"
 
 [tool.snforge]
 # exit_first = true

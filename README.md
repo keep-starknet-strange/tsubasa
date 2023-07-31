@@ -37,7 +37,7 @@ The project is using [straknet-foundry](https://github.com/foundry-rs/starknet-f
 
 #### Run tests
 
-Within `onchain` directory run:
+Within `contracts` directory run:
 
 ```bash
 snforge
