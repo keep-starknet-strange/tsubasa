@@ -1,6 +1,4 @@
 on: [push, pull_request]
-env:
-  SCARB_VERSION: 0.6.0-alpha.2
 
 name: Contracts
 jobs:
@@ -9,15 +7,31 @@ jobs:
     env:
       working-directory: contracts
     steps:
+      - name: Install dojo
+        run: |-
+          wget https://github.com/dojoengine/dojo/releases/download/nightly/dojo_nightly_linux_amd64.tar.gz
+          tar -xzf dojo_nightly_linux_amd64.tar.gz
+          sudo mv sozo /usr/local/bin/
+          sudo mv katana /usr/local/bin/
+
       - uses: actions/checkout@v3
       - uses: software-mansion/setup-scarb@v1
-        with:
-          scarb-version: ${{ env.SCARB_VERSION }}
-      - name: Install starknet foundry
-        run: curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
-      - name: Check cairo format
+
+      - name: Check format
         working-directory: ${{env.working-directory}}
         run: scarb fmt --check
+
       - name: Run cairo tests
         working-directory: ${{env.working-directory}}
-        run: snforge
+        run: sozo test
+
+      - name: Build
+        working-directory: ${{env.working-directory}}
+        run: sozo build
+
+      - name: Start katana
+        run: katana --allow-zero-max-fee &
+
+      - name: Deploy
+        working-directory: ${{env.working-directory}}
+        run: sozo migrate

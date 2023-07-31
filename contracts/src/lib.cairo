@@ -1,2 +1,2 @@
-mod game;
-mod tsubasa;
+mod components;
+mod systems;
