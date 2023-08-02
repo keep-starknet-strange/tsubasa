@@ -34,4 +34,4 @@ jobs:
 
       - name: Deploy
         working-directory: ${{env.working-directory}}
-        run: sozo migrate
+        run: sozo migrate --name World
