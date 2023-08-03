@@ -1,38 +1,18 @@
-use starknet::ContractAddress;
-
-/// Represents a game. As long as the winner is `None` the game isn't considered as finished.
+/// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
-struct Game {
-    /// Rounds won by the player 1.
-    player1_score: u8,
-    /// Rounds won by the player 2.
-    player2_score: u8,
-    /// Current turn of the round.
-    turn: felt252,
-    /// Winner of the game. As long as it is `None` it means that the game is playing.
-    outcome: Option<Outcome>,
-}
-
-#[derive(Component, Copy, Drop, Serde)]
-enum Outcome {
-    Player1: ContractAddress,
-    Player2: ContractAddress,
-    Draw: (),
-}
-
-impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
-    #[inline(always)]
-    fn len() -> usize {
-        // 1 (variant id size) + 1 (value contained by the variant)
-        2
-    }
+struct Card {
+    attack: u8,
+    defense: u8,
+    cost: u8,
 }
 
 #[system]
-mod attack {
+mod place_card {
+    use super::Card;
     use dojo::world::Context;
 
-    fn execute(ctx: Context, player: u8) {}
+    /// This will place a card either on the left or on the right.
+    fn execute(ctx: Context, card_id: u256) {}
 }
 
 #[cfg(test)]

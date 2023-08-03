@@ -1,14 +1,18 @@
 [package]
-name = "Tsubasa"
+name = "tsubasa"
 version = "0.1.0"
+cairo-version = "2.0.1"
 
-# See more keys and their definitions at https://docs.swmansion.com/scarb/docs/reference/manifest
-
-[[target.starknet-contract]]
-sierra = true
+[cairo]
+sierra-replace-ids = true
 
 [dependencies]
-starknet = "2.1.0-rc2"
+dojo = { git = "https://github.com/dojoengine/dojo" }
 
-[tool.snforge]
-# exit_first = true
+[[target.dojo]]
+
+[tool.dojo.env]
+rpc_url = "http://localhost:5050/"
+# Default account for katana with seed = 0
+account_address = "0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0"
+private_key = "0x0300001800000000300000180000000000030000000000003006001800006600"

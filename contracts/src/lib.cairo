@@ -1,2 +1,4 @@
+mod card;
 mod game;
-mod tsubasa;
+use card::Card;
+use game::{Game, Outcome};
