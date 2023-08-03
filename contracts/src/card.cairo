@@ -1,8 +1,9 @@
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Card {
-    /// Token id of the NFT.
-    card_id: u256
+    attack: u8,
+    defense: u8,
+    cost: u8,
 }
 
 #[system]
@@ -11,7 +12,7 @@ mod place_card {
     use dojo::world::Context;
 
     /// This will place a card either on the left or on the right.
-    fn execute(ctx: Context, card: Card) {}
+    fn execute(ctx: Context, card_id: u256) {}
 }
 
 #[cfg(test)]
@@ -45,7 +46,7 @@ mod tests {
         let world = spawn_test_world(components, systems);
 
         let mut place_card_calldata: Array = Default::default();
-        Card { card_id: 0 }.serialize(ref place_card_calldata);
+        0_u256.serialize(ref place_card_calldata);
         world.execute('place_card'.into(), place_card_calldata.span());
 
         let mut attack_calldata: Array = Default::default();

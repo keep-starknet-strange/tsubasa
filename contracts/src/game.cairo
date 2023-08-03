@@ -1,3 +1,5 @@
+use starknet::ContractAddress;
+
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Game {
@@ -8,20 +10,21 @@ struct Game {
     /// Current turn of the round.
     turn: felt252,
     /// Winner of the game. As long as it is `None` it means that the game is playing.
-    winner: Option<Player>,
+    outcome: Option<Outcome>,
 }
 
 #[derive(Component, Copy, Drop, Serde)]
-enum Player {
-    Player1: (),
-    Player2: (),
+enum Outcome {
+    Player1: ContractAddress,
+    Player2: ContractAddress,
     Draw: (),
 }
 
-impl PlayerSerdeLen of dojo::SerdeLen<Option<Player>> {
+impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
-        0
+        // 1 (variant id size) + 1 (value contained by the variant)
+        2
     }
 }
 
@@ -63,7 +66,7 @@ mod tests {
         let world = spawn_test_world(components, systems);
 
         let mut place_card_calldata: Array = Default::default();
-        Card { card_id: 0 }.serialize(ref place_card_calldata);
+        0_u256.serialize(ref place_card_calldata);
         world.execute('place_card'.into(), place_card_calldata.span());
 
         let mut attack_calldata: Array = Default::default();
