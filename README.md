@@ -6,7 +6,7 @@
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
-# Tsubasa
+# Tsubasaaaaa
 
 Tsubasa onchain game running on Starknet Appchain.
 
