@@ -24,8 +24,8 @@ The Dojo Starter contains the minimum required code to bootstrap your Dojo Auton
 
 ## Prerequisites
 
--   Rust - install [here](https://www.rust-lang.org/tools/install)
--   Cairo language server - install [here](https://book.dojoengine.org/development/setup.html#3-setup-cairo-vscode-extension)
+- Rust - install [here](https://www.rust-lang.org/tools/install)
+- Cairo language server - install [here](https://book.dojoengine.org/development/setup.html#3-setup-cairo-vscode-extension)
 
 ## Step-by-Step Guide
 
@@ -88,15 +88,15 @@ Explore and interact with your locally deployed world! This guide will help you 
 
 If you have followed the example exactly and deployed on Katana, you can use the world address generated to either:
 
--   use as an argument to `--world` when calling `sozo` commands
--   add it to [Scarb.toml](Scarb.toml) under `[tool.dojo.env]` table like so
+- use as an argument to `--world` when calling `sozo` commands
+- add it to [Scarb.toml](Scarb.toml) under `[tool.dojo.env]` table like so
 
     ```toml
     [tool.dojo.env]
     world_address = "<world_address>"
     ```
 
--   set it as an environment variable
+- set it as an environment variable
 
     ```bash
     export DOJO_WORLD_ADDRESS="<world_address>"
@@ -156,7 +156,7 @@ sozo component entity Moves --world <WORLD_ADDRESS> 0x03ee9e18edc71a6df30ac3aca2
 
 Congratulations! You now have `10` remaining moves! You've made it this far, keep up the momentum and keep exploring your world!
 
-### Next steps:
+### Next steps
 
 Make sure to read the [Offical Dojo Book](https://book.dojoengine.org/index.html) for detailed instructions including theory and best practices.
 

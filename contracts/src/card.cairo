@@ -1,8 +1,14 @@
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Card {
+    /// The token id in the NFT contract of this card.
+    #[key]
+    token_id: u256,
+    /// Attack statistic of the card.
     attack: u8,
+    /// Defense statistic of the card.
     defense: u8,
+    /// Energy cost of the card.
     cost: u8,
 }
 
