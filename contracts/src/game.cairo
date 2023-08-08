@@ -3,6 +3,9 @@ use starknet::ContractAddress;
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Game {
+    /// Game id, computed as follows pedersen_hash(player1_address, player2_address)
+    #[key]
+    game_id: felt252,
     /// Rounds won by the player 1.
     player1_score: u8,
     /// Rounds won by the player 2.
@@ -17,7 +20,7 @@ struct Game {
 enum Outcome {
     Player1: ContractAddress,
     Player2: ContractAddress,
-    Draw: (),
+    Draw,
 }
 
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {

@@ -30,7 +30,7 @@ jobs:
         run: sozo build
 
       - name: Start katana
-        run: katana --allow-zero-max-fee &
+        run: katana --disable-fee &
 
       - name: Deploy
         working-directory: ${{env.working-directory}}

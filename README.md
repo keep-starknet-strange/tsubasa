@@ -23,7 +23,31 @@ It can run on the public [Starknet](https://www.starknet.io/), or on a Starknet 
 
 ## How to play
 
-> *TBD*
+### Rules
+
+#### Decks
+
+* Each player has a deck that he prepared before the game
+* Each deck is composed of 8 cards
+* There are 24 cards available in the game (for now).
+
+#### Game
+
+1. A game is composed of multiple rounds
+2. The first player to win 2 rounds wins the game
+3. To win a round a player has to score a goal
+4. Each player can place 4 cards at most on the field
+5. When you place a card on the board it'll wait on side until your next turn to enter the field
+6. To place a card you'll need to spend the amount of energy specified on it
+7. The energy level is reset and increased at each turn
+8. You can place multiple cards on the board during 1 turn
+9. Each card has 2 statistics dribble/defense
+10. If you place your card in its real role it will have +1 in dribble and in defense
+11. The defense is the ability to counter a dribble. If a card A (6 dribble, 3 defense) attacks a card B (2 dribble, 4 defense). The card A will dribble B for sure because 6 >= 4 and will go out of the game. A will stay in the game because 3 >= 2 but A’s defense will be decremented to 1.
+12. You can define your team captain while creating your deck. Your team captain will have +1 in dribble and defense.
+13. When the adversary board is empty, your cards will score a goal and you'll win the round
+14. If both players don't have cards anymore the round is a draw
+15. The number of rounds played to finish a game is unlimited
 
 ## Components
 
@@ -33,30 +57,55 @@ Onchain part of the game is located in `onchain` directory.
 
 It's a set of Starknet smart contracts written in Cairo.
 
-The project is using [straknet-foundry](https://github.com/foundry-rs/starknet-foundry). If you are not familiar with it, please read the [Starknet Foundry Book](https://foundry-rs.github.io/starknet-foundry/).
+The project is using [dojo](https://github.com/dojoengine/dojo). If you are not familiar with it, please read the [Dojo book](https://book.dojoengine.org/).
+
+You absolutely need to install the dojo toolchain if you want to do anything related to smart contracts.
+
+```sh
+curl -L https://install.dojoengine.org | bash
+dojoup
+```
+
+For a more detailed onboarding please read the [installation guide](https://book.dojoengine.org/getting-started/installation.html)
 
 #### Run tests
 
 Within `contracts` directory run:
 
 ```bash
-snforge
+sozo test
 ```
 
 You should see something like this:
 
 ```bash
-Collected 2 test(s) and 2 test file(s)
-Running 0 test(s) from src/lib.cairo
-Running 2 test(s) from tests/test_contract.cairo
-[PASS] test_contract::test_contract::test_shoot
-[PASS] test_contract::test_contract::test_cannot_shoot_with_zero_value
-Tests: 2 passed, 0 failed, 0 skipped
+Updating git repository https://github.com/dojoengine/dojo
+running 2 tests
+test tsubasa::card::tests::test_move ... ok
+test tsubasa::game::tests::test_move ... ok
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 filtered out;
 ```
 
 ## Frontend
 
-> *TBD*
+Within `game-app` directory run:
+
+```bash
+npm i
+npm run dev
+```
+
+You should see something like this:
+
+```sh
+> game-app@0.1.0 dev
+> next dev
+
+- ready started server on 0.0.0.0:3000, url: http://localhost:3000
+- event compiled client and server successfully in 79 ms (20 modules)
+- wait compiling...
+- event compiled client and server successfully in 87 ms (20 modules)
+```
 
 ## 🤝 Contribute
 
