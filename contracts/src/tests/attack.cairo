@@ -19,7 +19,6 @@ fn test_attack() {
     0_u256.serialize(ref place_card_calldata);
     world.execute('place_card_system'.into(), place_card_calldata.span());
 
-    let mut attack_calldata: Array = Default::default();
-    attack_calldata.append(0);
+    let attack_calldata = array![0];
     world.execute('attack_system'.into(), attack_calldata.span());
 }
