@@ -1,5 +1,5 @@
 /// Available roles for cards
-#[derive(Copy, Drop, Serde, SerdeLen)]
+#[derive(Copy, Drop, Serde)]
 enum Roles {
     Goalkeeper,
     Defender,
