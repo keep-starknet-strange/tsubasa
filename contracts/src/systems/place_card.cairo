@@ -1,6 +1,6 @@
 #[system]
 mod place_card_system {
-    use tsubasa::components::{Card};
+    use tsubasa::components::Card;
     use dojo::world::Context;
 
     /// This will place a card either on the left or on the right.
