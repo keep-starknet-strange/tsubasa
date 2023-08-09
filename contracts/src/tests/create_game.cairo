@@ -24,9 +24,9 @@ fn test_create_game() {
     create_game_calldata.append(player2.into());
 
     // create game
-    world.execute('create_game_system'.into(), create_game_calldata.span());
+    world.execute('create_game_system', create_game_calldata.span());
     let expected_game_id = pedersen(player1.into(), player2.into());
-    let game = get !(world, expected_game_id, (Game));
+    let game = get !(world, expected_game_id, Game);
 
     assert(game.game_id == expected_game_id, 'invalid game_id');
     assert(game.player1 == player1, 'invalid player 1');
