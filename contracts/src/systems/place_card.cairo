@@ -1,9 +1,17 @@
 /// Available roles for cards
+#[derive(Copy, Drop, Serde, SerdeLen)]
 enum Roles {
-    Goalkeeper: felt252,
-    Defender: felt252,
-    Midfielder: felt252,
-    Attacker: felt252,
+    Goalkeeper,
+    Defender,
+    Midfielder,
+    Attacker,
+}
+
+impl RolesSerdeLen of dojo::SerdeLen<Roles> {
+    #[inline(always)]
+    fn len() -> usize {
+       1
+    }
 }
 
 /// Represents a playing card. It only contains the token id of the NFT.
