@@ -4,7 +4,7 @@ mod end_turn_system {
 
     use tsubasa::components::Game;
     use tsubasa::events::{emit, EndTurn};
-    use array::{ArrayTrait};
+    use array::ArrayTrait;
 
 
     fn execute(ctx: Context, game_id: felt252) {

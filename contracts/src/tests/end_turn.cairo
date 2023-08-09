@@ -39,7 +39,7 @@ fn test_end_turn() {
     attack_calldata.append(0);
     world.execute('attack_system', attack_calldata.span());
 
-    // let end_turn_calldata = array![0];
+    // let end_turn_calldata = array![game_id];
     let mut end_turn_calldata: Array<felt252> = ArrayTrait::new();
     end_turn_calldata.append(game_id);
     world.execute('end_turn_system', end_turn_calldata.span());

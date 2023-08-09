@@ -21,7 +21,7 @@ mod create_game_system {
                 player1_score: 0,
                 player2_score: 0,
                 turn: 0,
-                outcome: Option::None(())
+                outcome: Option::None
             }
         );
 
