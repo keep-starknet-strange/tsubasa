@@ -1,5 +1,6 @@
 use starknet::ContractAddress;
 use debug::PrintTrait;
+use option::{Option, OptionTrait};
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -42,9 +43,13 @@ impl RolesSerdeLen of dojo::SerdeLen<Roles> {
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Game {
-    /// Game id, computed as follows pedersen_hash(player1_address, player2_address)
+    /// Game id, computed as follows pedersen_hash(player1_address, player2_address) ??
     #[key]
     game_id: felt252,
+    /// player 1 address.
+    player1: ContractAddress,
+    /// player 2 address.
+    player2: ContractAddress,
     /// Rounds won by the player 1.
     player1_score: u8,
     /// Rounds won by the player 2.
