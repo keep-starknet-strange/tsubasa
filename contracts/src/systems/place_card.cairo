@@ -1,3 +1,33 @@
+/// Available roles for cards
+enum Roles {
+    Goalkeeper: felt252,
+    Defender: felt252,
+    Midfielder: felt252,
+    Attacker: felt252,
+}
+
+/// Represents a playing card. It only contains the token id of the NFT.
+#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+struct Card {
+    /// The token id in the NFT contract of this card.
+    #[key]
+    token_id: u256,
+    /// Dribble statistic of the card.
+    dribble: u8,
+    /// Current dribble stat, depending on card placement
+    current_dribble: u8,
+    /// Defense statistic of the card.
+    defense: u8,
+    /// Current defense stat, depending on card placement
+    current_defense: u8,
+    /// Energy cost of the card.
+    cost: u8,
+    /// Assigned role
+    role: Roles,
+    /// Card is currently captain of the team
+    is_captain: bool,
+}
+
 #[system]
 mod place_card_system {
     use tsubasa::components::Card;
