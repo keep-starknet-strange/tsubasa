@@ -1,4 +1,6 @@
 use starknet::ContractAddress;
+use debug::PrintTrait;
+
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -42,5 +44,30 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     fn len() -> usize {
         // 1 (variant id size) + 1 (value contained by the variant)
         2
+    }
+}
+
+impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
+    fn print(self: Option<Outcome>) {
+        match self {
+            Option::Some(Outcome) => {
+                match Outcome {
+                    Outcome::Player1(address) => {
+                        'Player1 :'.print();
+                        address.print();
+                    },
+                    Outcome::Player2(address) => {
+                        'Player2 :'.print();
+                        address.print();
+                    },
+                    Outcome::Draw => {
+                        'Is Draw:'.print();
+                    }
+                }
+            },
+            Option::None(_) => {
+                'None'.print();
+            },
+        }
     }
 }
