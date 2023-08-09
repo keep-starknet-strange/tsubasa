@@ -25,6 +25,9 @@ mod end_turn_system {
                 outcome: game.outcome
             })
         );
+        // Reset the energy of player at the end of each turn.
+        let player_id = ctx.origin;
+        set!(ctx.world, (game_id, player_id).into(), Energy { remaining: game.turn });
     }
 }
 

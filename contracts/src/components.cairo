@@ -62,6 +62,12 @@ enum Outcome {
     Draw: bool,
 }
 
+#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+struct Energy {
+    /// The remaining energy of the player in a turn.
+    remaining: u8,
+}
+
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
@@ -107,3 +113,4 @@ impl RolesPrint of debug::PrintTrait<Roles> {
         }
     }
 }
+
