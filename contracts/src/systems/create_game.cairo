@@ -13,9 +13,8 @@ mod create_game_system {
 
         let game_id = pedersen(player1.into(), player2.into());
 
-        set !(
-            ctx.world,
-            Game {
+        set!(
+            ctx.world, Game {
                 game_id: game_id.into(),
                 player1,
                 player2,

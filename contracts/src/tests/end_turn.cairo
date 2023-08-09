@@ -20,7 +20,7 @@ fn test_end_turn() {
     starknet::testing::set_contract_address(player1);
 
     let world = spawn_world();
-  
+
     let game_id = pedersen(player1.into(), player2.into());
 
     // let create_game_calldata: Array<felt252> = array![player2.into()];
@@ -44,7 +44,7 @@ fn test_end_turn() {
     end_turn_calldata.append(game_id);
     world.execute('end_turn_system', end_turn_calldata.span());
 
-    let game = get !(world, game_id, Game);
+    let game = get!(world, game_id, Game);
 
     let expected_game = Game {
         game_id: 0,

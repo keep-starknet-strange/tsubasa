@@ -8,11 +8,10 @@ mod end_turn_system {
 
 
     fn execute(ctx: Context, game_id: felt252) {
-        let game = get !(ctx.world, game_id, Game);
+        let game = get!(ctx.world, game_id, Game);
 
-        set !(
-            ctx.world,
-            Game {
+        set!(
+            ctx.world, Game {
                 game_id: game_id,
                 player1: game.player1,
                 player2: game.player2,
