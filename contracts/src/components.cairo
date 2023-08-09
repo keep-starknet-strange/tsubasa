@@ -1,19 +1,42 @@
 use starknet::ContractAddress;
 use debug::PrintTrait;
 
-
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Card {
     /// The token id in the NFT contract of this card.
     #[key]
     token_id: u256,
-    /// Attack statistic of the card.
-    attack: u8,
+    /// Dribble statistic of the card.
+    dribble: u8,
+    /// Current dribble stat, depending on card placement
+    current_dribble: u8,
     /// Defense statistic of the card.
     defense: u8,
+    /// Current defense stat, depending on card placement
+    current_defense: u8,
     /// Energy cost of the card.
     cost: u8,
+    /// Assigned role
+    role: Roles,
+    /// Card is currently captain of the team
+    is_captain: bool,
+}
+
+/// Available roles for cards
+#[derive(Copy, Drop, Serde)]
+enum Roles {
+    Goalkeeper,
+    Defender,
+    Midfielder,
+    Attacker,
+}
+
+impl RolesSerdeLen of dojo::SerdeLen<Roles> {
+    #[inline(always)]
+    fn len() -> usize {
+        1
+    }
 }
 
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
@@ -69,6 +92,18 @@ impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
             Option::None(_) => {
                 'None'.print();
             },
+        }
+    }
+}
+
+#[cfg(test)]
+impl RolesPrint of debug::PrintTrait<Roles> {
+    fn print(self: Roles) {
+        match self {
+            Roles::Goalkeeper => 'Goalkeeper'.print(),
+            Roles::Defender => 'Defender'.print(),
+            Roles::Midfielder => 'Midfielder'.print(),
+            Roles::Attacker => 'Attacker'.print(),
         }
     }
 }
