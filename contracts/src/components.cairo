@@ -47,6 +47,7 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     }
 }
 
+#[cfg(test)]
 impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
     fn print(self: Option<Outcome>) {
         match self {
