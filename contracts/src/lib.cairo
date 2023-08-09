@@ -1,4 +1,2 @@
-mod card;
-mod game;
-use card::Card;
-use game::{Game, Outcome};
+mod components;
+mod systems;

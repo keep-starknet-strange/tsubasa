@@ -1,20 +1,6 @@
-/// Represents a playing card. It only contains the token id of the NFT.
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
-struct Card {
-    /// The token id in the NFT contract of this card.
-    #[key]
-    token_id: u256,
-    /// Attack statistic of the card.
-    attack: u8,
-    /// Defense statistic of the card.
-    defense: u8,
-    /// Energy cost of the card.
-    cost: u8,
-}
-
 #[system]
-mod place_card {
-    use super::Card;
+mod place_card_system {
+    use tsubasa::components::Card;
     use dojo::world::Context;
 
     /// This will place a card either on the left or on the right.
@@ -31,12 +17,13 @@ mod tests {
 
     use dojo::test_utils::spawn_test_world;
 
-    use tsubasa::game::{attack, game};
-    use tsubasa::card::{card, Card, place_card};
+    use tsubasa::components::{Card, card, Game, game};
+    use tsubasa::systems::place_card_system;
+
 
     #[test]
     #[available_gas(30000000)]
-    fn test_move() {
+    fn test_place_card() {
         let caller = starknet::contract_address_const::<0x0>();
 
         // components
@@ -45,18 +32,13 @@ mod tests {
         components.append(card::TEST_CLASS_HASH);
         // systems
         let mut systems: Array = Default::default();
-        systems.append(place_card::TEST_CLASS_HASH);
-        systems.append(attack::TEST_CLASS_HASH);
+        systems.append(place_card_system::TEST_CLASS_HASH);
 
         // deploy executor, world and register components/systems
         let world = spawn_test_world(components, systems);
 
         let mut place_card_calldata: Array = Default::default();
         0_u256.serialize(ref place_card_calldata);
-        world.execute('place_card'.into(), place_card_calldata.span());
-
-        let mut attack_calldata: Array = Default::default();
-        attack_calldata.append(0);
-        world.execute('attack'.into(), attack_calldata.span());
+        world.execute('place_card_system'.into(), place_card_calldata.span());
     }
 }
