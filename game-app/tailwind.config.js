@@ -5,6 +5,25 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    extend: {
+      animation: {
+        scoreboard: "scoreboard 1s linear forwards",
+      },
+      boxShadow: {
+        md: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+      },
+      fontFamily: {
+        "new-airport": ["var(--font-new-airport)"],
+      },
+      keyframes: {
+        scoreboard: {
+          "0%": { transform: "translateX(calc(100% + 1.5rem))" },
+          "90%": { transform: "translateX(calc(-100% - 1.5rem))" },
+          "100%": { transform: "translateX(calc(-100% - 1.5rem))" },
+        },
+      },
+    },
+  },
   plugins: [],
 };
