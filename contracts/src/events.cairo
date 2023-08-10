@@ -25,3 +25,9 @@ struct CardPlaced {
     card_id: u256,
     position: Roles,
 }
+
+#[derive(Drop, Serde)]
+struct EndGame {
+    game_id: felt252,
+    round_number: u8,
+}
