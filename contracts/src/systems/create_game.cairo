@@ -4,7 +4,7 @@ mod create_game_system {
     use dojo::world::Context;
     use starknet::ContractAddress;
     use tsubasa::events::{emit, GameCreated};
-    use tsubasa::components::{Game};
+    use tsubasa::components::{Game, Energy};
     use option::Option;
     use array::{ArrayTrait};
 
@@ -23,6 +23,13 @@ mod create_game_system {
                 turn: 0,
                 outcome: Option::None
             }
+        );
+
+        set!(
+            ctx.world, (
+                Energy { game_id: game_id.into(), player: player1, remaining: 1 }, 
+                Energy { game_id: game_id.into(), player: player2, remaining: 1 }
+            )
         );
 
         // emit GameCreated

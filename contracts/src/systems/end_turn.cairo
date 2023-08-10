@@ -2,14 +2,13 @@
 mod end_turn_system {
     use dojo::world::Context;
 
-    use tsubasa::components::Game;
+    use tsubasa::components::{Game, Energy};
     use tsubasa::events::{emit, EndTurn};
     use array::ArrayTrait;
 
 
     fn execute(ctx: Context, game_id: felt252) {
-        let game = get!(ctx.world, game_id, Game);
-
+        let mut game = get!(ctx.world, game_id, Game);
         set!(
             ctx.world, Game {
                 game_id: game_id,
@@ -21,9 +20,8 @@ mod end_turn_system {
                 outcome: game.outcome
             }
         );
-        // Reset the energy of player at the end of each turn.
-        let player_id = ctx.origin;
-        set!(ctx.world, (game_id, player_id).into(), Energy { remaining: game.turn });
+        game = get!(ctx.world, game_id, Game);
+        set!(ctx.world, Energy { game_id: game_id, player: ctx.origin, remaining: game.turn + 1 });
 
         // emit EndTurn
         let mut values = ArrayTrait::new();
