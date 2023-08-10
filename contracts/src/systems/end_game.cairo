@@ -46,7 +46,7 @@ mod end_game_system {
                 player1_score: game.player1_score,
                 player2_score: game.player2_score,
                 turn: game.turn,
-                outcome: game.outcome
+                outcome: game_outcome,
             }
         );
 

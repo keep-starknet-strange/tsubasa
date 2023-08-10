@@ -81,7 +81,7 @@ enum Placement {
     Field: u256
 }
 
-#[derive(Component, Copy, Drop, Serde)]
+#[derive(Component, Copy, Drop, Serde, PartialEq)]
 enum Outcome {
     Player1: ContractAddress,
     Player2: ContractAddress,
