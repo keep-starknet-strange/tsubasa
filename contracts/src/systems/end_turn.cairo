@@ -8,7 +8,7 @@ mod end_turn_system {
 
 
     fn execute(ctx: Context, game_id: felt252) {
-        let mut game = get!(ctx.world, game_id, Game);
+        let game = get!(ctx.world, game_id, Game);
         set!(
             ctx.world, Game {
                 game_id: game_id,
@@ -20,7 +20,7 @@ mod end_turn_system {
                 outcome: game.outcome
             }
         );
-        game = get!(ctx.world, game_id, Game);
+        let game = get!(ctx.world, game_id, Game);
         set!(ctx.world, Energy { game_id: game_id, player: ctx.origin, remaining: game.turn + 1 });
 
         // emit EndTurn
