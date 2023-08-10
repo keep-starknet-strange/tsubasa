@@ -34,5 +34,3 @@ export default function Scoreboard() {
     </div>
   );
 }
-
-// background: linear-gradient(45deg, #8FFFA8 16.70%, #FFFB8F 47.92%, #B6DAFB 81.25%);
