@@ -59,6 +59,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "notV4l",
+      "name": "notV4l",
+      "avatar_url": "https://avatars.githubusercontent.com/u/122404722?v=4",
+      "profile": "https://github.com/notV4l",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
