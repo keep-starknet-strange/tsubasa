@@ -69,8 +69,12 @@ enum Outcome {
 
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Energy {
+    #[key]
+    game_id: felt252,
+    #[key]
+    player: ContractAddress,
     /// The remaining energy of the player in a turn.
-    remaining: u8,
+    remaining: felt252,
 }
 
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
