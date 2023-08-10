@@ -29,6 +29,36 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "YohanTz",
+      "name": "Yohan @ScreenshotLabs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37301269?v=4",
+      "profile": "https://github.com/YohanTz",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "rkdud007",
+      "name": "Pia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/76558220?v=4",
+      "profile": "https://github.com/rkdud007",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "hypekn1ght",
+      "name": "A5Farmer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95952749?v=4",
+      "profile": "https://github.com/hypekn1ght",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -1,4 +1,6 @@
-mod card;
-mod game;
-use card::Card;
-use game::{Game, Outcome};
+mod components;
+mod systems;
+mod events;
+
+#[cfg(test)]
+mod tests;
