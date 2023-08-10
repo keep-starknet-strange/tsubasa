@@ -1,11 +1,3 @@
-//The round is reset when someone scores a goal and no one has won 2 rounds.
-//The game ends when someone wins 2 rounds.
-//The events log the round number
-
-// As per the game rules, once a player has won 2 rounds the game ends. 
-// Once a player has scored a goal the round ends and
-// it's reset if no player has won 2 rounds ( if not game end yet )
-
 #[system]
 mod end_game_system {
     use dojo::world::Context;
@@ -15,11 +7,9 @@ mod end_game_system {
     use array::ArrayTrait;
 
     fn execute(ctx: Context, game_id: felt252, scored_player: ContractAddress) {
-        // When someone scored a goal, call this system
-        // get the current game
         let mut game = get!(ctx.world, game_id, Game);
 
-        // reset round and update player score
+        // Reset round and update player score
         game.turn = 0;
         if (scored_player == game.player1) {
             game.player1_score += 1;

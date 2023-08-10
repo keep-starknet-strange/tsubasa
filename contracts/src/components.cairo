@@ -91,8 +91,8 @@ enum Outcome {
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
-        // 1 (variant id size) + 1 (value contained by the variant)
-        2
+        // 1 (option variant) + 1 (variant id size) + 1 (value contained by the variant)
+        3
     }
 }
 

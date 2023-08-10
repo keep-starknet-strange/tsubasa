@@ -54,7 +54,6 @@ fn test_end_game() {
     world.execute('end_game_system', end_game_calldata.span());
 
     let game = get!(world, game_id, Game);
-
     let expected_game = Game {
         game_id: 0,
         player1,
@@ -69,24 +68,22 @@ fn test_end_game() {
     assert(game.turn == expected_game.turn, 'Wrong turn value');
     // Check that option is None
     assert(game.outcome.is_none(), 'Wrong outcome value');
-    // let end_game_calldata = array![game_id, scored_player];
-    game.player1_score.print();
 
+    // Player 2 score goal one more
     world.execute('end_game_system', end_game_calldata.span());
-    'execute'.print();
-    let game_updated = get!(world, game_id, Game);
-// let expected_game = Game {
-//     game_id: 0,
-//     player1,
-//     player2,
-//     player1_score: 0,
-//     player2_score: 2,
-//     turn: 0,
-//     outcome: Option::Some(Outcome::Player2(player2))
-// };
-//     assert(game_updated.player1_score == expected_game.player1_score, 'Wrong player1 score');
-// assert(game_updated.player2_score == expected_game.player2_score + 1, 'Wrong player2 score');
-//     assert(game_updated.turn == expected_game.turn, 'Wrong turn value');
-// // Check that option is None
-// assert(expected_game.outcome.is_some(), 'Wrong outcome value');
+    let game = get!(world, game_id, Game);
+    let expected_game = Game {
+        game_id: 0,
+        player1,
+        player2,
+        player1_score: 0,
+        player2_score: 2,
+        turn: 0,
+        outcome: Option::Some(Outcome::Player2(player2))
+    };
+    assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
+    assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
+    assert(game.turn == expected_game.turn, 'Wrong turn value');
+    // Check that outcome is player2
+    assert(expected_game.outcome.unwrap() == expected_game.outcome.unwrap(), 'Wrong outcome value');
 }
