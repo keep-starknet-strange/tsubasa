@@ -53,7 +53,7 @@ fn test_end_game() {
     end_game_calldata.append(player2.into());
     world.execute('end_game_system', end_game_calldata.span());
 
-    let game = get !(world, game_id, Game);
+    let game = get!(world, game_id, Game);
 
     let expected_game = Game {
         game_id: 0,
@@ -74,7 +74,7 @@ fn test_end_game() {
 
     world.execute('end_game_system', end_game_calldata.span());
     'execute'.print();
-    let game_updated = get !(world, game_id, Game);
+    let game_updated = get!(world, game_id, Game);
 // let expected_game = Game {
 //     game_id: 0,
 //     player1,

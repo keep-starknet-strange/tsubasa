@@ -17,7 +17,7 @@ mod end_game_system {
     fn execute(ctx: Context, game_id: felt252, scored_player: ContractAddress) {
         // When someone scored a goal, call this system
         // get the current game
-        let mut game = get !(ctx.world, game_id, Game);
+        let mut game = get!(ctx.world, game_id, Game);
 
         // reset round and update player score
         game.turn = 0;
@@ -37,9 +37,8 @@ mod end_game_system {
             game_outcome = Option::Some(winner);
         }
 
-        set !(
-            ctx.world,
-            Game {
+        set!(
+            ctx.world, Game {
                 game_id: game_id,
                 player1: game.player1,
                 player2: game.player2,
