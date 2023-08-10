@@ -5,7 +5,7 @@ use array::ArrayTrait;
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game};
+use tsubasa::components::{Game, Energy};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 
 use tsubasa::tests::utils::spawn_world;
@@ -47,7 +47,7 @@ fn test_end_turn() {
     let game = get!(world, game_id, Game);
 
     let expected_game = Game {
-        game_id: 0,
+        game_id: game_id,
         player1,
         player2,
         player1_score: 0,
@@ -56,9 +56,20 @@ fn test_end_turn() {
         outcome: Option::None
     };
 
+    assert(game.game_id == expected_game.game_id, 'invalid game_id');
     assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
     // Check that option is None
     assert(game.outcome.is_none(), 'Wrong outcome value');
+
+    let expected_energy = Energy {
+        game_id: game_id,
+        player: player1,
+        remaining: 2
+    };
+
+    let player_energy = get!(world, (expected_energy.game_id, expected_energy.player), Energy);
+    //Check that player energy is correclty incremented at the end of each turn.
+    assert(player_energy.remaining == expected_energy.remaining, 'Wrong player energy value');
 }
