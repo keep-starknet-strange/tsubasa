@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
 
-export default function Gameboard(props: any) {
+export default function Gameboard() {
   return (
     // TODO: Extract colors to the Tailwind theme once properly defined
     <div className="flex min-h-screen w-full items-center justify-center ">
@@ -28,7 +28,13 @@ export default function Gameboard(props: any) {
         <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
           <div className=" h-[240px] w-[240px] rounded-full border-[3px]	 border-solid border-[#97E8A9]">
             <div className=" h-[120px] w-[120px] translate-x-2/4 translate-y-2/4 rounded-full border-solid border-[#97E8A9] bg-[#8ADD9D]">
-              <img src="/images/FieldCenter.svg" className="object-cover" />
+              <Image
+                src="/images/FieldCenter.svg"
+                className="object-cover"
+                width={120}
+                height={120}
+                alt="Wings center"
+              />
             </div>
           </div>
         </div>
