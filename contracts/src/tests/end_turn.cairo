@@ -52,7 +52,7 @@ fn test_end_turn() {
         player2,
         player1_score: 0,
         player2_score: 0,
-        turn: 1_u128,
+        turn: 1,
         outcome: Option::None
     };
 
@@ -63,7 +63,7 @@ fn test_end_turn() {
     // Check that option is None
     assert(game.outcome.is_none(), 'Wrong outcome value');
 
-    let expected_energy = Energy { game_id: game_id, player: player1, remaining: 1_u128 };
+    let expected_energy = Energy { game_id: game_id, player: player1, remaining: 1 };
     let player_energy = get!(world, (expected_energy.game_id, expected_energy.player), Energy);
     //Check that player energy is correclty incremented at the end of each turn.
     assert(player_energy.remaining == expected_energy.remaining, 'Wrong player energy value');

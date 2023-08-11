@@ -20,7 +20,7 @@ mod create_game_system {
                 player2,
                 player1_score: 0,
                 player2_score: 0,
-                turn: 0_u128,
+                turn: 0,
                 outcome: Option::None
             }
         );
@@ -29,9 +29,9 @@ mod create_game_system {
             ctx.world,
             (
                 Energy {
-                    game_id: game_id.into(), player: player1, remaining: 1_u128
+                    game_id: game_id.into(), player: player1, remaining: 1
                     }, Energy {
-                    game_id: game_id.into(), player: player2, remaining: 1_u128
+                    game_id: game_id.into(), player: player2, remaining: 1
                 }
             )
         );
