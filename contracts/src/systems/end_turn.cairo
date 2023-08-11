@@ -11,7 +11,7 @@ mod end_turn_system {
         let game = get!(ctx.world, game_id, Game);
         set!(
             ctx.world, Game {
-                game_id: game_id,
+                game_id,
                 player1: game.player1,
                 player2: game.player2,
                 player1_score: game.player1_score,
@@ -21,11 +21,7 @@ mod end_turn_system {
             }
         );
         let game = get!(ctx.world, game_id, Game);
-        set!(
-            ctx.world, Energy {
-                game_id: game_id, player: ctx.origin, remaining: game.turn / 2 + 1
-            }
-        );
+        set!(ctx.world, Energy { game_id, player: ctx.origin, remaining: game.turn / 2 + 2 });
 
         // emit EndTurn
         let mut values = ArrayTrait::new();

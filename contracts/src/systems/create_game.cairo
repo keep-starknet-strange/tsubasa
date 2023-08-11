@@ -15,7 +15,7 @@ mod create_game_system {
 
         set!(
             ctx.world, Game {
-                game_id: game_id.into(),
+                game_id,
                 player1,
                 player2,
                 player1_score: 0,
@@ -29,9 +29,9 @@ mod create_game_system {
             ctx.world,
             (
                 Energy {
-                    game_id: game_id.into(), player: player1, remaining: 1
+                    game_id, player: player1, remaining: 1
                     }, Energy {
-                    game_id: game_id.into(), player: player2, remaining: 1
+                    game_id, player: player2, remaining: 1
                 }
             )
         );
