@@ -55,7 +55,7 @@ struct Game {
     /// Rounds won by the player 2.
     player2_score: u8,
     /// Current turn of the round.
-    turn: felt252,
+    turn: u128,
     /// Winner of the game. As long as it is `None` it means that the game is playing.
     outcome: Option<Outcome>,
 }
@@ -74,7 +74,7 @@ struct Energy {
     #[key]
     player: ContractAddress,
     /// The remaining energy of the player in a turn.
-    remaining: felt252,
+    remaining: u128,
 }
 
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {

@@ -26,23 +26,23 @@ fn test_end_turn() {
     // let create_game_calldata: Array<felt252> = array![player2.into()];
     let mut create_game_calldata: Array<felt252> = ArrayTrait::new();
     create_game_calldata.append(player2.into());
-    world.execute('create_game_system', create_game_calldata.span());
+    world.execute('create_game_system', create_game_calldata);
 
     // let place_card_calldata = array![0, 0]; // u256 { low: 0, high: 0 }
     let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
     place_card_calldata.append(0);
     place_card_calldata.append(0);
-    world.execute('place_card_system', place_card_calldata.span());
+    world.execute('place_card_system', place_card_calldata);
 
     // let attack_calldata = array![0];
     let mut attack_calldata: Array<felt252> = ArrayTrait::new();
     attack_calldata.append(0);
-    world.execute('attack_system', attack_calldata.span());
+    world.execute('attack_system', attack_calldata);
 
     // let end_turn_calldata = array![game_id];
     let mut end_turn_calldata: Array<felt252> = ArrayTrait::new();
     end_turn_calldata.append(game_id);
-    world.execute('end_turn_system', end_turn_calldata.span());
+    world.execute('end_turn_system', end_turn_calldata);
 
     let game = get!(world, game_id, Game);
 
@@ -52,7 +52,7 @@ fn test_end_turn() {
         player2,
         player1_score: 0,
         player2_score: 0,
-        turn: 1,
+        turn: 1_u128,
         outcome: Option::None
     };
 
@@ -63,12 +63,7 @@ fn test_end_turn() {
     // Check that option is None
     assert(game.outcome.is_none(), 'Wrong outcome value');
 
-    let expected_energy = Energy {
-        game_id: game_id,
-        player: player1,
-        remaining: 2
-    };
-
+    let expected_energy = Energy { game_id: game_id, player: player1, remaining: 1_u128 };
     let player_energy = get!(world, (expected_energy.game_id, expected_energy.player), Energy);
     //Check that player energy is correclty incremented at the end of each turn.
     assert(player_energy.remaining == expected_energy.remaining, 'Wrong player energy value');

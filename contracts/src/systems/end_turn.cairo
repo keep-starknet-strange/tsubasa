@@ -16,16 +16,20 @@ mod end_turn_system {
                 player2: game.player2,
                 player1_score: game.player1_score,
                 player2_score: game.player2_score,
-                turn: game.turn + 1,
+                turn: game.turn + 1_u128,
                 outcome: game.outcome
             }
         );
         let game = get!(ctx.world, game_id, Game);
-        set!(ctx.world, Energy { game_id: game_id, player: ctx.origin, remaining: game.turn + 1 });
+        set!(
+            ctx.world, Energy {
+                game_id: game_id, player: ctx.origin, remaining: game.turn / 2_u128 + 1_u128
+            }
+        );
 
         // emit EndTurn
         let mut values = ArrayTrait::new();
-        serde::Serde::serialize(@EndTurn { game_id, turn: game.turn + 1 }, ref values);
+        serde::Serde::serialize(@EndTurn { game_id, turn: game.turn + 1_u128 }, ref values);
         emit(ctx, 'EndTurn', values.span());
     }
 }
