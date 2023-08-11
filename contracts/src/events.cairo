@@ -8,7 +8,7 @@ use array::{ArrayTrait, SpanTrait};
 // have framework level event/logging
 fn emit(ctx: Context, name: felt252, values: Span<felt252>) {
     let keys = array![name];
-    ctx.world.emit(keys.span(), values);
+    ctx.world.emit(keys, values);
 }
 
 #[derive(Drop, Serde)]
@@ -21,5 +21,5 @@ struct GameCreated {
 #[derive(Drop, Serde)]
 struct EndTurn {
     game_id: felt252,
-    turn: felt252,
+    turn: u128,
 }

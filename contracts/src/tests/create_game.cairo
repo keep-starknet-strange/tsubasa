@@ -24,7 +24,7 @@ fn test_create_game() {
     create_game_calldata.append(player2.into());
 
     // create game
-    world.execute('create_game_system', create_game_calldata.span());
+    world.execute('create_game_system', create_game_calldata);
     let expected_game_id = pedersen(player1.into(), player2.into());
     let game = get!(world, expected_game_id, Game);
 
