@@ -8,7 +8,7 @@ export default function Gameboard() {
 
     <div className="mx-[10px] h-screen max-h-96 w-full flex-1 md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px] md:rotate-90">
       {/* field */}
-      <div className="relative box-border flex h-screen w-full overflow-hidden rounded-xl border-[3px] border-solid border-[#97E8A9] bg-[#8ADD9D] ">
+      <div className="relative mx-auto box-border flex h-[368px] w-11/12 overflow-hidden rounded-xl border-[3px] border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-screen md:w-full ">
         {/* corners */}
         <div className="absolute -left-4 -top-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9] md:h-12 md:w-12" />
         <div className="absolute -right-4 -top-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9]  md:h-12 md:w-12 " />
