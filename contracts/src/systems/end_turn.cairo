@@ -3,7 +3,7 @@ mod end_turn_system {
     use dojo::world::Context;
 
     use tsubasa::components::{Game, Energy};
-    use tsubasa::events::{emit, EndTurn};
+    use tsubasa::events::{EndTurn};
     use array::ArrayTrait;
 
 
@@ -23,10 +23,7 @@ mod end_turn_system {
         let game = get!(ctx.world, game_id, Game);
         set!(ctx.world, Energy { game_id, player: ctx.origin, remaining: game.turn / 2 + 2 });
 
-        // emit EndTurn
-        let mut values = ArrayTrait::new();
-        serde::Serde::serialize(@EndTurn { game_id, turn: game.turn + 1 }, ref values);
-        emit(ctx, 'EndTurn', values.span());
+        emit!(ctx.world, EndTurn { game_id, turn: game.turn + 1 })
     }
 }
 
