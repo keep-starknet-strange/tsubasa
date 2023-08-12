@@ -18,9 +18,9 @@ export default function Gameboard() {
         {/* left penalty box */}
         <div className="absolute bottom-0 left-2/4 -translate-x-2/4">
           {/* goal boxes */}
-          <div className="relative z-20 h-14 w-44 rounded-t-xl border-[3px]  border-b-0  border-solid border-[#97E8A9]	 bg-[#8ADD9D] md:h-32 md:w-96" />
+          <div className="relative z-20 h-12 w-32 rounded-t-xl border-[3px]  border-b-0  border-solid border-[#97E8A9]	 bg-[#8ADD9D] md:h-32 md:w-96" />
           {/* goal circle */}
-          <div className="absolute left-2/4 top-0  z-10 h-28 w-28 -translate-x-2/4 -translate-y-2/4   rounded-full border-[3px]  border-solid	border-[#97E8A9] md:h-60 md:w-60 " />
+          <div className="absolute left-2/4 top-0  z-10 h-20 w-20 -translate-x-2/4 -translate-y-2/4   rounded-full border-[3px]  border-solid	border-[#97E8A9] md:h-60 md:w-60 " />
         </div>
 
         {/* center line */}
@@ -43,9 +43,9 @@ export default function Gameboard() {
 
         <div className="absolute left-2/4 top-0 -translate-x-2/4">
           {/* goal boxes */}
-          <div className="relative z-20 h-14 w-44  rounded-b-xl  border-[3px] border-t-0	 border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-32 md:w-96" />
+          <div className="relative z-20 h-12 w-32  rounded-b-xl  border-[3px] border-t-0	 border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-32 md:w-96" />
           {/* goal circle */}
-          <div className="absolute left-2/4 top-0  z-10 h-28 w-28 -translate-x-2/4    rounded-full border-[3px]  border-solid	border-[#97E8A9] md:h-60 md:w-60" />
+          <div className="absolute left-2/4 top-1/4  z-10 h-20 w-20 -translate-x-2/4    rounded-full border-[3px]  border-solid	border-[#97E8A9] md:h-60 md:w-60" />
         </div>
       </div>
     </div>
