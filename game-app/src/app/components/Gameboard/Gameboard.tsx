@@ -6,7 +6,7 @@ export default function Gameboard() {
   return (
     // TODO: Extract colors to the Tailwind theme once properly defined
 
-    <div className="mx-[10px] h-screen max-h-96 w-full flex-1 md:m-auto md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px] md:rotate-90">
+    <div className=" h-screen max-h-96 w-full flex-1 md:m-auto md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px] md:rotate-90">
       {/* field */}
       <div className="relative mx-auto box-border flex h-[368px] w-11/12 overflow-hidden rounded-xl border-[3px] border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-screen md:w-full ">
         {/* corners */}
