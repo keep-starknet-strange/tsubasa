@@ -5,7 +5,7 @@ use option::{Option, OptionTrait};
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game};
+use tsubasa::components::{Game, Energy};
 use tsubasa::tests::utils::spawn_world;
 use tsubasa::systems::create_game_system;
 
@@ -24,7 +24,7 @@ fn test_create_game() {
     create_game_calldata.append(player2.into());
 
     // create game
-    world.execute('create_game_system', create_game_calldata.span());
+    world.execute('create_game_system', create_game_calldata);
     let expected_game_id = pedersen(player1.into(), player2.into());
     let game = get!(world, expected_game_id, Game);
 
@@ -34,4 +34,10 @@ fn test_create_game() {
     assert(game.player1_score == 0, 'invalid player 1 score');
     assert(game.player2_score == 0, 'invalid player 2 score');
     assert(game.outcome.is_none(), 'invalid outcome');
+
+    let player1_energy = get!(world, (expected_game_id, game.player1), Energy);
+    let player2_energy = get!(world, (expected_game_id, game.player2), Energy);
+
+    assert(player1_energy.remaining == 1, 'invalid player 1 energy');
+    assert(player2_energy.remaining == 1, 'invalid player 2 energy');
 }

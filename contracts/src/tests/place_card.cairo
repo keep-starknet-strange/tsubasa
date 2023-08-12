@@ -14,5 +14,5 @@ fn test_place_card() {
 
     let mut place_card_calldata: Array = Default::default();
     0_u256.serialize(ref place_card_calldata);
-    world.execute('place_card_system'.into(), place_card_calldata.span());
+    world.execute('place_card_system', place_card_calldata);
 }
