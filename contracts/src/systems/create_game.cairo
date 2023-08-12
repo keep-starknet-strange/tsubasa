@@ -3,7 +3,7 @@ mod create_game_system {
     use traits::Into;
     use dojo::world::Context;
     use starknet::ContractAddress;
-    use tsubasa::events::{emit, GameCreated};
+    use tsubasa::events::{GameCreated};
     use tsubasa::components::{Game, Energy};
     use option::Option;
     use array::{ArrayTrait};
@@ -36,9 +36,6 @@ mod create_game_system {
             )
         );
 
-        // emit GameCreated
-        let mut values = array::ArrayTrait::new();
-        serde::Serde::serialize(@GameCreated { game_id, player1, player2 }, ref values);
-        emit(ctx, 'GameCreated', values.span());
+        emit!(ctx.world, GameCreated { game_id, player1, player2 })
     }
 }
