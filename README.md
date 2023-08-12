@@ -139,6 +139,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/notV4l"><img src="https://avatars.githubusercontent.com/u/122404722?v=4?s=100" width="100px;" alt="notV4l"/><br /><sub><b>notV4l</b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=notV4l" title="Code">💻</a> <a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=notV4l" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/TeddyNotBear"><img src="https://avatars.githubusercontent.com/u/106410805?v=4?s=100" width="100px;" alt="Teddy Not Bear"/><br /><sub><b>Teddy Not Bear</b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=TeddyNotBear" title="Code">💻</a> <a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=TeddyNotBear" title="Tests">⚠️</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ayushtom"><img src="https://avatars.githubusercontent.com/u/41674634?v=4?s=100" width="100px;" alt="Ayush Tomar"/><br /><sub><b>Ayush Tomar</b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=ayushtom" title="Code">💻</a> <a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=ayushtom" title="Tests">⚠️</a></td>
+    </tr>
   </tbody>
 </table>
 
