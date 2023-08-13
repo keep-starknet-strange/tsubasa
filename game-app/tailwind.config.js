@@ -7,6 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        "mint-green": "#78FF97",
+        "cherry-red": "#E24A4A",
+        "sunny-yellow": "#FEDD67",
+        "mustard-seed": "#726B09",
+        turquoise: "#04F0DB",
+        "pine-green": "#06745F",
+        "peach-pink": "#FCBEB5",
+        cocoa: "#644B3A",
+      },
       animation: {
         scoreboard: "scoreboard 1s linear forwards",
       },
