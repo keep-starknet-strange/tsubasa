@@ -6,7 +6,6 @@ export default function Scoreboard() {
   const [scoreboardType, setScoreBoardTypes] = useState(0);
 
   return (
-    // TODO: Extract colors to the Tailwind theme once properly defined
     <div className="rounded-b-xl bg-green-500 p-6 font-new-airport font-medium sm:p-8">
       <button
         className="leading-xl flex h-20 w-[10rem] items-center justify-center overflow-hidden rounded-lg bg-greenBlack px-3 py-2 text-xl text-green-200 shadow-md sm:w-[25rem] sm:max-w-none sm:px-6 sm:py-3"
