@@ -13,6 +13,40 @@ module.exports = {
       boxShadow: {
         md: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
+      colors: {
+        lightBlue: '#B6DAFB',
+        red: '#E24A4A',
+        black: '#222222',
+        greenBlack: '#0A2F12',
+        neon: '#78FF97',
+        green: {
+          200: '#A3FFB7',
+          300: '#97E8A9',
+          400: '#8ADD9D',
+          500: '#80D794',
+          600: '#71CD87',
+          700: '#61B174',
+          800: '#1D6D2F',
+        },
+        cyan: {
+          200: '#04F0DB',
+          300: '#04DCC8',
+          600: '#07856D',
+          700: '#06745F',
+        },
+        yellow: {
+          200: '#FEDD67',
+          300: '#FDC601',
+          600: '#837B0A',
+          700: '#726B09',
+        },
+        salmon: {
+          200: '#FCBEB5',
+          300: '#FA9284',
+          600: '#82614B',
+          700: '#644B3A',
+        },
+      },
       fontFamily: {
         "new-airport": ["var(--font-new-airport)"],
       },
