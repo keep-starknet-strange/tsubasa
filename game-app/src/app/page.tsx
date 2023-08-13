@@ -1,5 +1,5 @@
 import ConnectButton from "./components/ConnectButton";
-import Gameboard from "./components/Gameboard/Gameboard";
+import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
 
 export default function Home() {
