@@ -6,6 +6,10 @@ import Scoreboard from "./components/Scoreboard";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
+      <div>
+        <Card hover={true} player="1" team="yellow" />
+      </div>
+
       <div className="flex w-full items-end justify-end md:fixed">
         <div className="p-2">
           <ConnectButton />
@@ -18,7 +22,7 @@ export default function Home() {
           </div>
 
           <div className="absolute inset-3.5">
-            <Card />
+            <Card hover={false} player="1" team="blue" />
           </div>
 
           <Gameboard />

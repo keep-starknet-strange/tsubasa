@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Card from "../Card";
 
 export default function Gameboard() {
   return (

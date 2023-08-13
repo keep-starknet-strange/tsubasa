@@ -45,6 +45,17 @@ const agrandirFont = localFont({
   variable: "--font-agrandir",
 });
 
+const ericaoneFont = localFont({
+  src: [
+    {
+      path: "../font/EricaOne/EricaOne-Regular.ttf",
+      style: "normal",
+      weight: "400",
+    },
+  ],
+  variable: "--font-erica-one",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -53,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable}`}
+        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
         <Providers>{children}</Providers>
       </body>
