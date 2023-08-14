@@ -41,7 +41,7 @@ const newAirportDotFont = localFont({
 });
 
 const agrandirFont = localFont({
-  src: "./Agrandir/AgrandirVariable.ttf",
+  src: "../fonts/Agrandir/AgrandirVariable.ttf",
   variable: "--font-agrandir",
 });
 
