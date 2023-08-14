@@ -1,3 +1,4 @@
+import Card from "./components/card/Card";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
@@ -15,6 +16,11 @@ export default function Home() {
           <div className="z-10 m-2 mx-auto w-max md:absolute md:left-1/2 md:top-0 md:m-0 md:-translate-x-1/2">
             <Scoreboard />
           </div>
+
+          <div className="absolute inset-3.5">
+            <Card />
+          </div>
+
           <Gameboard />
         </div>
       </div>

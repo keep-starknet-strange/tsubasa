@@ -26,7 +26,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
         {
           "bg-neon": bonus,
           "bg-red": hurt,
-          "text-black": bonus && !hurt,
+          "text-black": (bonus && !hurt) || !pending,
           "text-white": (pending && !bonus) || hurt,
           "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
           "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
