@@ -22,7 +22,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
   return (
     <div
       className={classNames(
-        "inline-flex flex-col items-center justify-center rounded p-1 pt-2 font-new-airport font-medium shadow",
+        "inline-flex flex-col items-center justify-center rounded p-1 pt-2  shadow",
         {
           "bg-mint-green": bonus,
           "bg-cherry-red": hurt,
@@ -38,14 +38,17 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
       )}
     >
       <div
-        className={classNames("font-extrabold", {
+        className={classNames("font-agrandir font-bold", {
           "opacity-50": pending && !bonus && !hurt,
         })}
       >
         {value}
       </div>
       <div
-        className={classNames({ "opacity-25": !hurt, "opacity-50": pending })}
+        className={classNames({
+          "opacity-25": pending,
+          "opacity-50": !pending,
+        })}
       >
         {type === "dribble" && <DribbleIcon />}
         {type === "stamina" && <StaminaIcon />}

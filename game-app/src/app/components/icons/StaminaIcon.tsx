@@ -5,7 +5,7 @@ const StaminaIcon = () => (
     height="24"
     viewBox="0 0 24 24"
   >
-    <g opacity="0.5">
+    <g>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
