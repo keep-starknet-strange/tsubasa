@@ -52,27 +52,14 @@ const config: StorybookConfig = {
 
     @font-face {
       font-family: 'Agrandir';
-      src: url('/Agrandir/Agrandir-GrandHeavy.otf') format('opentype');
-      font-weight: 700;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Agrandir';
-      src: url('/Agrandir/Agrandir-Regular.otf') format('opentype');
-      font-weight: 400;
-      font-style: normal;
+      src: url('/Agrandir/AgrandirVariable.ttf');
     }
 
     :root {
       --font-new-airport: 'NewAirport', sans-serif;
       --font-agrandir: 'Agrandir', sans-serif;
     }
-
-    .font-agrandir {
-      font-family: var(--font-agrandir);
-    }
-
+    
     ${head}
 
   </style>
