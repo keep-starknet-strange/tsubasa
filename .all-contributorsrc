@@ -89,6 +89,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "remiroyc",
+      "name": "Rémi Roycourt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11146088?v=4",
+      "profile": "https://github.com/remiroyc",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,

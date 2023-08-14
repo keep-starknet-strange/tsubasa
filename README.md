@@ -141,6 +141,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ayushtom"><img src="https://avatars.githubusercontent.com/u/41674634?v=4?s=100" width="100px;" alt="Ayush Tomar"/><br /><sub><b>Ayush Tomar</b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=ayushtom" title="Code">💻</a> <a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=ayushtom" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/remiroyc"><img src="https://avatars.githubusercontent.com/u/11146088?v=4?s=100" width="100px;" alt="Rémi Roycourt"/><br /><sub><b>Rémi Roycourt</b></sub></a><br /><a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=remiroyc" title="Code">💻</a> <a href="https://github.com/keep-starknet-strange/tsubasa/commits?author=remiroyc" title="Tests">⚠️</a></td>
     </tr>
   </tbody>
 </table>
