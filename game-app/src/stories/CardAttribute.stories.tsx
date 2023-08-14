@@ -17,6 +17,6 @@ export const CardAttributeStory: Story = {
     team: "yellow",
     pending: false,
     hurt: false,
-    bonus: false,
+    bonus: true,
   },
 };
