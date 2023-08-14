@@ -1,13 +1,20 @@
 #[system]
 mod create_game_system {
     use traits::Into;
-    use dojo::world::Context;
     use starknet::ContractAddress;
-    use tsubasa::events::{GameCreated};
-    use tsubasa::components::{Game, Energy};
-    use option::Option;
-    use array::{ArrayTrait};
+    use array::ArrayTrait;
 
+    use dojo::world::Context;
+
+    use tsubasa::events::GameCreated;
+    use tsubasa::components::{Game, Player};
+
+    /// Creates a new game and initializes the 2 players with 1 energy.
+    ///
+    /// # Arguments
+    ///
+    /// * `ctx` - Dojo context.
+    /// * `player2` - The second player of the game.
     fn execute(ctx: Context, player2: ContractAddress) {
         let player1 = ctx.origin;
 
@@ -28,10 +35,22 @@ mod create_game_system {
         set!(
             ctx.world,
             (
-                Energy {
-                    game_id, player: player1, remaining: 1
-                    }, Energy {
-                    game_id, player: player2, remaining: 1
+                Player {
+                    game_id,
+                    player: player1,
+                    goalkeeper: Option::None,
+                    defender: Option::None,
+                    midfielder: Option::None,
+                    attacker: Option::None,
+                    remaining_energy: 1,
+                    }, Player {
+                    game_id,
+                    player: player2,
+                    goalkeeper: Option::None,
+                    defender: Option::None,
+                    midfielder: Option::None,
+                    attacker: Option::None,
+                    remaining_energy: 1,
                 }
             )
         );
