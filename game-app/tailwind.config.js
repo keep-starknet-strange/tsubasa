@@ -15,6 +15,7 @@ module.exports = {
       },
       fontFamily: {
         "new-airport": ["var(--font-new-airport)"],
+        agrandir: ["var(--font-agrandir)"],
       },
       keyframes: {
         scoreboard: {
