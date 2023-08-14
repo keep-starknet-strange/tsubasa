@@ -41,18 +41,7 @@ const newAirportDotFont = localFont({
 });
 
 const agrandirFont = localFont({
-  src: [
-    {
-      path: "../fonts/Agrandir/Agrandir-Regular.otf",
-      style: "normal",
-      weight: "400",
-    },
-    {
-      path: "../fonts/Agrandir/Agrandir-GrandHeavy.otf",
-      style: "normal",
-      weight: "700",
-    },
-  ],
+  src: "./Agrandir/AgrandirVariable.ttf",
   variable: "--font-agrandir",
 });
 

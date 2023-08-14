@@ -26,8 +26,8 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
         {
           "bg-neon": bonus,
           "bg-red": hurt,
-          "text-black": bonus || !pending,
-          "text-white": (pending || hurt) && !bonus,
+          "text-black": bonus && !hurt,
+          "text-white": (pending && !bonus) || hurt,
           "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
           "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
           "bg-yellow-700": team === "yellow" && pending && !bonus && !hurt,
@@ -46,8 +46,8 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
       </div>
       <div
         className={classNames({
-          "opacity-25": pending,
-          "opacity-50": !pending,
+          "opacity-25": pending && !bonus,
+          "opacity-50": !pending || hurt || bonus,
         })}
       >
         {type === "dribble" && <DribbleIcon />}
