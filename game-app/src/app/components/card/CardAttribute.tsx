@@ -22,7 +22,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
   return (
     <div
       className={classNames(
-        "inline-flex flex-col items-center justify-center rounded px-1 pb-1 pt-3 shadow",
+        "inline-flex max-w-[32px] flex-col items-center justify-center rounded px-1 pb-1 pt-3 shadow",
         {
           "bg-neon": bonus,
           "bg-red": hurt,
@@ -38,7 +38,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
       )}
     >
       <div
-        className={classNames("font-agrandir text-2xl font-bold leading-4", {
+        className={classNames("text-md font-agrandir font-bold leading-4", {
           "opacity-50": pending && !bonus && !hurt,
         })}
       >
