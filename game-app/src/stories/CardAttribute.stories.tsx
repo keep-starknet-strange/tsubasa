@@ -7,6 +7,8 @@ const meta = {
   parameters: {},
 } satisfies Meta<typeof CardAttribute>;
 
+console.log("meta", meta);
+
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -14,9 +16,9 @@ export const CardAttributeStory: Story = {
   args: {
     value: 3,
     type: "stamina",
-    team: "yellow",
+    team: "blue",
     pending: false,
     hurt: false,
-    bonus: true,
+    bonus: false,
   },
 };
