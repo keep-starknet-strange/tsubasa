@@ -24,16 +24,16 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
       className={classNames(
         "inline-flex flex-col items-center justify-center rounded p-1 pt-2  shadow",
         {
-          "bg-mint-green": bonus,
-          "bg-cherry-red": hurt,
+          "bg-neon": bonus,
+          "bg-red": hurt,
           "text-black": bonus || !pending,
           "text-white": (pending || hurt) && !bonus,
-          "bg-pine-green": team === "blue" && pending && !bonus && !hurt,
-          "bg-turquoise": team === "blue" && !pending && !bonus && !hurt,
-          "bg-mustard-seed": team === "yellow" && pending && !bonus && !hurt,
-          "bg-sunny-yellow": team === "yellow" && !pending && !bonus && !hurt,
-          "bg-cocoa": team === "red" && pending && !bonus && !hurt,
-          "bg-peach-pink": team === "red" && !pending && !bonus && !hurt,
+          "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
+          "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
+          "bg-yellow-700": team === "yellow" && pending && !bonus && !hurt,
+          "bg-yellow-200": team === "yellow" && !pending && !bonus && !hurt,
+          "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
+          "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
         }
       )}
     >
