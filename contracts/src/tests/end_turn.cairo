@@ -1,45 +1,32 @@
-use traits::{Into, Default};
+use array::ArrayTrait;
 use option::{Option, OptionTrait};
 use serde::Serde;
-use array::ArrayTrait;
+use starknet::ContractAddress;
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game, Energy};
+use tsubasa::components::{Game, Player};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
-
-use tsubasa::tests::utils::spawn_world;
+use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 
 #[test]
 #[available_gas(30000000)]
 fn test_end_turn() {
-    let player1 = starknet::contract_address_const::<0x1>();
-    let player2 = starknet::contract_address_const::<0x2>();
-
-    // use player1 address
-    starknet::testing::set_contract_address(player1);
-
     let world = spawn_world();
+    let (player1, player2) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
 
-    let game_id = pedersen(player1.into(), player2.into());
-
-    // let create_game_calldata: Array<felt252> = array![player2.into()];
-    let mut create_game_calldata: Array<felt252> = ArrayTrait::new();
-    create_game_calldata.append(player2.into());
-    world.execute('create_game_system', create_game_calldata);
-
-    // let place_card_calldata = array![0, 0]; // u256 { low: 0, high: 0 }
     let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
-    place_card_calldata.append(0);
-    place_card_calldata.append(0);
+    place_card_calldata.append(game_id);
+    place_card_calldata.append(0); // card_id.low
+    place_card_calldata.append(0); // card_id.high
+    place_card_calldata.append(0); // Roles::Goalkeeper
     world.execute('place_card_system', place_card_calldata);
 
-    // let attack_calldata = array![0];
     let mut attack_calldata: Array<felt252> = ArrayTrait::new();
     attack_calldata.append(0);
     world.execute('attack_system', attack_calldata);
 
-    // let end_turn_calldata = array![game_id];
     let mut end_turn_calldata: Array<felt252> = ArrayTrait::new();
     end_turn_calldata.append(game_id);
     world.execute('end_turn_system', end_turn_calldata);
@@ -63,8 +50,7 @@ fn test_end_turn() {
     // Check that option is None
     assert(game.outcome.is_none(), 'Wrong outcome value');
 
-    let expected_energy = Energy { game_id, player: player1, remaining: 2 };
-    let player_energy = get!(world, (expected_energy.game_id, expected_energy.player), Energy);
+    let player = get!(world, (game_id, player1), Player);
     // Check that player energy is correclty incremented at the end of each turn.
-    assert(player_energy.remaining == expected_energy.remaining, 'Wrong player energy value');
+    assert(player.remaining_energy == 2, 'Wrong player energy value');
 }
