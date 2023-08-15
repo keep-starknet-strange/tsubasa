@@ -3,32 +3,33 @@ mod create_card_system {
     use traits::Into;
     use dojo::world::Context;
     use starknet::ContractAddress;
-    use tsubasa::events::{GameCreated};
     use tsubasa::components::{Game, Energy, Card};
-    use option::Option;
     use array::{ArrayTrait};
     use tsubasa::components::Roles;
+    use option::{Option, OptionTrait};
+    use traits::TryInto;
 
-
-    fn execute(ctx: Context, token_id: u256, role: felt252) {
+    //This part is for test prupose
+    fn execute(
+        ctx: Context, token_id: felt252, role: felt252, dribble: felt252, defense: felt252
+    ) { //TO-DO: add cost parameter
         let mut value = Roles::Attacker;
-        match role {
+        match role { // Actually the match support only 0 and _ (cairo dosn't support the 1,2.. yet)
             0 => value = Roles::Attacker,
             _ => value = Roles::Midfielder,
         }
 
         set!(
             ctx.world, Card {
-                token_id: token_id,
-                dribble: 11,
-                current_dribble: 0,
-                defense: 10,
-                current_defense: 0,
+                token_id: token_id.into(),
+                dribble: dribble.try_into().unwrap(),
+                current_dribble: dribble.try_into().unwrap(),
+                defense: defense.try_into().unwrap(),
+                current_defense: defense.try_into().unwrap(),
                 cost: 0,
                 role: value,
                 is_captain: false
             }
         );
-    //emit!(ctx.world, GameCreated { game_id, player1, player2 })
     }
 }

@@ -2,6 +2,7 @@ use traits::{Into, Default};
 use option::{Option, OptionTrait};
 use serde::Serde;
 use array::ArrayTrait;
+use debug::PrintTrait;
 
 use dojo::world::IWorldDispatcherTrait;
 
@@ -51,22 +52,47 @@ fn test_attack_turn() {
     let mut create_card_calldata: Array<felt252> = ArrayTrait::new();
     create_card_calldata.append(1);
     create_card_calldata.append(0);
+    create_card_calldata.append(20);
+    create_card_calldata.append(27);
+
     world.execute('create_card_system', create_card_calldata);
+
+    let token_id_player1: u256 = 1;
+    let card_player1 = get!(world, token_id_player1, Card);
+    assert(card_player1.dribble == 20, 'stat 1 is wrong');
 
     let mut create_card_calldata_player2: Array<felt252> = ArrayTrait::new();
     create_card_calldata_player2.append(2);
     create_card_calldata_player2.append(0);
+    create_card_calldata_player2.append(10);
+    create_card_calldata_player2.append(12);
+
     world.execute('create_card_system', create_card_calldata_player2);
 
-    //Attack logic test part
+    let token_id_player2: u256 = 2;
+    let card_player2 = get!(world, token_id_player2, Card);
+    assert(card_player2.dribble == 10, 'stat 2 is wrong');
+    'Create card passed'.print();
+    //Create card passed
+
     let mut attack_calldata: Array<felt252> = ArrayTrait::new();
     attack_calldata.append(game.game_id);
     attack_calldata.append(1);
     attack_calldata.append(2);
     world.execute('attack_system', attack_calldata);
 
-    let card_player1 = get!(world, 1, Card);
-    let card_player2 = get!(world, 2, Card);
-    let expected_remaining_defense = card_player1.dribble - card_player2.defense;
-    assert(card_player1.defense != expected_remaining_defense, 'invalid Attack logic execution');
+    let token_id_player1: u256 = 1;
+    let token_id_player2: u256 = 2;
+
+    let card_player1 = get!(world, token_id_player1, Card);
+    let card_player2 = get!(world, token_id_player2, Card);
+
+    assert(card_player1.dribble == 20, 'stat 3  is wrong');
+    assert(card_player1.defense == 27, 'stat 4  is wrong');
+    assert(card_player2.defense == 12, 'stat 5 is wrong');
+
+    let expected_remaining_defense = card_player1.defense - card_player2.dribble;
+    assert(
+        card_player1.current_defense == expected_remaining_defense, 'invalid Attack logic execution'
+    );
 }
