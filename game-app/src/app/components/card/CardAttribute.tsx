@@ -1,5 +1,6 @@
-import classNames from "classnames";
 import type { FC } from "react";
+import type { CardSize } from "./types";
+import classNames from "classnames";
 import StaminaIcon from "../icons/StaminaIcon";
 import DribbleIcon from "../icons/DribbleIcon";
 
@@ -12,46 +13,63 @@ interface CardAttributeProps {
   pending: boolean;
   bonus: boolean;
   hurt: boolean;
+  size: CardSize;
 }
 
 type CardAttributeTeam = "red" | "blue" | "yellow";
 
 const CardAttribute: FC<CardAttributeProps> = (props) => {
-  const { value, type, team, pending, bonus, hurt } = props;
+  const { value, type, team, pending, bonus, hurt, size } = props;
 
   return (
     <div
-      className={classNames(
-        "inline-flex max-w-[32px] flex-col items-center justify-center rounded px-1 pb-1 pt-3 shadow",
-        {
-          "bg-neon": bonus,
-          "bg-red": hurt,
-          "text-black": (bonus && !hurt) || !pending,
-          "text-white": (pending && !bonus) || hurt,
-          "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
-          "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
-          "bg-yellow-700": team === "yellow" && pending && !bonus && !hurt,
-          "bg-yellow-200": team === "yellow" && !pending && !bonus && !hurt,
-          "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
-          "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
-        }
-      )}
+      className={classNames("rounded p-1 shadow", {
+        "bg-neon": bonus,
+        "bg-red": hurt,
+        "text-black": (bonus && !hurt) || !pending,
+        "text-white": (pending && !bonus) || hurt,
+        "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
+        "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
+        "bg-yellow-700": team === "yellow" && pending && !bonus && !hurt,
+        "bg-yellow-200": team === "yellow" && !pending && !bonus && !hurt,
+        "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
+        "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
+
+        "h-[60px] w-[32px]": size === "xl",
+        "h-[47px] w-[26px]": size === "lg",
+        "h-[37px] w-[22px]": size === "md",
+        "h-[29px] w-[18px]": size === "sm",
+        "h-[24px] w-[14px]": size === "xs",
+      })}
     >
-      <div
-        className={classNames("text-md font-agrandir font-bold leading-4", {
-          "opacity-50": pending && !bonus && !hurt,
-        })}
-      >
-        {value}
-      </div>
-      <div
-        className={classNames({
-          "opacity-25": pending && !bonus,
-          "opacity-50": !pending || hurt || bonus,
-        })}
-      >
-        {type === "dribble" && <DribbleIcon />}
-        {type === "stamina" && <StaminaIcon />}
+      <div className="flex flex-col items-center">
+        <div
+          className={classNames("font-agrandir font-[767] leading-none", {
+            "opacity-50": pending && !bonus && !hurt,
+            "text-2xl": size === "xl",
+            "text-xl": size === "lg",
+            "text-base leading-[14px]": size === "md",
+            "text-sm leading-[12px]": size === "sm",
+            "text-xs leading-[10px]": size === "xs",
+          })}
+        >
+          {value}
+        </div>
+        <div
+          className={classNames({
+            "opacity-25": pending && !bonus,
+            "opacity-50": !pending || hurt || bonus,
+
+            "h-[60px] w-[24px]": size === "xl",
+            "h-[47px] w-[20px]": size === "lg",
+            "h-[37px] w-[16px]": size === "md",
+            "h-[29px] w-[12px]": size === "sm",
+            "h-[24px] w-[8px]": size === "xs",
+          })}
+        >
+          {type === "dribble" && <DribbleIcon />}
+          {type === "stamina" && <StaminaIcon />}
+        </div>
       </div>
     </div>
   );

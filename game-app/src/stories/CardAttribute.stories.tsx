@@ -20,5 +20,6 @@ export const CardAttributeStory: Story = {
     pending: false,
     hurt: false,
     bonus: false,
+    size: "xl",
   },
 };

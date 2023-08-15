@@ -1,5 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  safelist: [
+    "h-card-xs",
+    "h-card-sm",
+    "h-card-md",
+    "h-card-lg",
+    "h-card-xl",
+    "w-card-xs",
+    "w-card-sm",
+    "w-card-md",
+    "w-card-lg",
+    "w-card-xl",
+  ],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,6 +19,20 @@ module.exports = {
   ],
   theme: {
     extend: {
+      height: {
+        "card-xl": "320px",
+        "card-lg": "240px",
+        "card-md": "160px",
+        "card-sm": "120px",
+        "card-xs": "80px",
+      },
+      width: {
+        "card-xl": "224px",
+        "card-lg": "168px",
+        "card-md": "112px",
+        "card-sm": "84px",
+        "card-xs": "56px",
+      },
       animation: {
         scoreboard: "scoreboard 1s linear forwards",
       },

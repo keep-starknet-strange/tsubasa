@@ -1,4 +1,4 @@
-import Card from "@/app/components/card/Card";
+import Card from "../app/components/card/Card";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
@@ -15,5 +15,11 @@ export const CardStory: Story = {
     team: "yellow",
     player: "1",
     hover: false,
+    captain: false,
+    size: "xl",
+    pending: false,
+    dribble: 1,
+    stamina: 3,
+    energy: 1,
   },
 };
