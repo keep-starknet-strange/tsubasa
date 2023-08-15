@@ -2,6 +2,8 @@
 
 import { InjectedConnector, StarknetConfig } from "@starknet-react/core";
 import React from "react";
+import { DojoProvider } from "../DojoContext";
+import { setup } from "../dojo/setup";
 
 const starknetConnectors = [
   new InjectedConnector({ options: { id: "braavos" } }),
@@ -12,10 +14,15 @@ interface ProviderProps {
   children: React.ReactNode;
 }
 
-export default function Providers({ children }: ProviderProps) {
+export default async function Providers({ children }: ProviderProps) {
+
+  const setupResult = await setup();
+
   return (
-    <StarknetConfig autoConnect connectors={starknetConnectors}>
-      {children}
-    </StarknetConfig>
+    <DojoProvider value={setupResult}>
+      <StarknetConfig autoConnect connectors={starknetConnectors}>
+        {children}
+      </StarknetConfig>
+    </DojoProvider>
   );
 }

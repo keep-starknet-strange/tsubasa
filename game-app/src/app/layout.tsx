@@ -40,7 +40,7 @@ const newAirportDotFont = localFont({
   variable: "--font-new-airport",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -48,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-green-400 text-white ${newAirportDotFont.variable}`}>
+
         <Providers>{children}</Providers>
       </body>
     </html>
