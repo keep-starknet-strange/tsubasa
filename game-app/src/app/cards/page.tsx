@@ -6,8 +6,9 @@ const CardsPage = () => {
   return (
     <div className="p-10">
       <div className="mb-6 flex flex-nowrap gap-2">
-        {["xl", "lg", "md", "sm", "xs"].map((size) => (
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
           <CardAttribute
+            key={`card-0-${index}`}
             bonus={false}
             hurt={false}
             pending={false}
@@ -17,8 +18,9 @@ const CardsPage = () => {
             value={3}
           />
         ))}
-        {["xl", "lg", "md", "sm", "xs"].map((size) => (
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
           <CardAttribute
+            key={`card-1-${index}`}
             bonus={false}
             hurt={false}
             pending={false}
@@ -31,8 +33,9 @@ const CardsPage = () => {
       </div>
 
       <div className="flex flex-nowrap gap-2">
-        {["xl", "lg", "md", "sm", "xs"].map((size) => (
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
           <Card
+            key={`card-2-${index}`}
             captain={false}
             dribble={1}
             energy={1}
@@ -47,8 +50,9 @@ const CardsPage = () => {
       </div>
 
       <div className="mt-20 flex flex-nowrap gap-2">
-        {["xl", "lg", "md", "sm", "xs"].map((size) => (
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
           <Card
+            key={`card-3-${index}`}
             captain={false}
             dribble={1}
             energy={1}
