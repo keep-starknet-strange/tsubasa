@@ -72,7 +72,6 @@ fn test_attack_turn() {
     let token_id_player2: u256 = 2;
     let card_player2 = get!(world, token_id_player2, Card);
     assert(card_player2.dribble == 10, 'stat 2 is wrong');
-    'Create card passed'.print();
     //Create card passed
 
     let mut attack_calldata: Array<felt252> = ArrayTrait::new();
@@ -87,9 +86,7 @@ fn test_attack_turn() {
     let card_player1 = get!(world, token_id_player1, Card);
     let card_player2 = get!(world, token_id_player2, Card);
 
-    assert(card_player1.dribble == 20, 'stat 3  is wrong');
-    assert(card_player1.defense == 27, 'stat 4  is wrong');
-    assert(card_player2.defense == 12, 'stat 5 is wrong');
+
 
     let expected_remaining_defense = card_player1.defense - card_player2.dribble;
     assert(

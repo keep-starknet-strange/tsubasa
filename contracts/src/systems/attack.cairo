@@ -14,15 +14,12 @@ mod attack_system {
     ) {
         let game = get!(ctx.world, game_id, Game);
 
-        let mut token_id_player1: u256 = token_id_player1.into();
+        let mut token_id_player1: u256 = token_id_player1.into(); 
         let mut token_id_player2: u256 = token_id_player2.into();
 
         let card_player1 = get!(ctx.world, token_id_player1, Card);
-
         let card_player2 = get!(ctx.world, token_id_player2, Card);
 
-        assert(card_player1.dribble == 20, 'card_player1  is wrong');
-        assert(card_player2.defense == 12, 'card_player2   is wrong');
 
         //We set a value as boolean replacement to match the Roles
         let mut value = 1;
@@ -32,13 +29,7 @@ mod attack_system {
             Roles::Midfielder => 'Midfielder'.print(),
             Roles::Attacker => value = 1,
         }
-        // let mut value = @1;
-        // match card_player1.role {
-        //     Roles::Goalkeeper => *value == 0,
-        //     Roles::Defender => *value == 0,
-        //     Roles::Midfielder => *value == 0,
-        //     Roles::Attacker => *value == 1,
-        // }
+
 
         if value == 1 {
             //If the card_player1 can dribble the current card_player2
@@ -89,7 +80,6 @@ mod attack_system {
                         outcome: game.outcome
                     }
                 );
-                'Else condition'.print();
             }
         }
     }
