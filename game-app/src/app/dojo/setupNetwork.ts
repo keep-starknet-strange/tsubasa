@@ -9,7 +9,7 @@ export const WORLD_ADDRESS = "0x7423aa0538a747d0a1a97ff64cc66883721c3aee7e3e58ed
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
-export async function setupNetwork() {
+export function setupNetwork() {
 
     const client = new GraphQLClient('http://localhost:8080');
 

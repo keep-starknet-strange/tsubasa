@@ -19,10 +19,12 @@ export default async function Providers({ children }: ProviderProps) {
   const setupResult = await setup();
 
   return (
-    <DojoProvider value={setupResult}>
-      <StarknetConfig autoConnect connectors={starknetConnectors}>
+
+    <StarknetConfig autoConnect connectors={starknetConnectors}>
+      <DojoProvider value={setupResult}>
         {children}
-      </StarknetConfig>
-    </DojoProvider>
+      </DojoProvider>
+    </StarknetConfig>
+
   );
 }

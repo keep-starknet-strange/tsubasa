@@ -40,7 +40,7 @@ const newAirportDotFont = localFont({
   variable: "--font-new-airport",
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;

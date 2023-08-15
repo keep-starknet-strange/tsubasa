@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, useContext, ReactNode } from "react";
 import { SetupResult } from "./dojo/setup";
-import { useBurner } from "@dojoengine/create-burner";
+// import { useBurner } from "@dojoengine/create-burner";
 import { Account, RpcProvider } from "starknet";
 
 const DojoContext = createContext<SetupResult | null>(null);

@@ -31,6 +31,7 @@
     "starknet": "^5.14.1"
   },
   "devDependencies": {
+    "encoding": "^0.1.13",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
@@ -52,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "6.0.0",
     "@typescript-eslint/parser": "6.0.0",
     "autoprefixer": "10.4.14",
+    "bufferutil": "4.0.7",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "eslint-plugin-storybook": "^0.6.13",
@@ -60,6 +62,7 @@
     "prettier-plugin-tailwindcss": "^0.2.8",
     "storybook": "^7.2.3",
     "tailwindcss": "3.3.3",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "utf-8-validate": "5.0.10"
   }
 }
