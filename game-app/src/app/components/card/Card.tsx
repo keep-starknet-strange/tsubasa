@@ -32,7 +32,16 @@ const Card: FC<CardProps> = (props) => {
   } = props;
   return (
     <div
-      className={`relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-4 border-white bg-white shadow-md h-card-${size} w-card-${size}`}
+      className={classNames(
+        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-4 border-white bg-white shadow-md",
+        {
+          "h-[320px] min-h-[320px] w-[224px] min-w-[224px]": size === "xl",
+          "h-[240px] min-h-[240px] w-[168px] min-w-[168px]": size === "lg",
+          "h-[160px] min-h-[160px] w-[112px] min-w-[112px]": size === "md",
+          "h-[120px] min-h-[120px] w-[84px] min-w-[84px]": size === "sm",
+          "h-[80px] min-h-[80px] w-[56px] min-w-[56px]": size === "xs",
+        }
+      )}
     >
       {captain && (
         <div className="absolute top-[-20px] z-10 flex w-full justify-center">
