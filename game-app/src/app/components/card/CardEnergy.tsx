@@ -15,7 +15,7 @@ const CardEnergy: FC<CardEnergyProps> = ({ size, hideValue, energy }) => {
       className={classNames(
         "absolute z-10 flex w-full items-center justify-center",
         {
-          "bottom-[-41px]": size === "xl",
+          "bottom-[-42px]": size === "xl",
           "bottom-[-33px]": size === "lg",
           "bottom-[-25px]": size === "md",
           "bottom-[-21px]": size === "sm",
@@ -35,8 +35,9 @@ const CardEnergy: FC<CardEnergyProps> = ({ size, hideValue, energy }) => {
         <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform">
           <EnergyIcon />
         </div>
+
         {!hideValue && (
-          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center font-agrandir text-lg font-bold">
+          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center font-agrandir text-lg font-bold text-black">
             <div
               className={classNames({
                 "text-2xl": size === "xl",

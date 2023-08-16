@@ -1,10 +1,8 @@
 import type { FC } from "react";
-import type { CardSize } from "./types";
+import type { CardAttributeTeam, CardAttributeType, CardSize } from "./types";
 import classNames from "classnames";
 import StaminaIcon from "../icons/StaminaIcon";
 import DribbleIcon from "../icons/DribbleIcon";
-
-type CardAttributeType = "dribble" | "stamina";
 
 interface CardAttributeProps {
   value: string | number;
@@ -15,8 +13,6 @@ interface CardAttributeProps {
   hurt: boolean;
   size: CardSize;
 }
-
-type CardAttributeTeam = "red" | "blue" | "yellow";
 
 const CardAttribute: FC<CardAttributeProps> = (props) => {
   const { value, type, team, pending, bonus, hurt, size } = props;

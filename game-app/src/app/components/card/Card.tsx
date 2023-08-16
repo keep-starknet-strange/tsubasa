@@ -5,10 +5,14 @@ import Image from "next/image";
 import CaptainIcon from "../icons/CaptainIcon";
 import type { CardSize, TeamColor } from "./types";
 import CardEnergy from "./CardEnergy";
+import CardSticker from "./CardSticker";
+import CardHover from "./CardHover";
+import CardCaptainIcon from "./CardCaptainIcon";
+import CardHeader from "./CardHeader";
 
 interface CardProps {
   team: TeamColor;
-  player: string;
+  player?: string;
   hover: boolean;
   captain: boolean;
   size: CardSize;
@@ -33,83 +37,52 @@ const Card: FC<CardProps> = (props) => {
   return (
     <div
       className={classNames(
-        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-4 border-white bg-white shadow-md",
+        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-4 border-white shadow-md",
         {
           "h-[320px] min-h-[320px] w-[224px] min-w-[224px]": size === "xl",
           "h-[240px] min-h-[240px] w-[168px] min-w-[168px]": size === "lg",
           "h-[160px] min-h-[160px] w-[112px] min-w-[112px]": size === "md",
           "h-[120px] min-h-[120px] w-[84px] min-w-[84px]": size === "sm",
           "h-[80px] min-h-[80px] w-[56px] min-w-[56px]": size === "xs",
+
+          "bg-cyan-700": team === "blue" && pending,
+          "bg-yellow-700": team === "yellow" && pending,
+          "bg-salmon-700": team === "red" && pending,
+          "bg-cyan-500": team === "blue" && !pending,
+          "bg-yellow-500": team === "yellow" && !pending,
+          "bg-salmon-500": team === "red" && !pending,
         }
       )}
     >
-      {captain && (
-        <div className="absolute top-[-20px] z-10 flex w-full justify-center">
-          <CaptainIcon team={team} pending={pending} size={size} />
-        </div>
-      )}
-
+      {captain && <CardCaptainIcon pending={pending} size={size} team={team} />}
       <CardEnergy hideValue={hover} energy={energy} size={size} />
 
-      <div className="p-1">
-        {hover && (
-          <div
-            className=" absolute inset-x-0 bottom-0 z-10 flex h-1/2 items-end justify-center"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 56%)",
-            }}
-          >
-            <div
-              className={classNames(
-                "font-erica-one font-normal text-yellow-300",
-                {
-                  "mb-5 text-6xl": size === "xl",
-                  "mb-4 text-5xl": size === "lg",
-                  "mb-3 text-3xl": size === "md",
-                  "mb-2 text-xl": size === "sm",
-                  "text-lg": size === "xs",
-                }
-              )}
-            >
-              MID
-            </div>
-          </div>
-        )}
-
-        <div
-          className={classNames("flex w-full justify-between overflow-hidden")}
-        >
-          <div className="z-10">
-            <CardAttribute
-              size={size}
-              bonus={false}
-              hurt={false}
-              pending={pending}
-              team={team}
-              type="dribble"
-              value={dribble}
-            />
-          </div>
-          <div className="z-10">
-            <CardAttribute
-              size={size}
-              bonus={false}
-              hurt={false}
-              pending={pending}
-              team={team}
-              type="stamina"
-              value={stamina}
-            />
-          </div>
-        </div>
-
+      {player && (
         <Image
-          className=" absolute inset-0 z-0 rounded-lg"
+          className="absolute inset-0 z-0 rounded-lg"
           fill={true}
           src={`/images/players/${player}.png`}
           alt="player"
         />
+      )}
+
+      {hover && <CardHover size={size} />}
+
+      <div
+        className={classNames("h-full p-1", {
+          "h-full p-2": size === "xl",
+        })}
+      >
+        <div className="relative h-full w-full">
+          <CardHeader
+            dribble={dribble}
+            pending={pending}
+            size={size}
+            stamina={stamina}
+            team={team}
+          />
+          {size === "xl" && !hover && <CardSticker />}
+        </div>
       </div>
     </div>
   );

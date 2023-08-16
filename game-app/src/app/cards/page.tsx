@@ -2,6 +2,10 @@ import Card from "../components/card/Card";
 import CardAttribute from "../components/card/CardAttribute";
 import type { CardSize } from "../components/card/types";
 
+function randomNumber() {
+  return Math.floor(Math.random() * 9) + 1;
+}
+
 const CardsPage = () => {
   return (
     <div className="p-10">
@@ -16,7 +20,7 @@ const CardsPage = () => {
               size={size as CardSize}
               team="blue"
               type="dribble"
-              value={3}
+              value={randomNumber()}
             />
           </div>
         ))}
@@ -30,7 +34,7 @@ const CardsPage = () => {
               size={size as CardSize}
               team="yellow"
               type="stamina"
-              value={3}
+              value={randomNumber()}
             />
           </div>
         ))}
@@ -48,28 +52,66 @@ const CardsPage = () => {
               pending={false}
               player="1"
               size={size as CardSize}
-              stamina={1}
+              stamina={randomNumber()}
               team="yellow"
             />
           </div>
         ))}
 
-        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="mx-2 my-6">
-            <Card
-              key={`card-3-${index}`}
-              captain={false}
-              dribble={1}
-              energy={1}
-              hover={true}
-              pending={false}
-              player="1"
-              size={size as CardSize}
-              stamina={1}
-              team="yellow"
-            />
-          </div>
-        ))}
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-6">
+              <Card
+                key={`card-3-${index}`}
+                captain={false}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={true}
+                pending={false}
+                size={size as CardSize}
+                stamina={randomNumber()}
+                team="yellow"
+                player="1"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-6">
+              <Card
+                key={`card-4-${index}`}
+                captain={false}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={false}
+                pending={false}
+                size={size as CardSize}
+                stamina={1}
+                team="blue"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-6">
+              <Card
+                key={`card-5-${index}`}
+                captain={false}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={false}
+                pending={false}
+                size={size as CardSize}
+                stamina={randomNumber()}
+                team="red"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
