@@ -5,7 +5,7 @@ import type { CardSize, TeamColor } from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
-import CardCaptainIcon from "./CardCaptainIcon";
+import CardCaptain from "./CardCaptain";
 import CardHeader from "./CardHeader";
 
 interface CardProps {
@@ -52,7 +52,7 @@ const Card: FC<CardProps> = (props) => {
         }
       )}
     >
-      {captain && <CardCaptainIcon pending={pending} size={size} team={team} />}
+      {captain && <CardCaptain pending={pending} size={size} team={team} />}
       <CardEnergy hideValue={hover} energy={energy} size={size} />
 
       {player && (
