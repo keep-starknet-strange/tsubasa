@@ -11,9 +11,8 @@ const CardsPage = () => {
     <div className="p-10">
       <div className="flex flex-wrap">
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="m-1">
+          <div className="m-1" key={`card-0-${index}`}>
             <CardAttribute
-              key={`card-0-${index}`}
               bonus={false}
               hurt={false}
               pending={false}
@@ -25,9 +24,8 @@ const CardsPage = () => {
           </div>
         ))}
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="m-1">
+          <div className="m-1" key={`card-1-${index}`}>
             <CardAttribute
-              key={`card-1-${index}`}
               bonus={false}
               hurt={false}
               pending={false}
@@ -42,9 +40,8 @@ const CardsPage = () => {
 
       <div className="flex flex-wrap">
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="mx-2 my-6">
+          <div className="mx-2 my-6" key={`card-2-${index}`}>
             <Card
-              key={`card-2-${index}`}
               captain={false}
               dribble={1}
               energy={1}
@@ -60,9 +57,8 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6">
+            <div className="mx-2 my-6" key={`card-3-${index}`}>
               <Card
-                key={`card-3-${index}`}
                 captain={false}
                 dribble={randomNumber()}
                 energy={randomNumber()}
@@ -79,9 +75,8 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6">
+            <div className="mx-2 my-6" key={`card-4-${index}`}>
               <Card
-                key={`card-4-${index}`}
                 captain={false}
                 dribble={randomNumber()}
                 energy={randomNumber()}
@@ -97,9 +92,8 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6">
+            <div className="mx-2 my-6" key={`card-5-${index}`}>
               <Card
-                key={`card-5-${index}`}
                 captain={false}
                 dribble={randomNumber()}
                 energy={randomNumber()}

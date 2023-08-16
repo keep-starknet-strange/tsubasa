@@ -1,8 +1,6 @@
 import type { FC } from "react";
-import CardAttribute from "./CardAttribute";
 import classNames from "classnames";
 import Image from "next/image";
-import CaptainIcon from "../icons/CaptainIcon";
 import type { CardSize, TeamColor } from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";

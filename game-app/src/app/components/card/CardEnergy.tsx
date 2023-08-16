@@ -1,6 +1,6 @@
-import classNames from "classnames";
 import type { FC } from "react";
-import { CardSize } from "../card/types";
+import type { CardSize } from "../card/types";
+import classNames from "classnames";
 import EnergyIcon from "../icons/EnergyIcon";
 
 interface CardEnergyProps {
