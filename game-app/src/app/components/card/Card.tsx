@@ -35,7 +35,7 @@ const Card: FC<CardProps> = (props) => {
   return (
     <div
       className={classNames(
-        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-4 border-white shadow-md",
+        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-2 border-white shadow-md",
         {
           "h-[320px] min-h-[320px] w-[224px] min-w-[224px]": size === "xl",
           "h-[240px] min-h-[240px] w-[168px] min-w-[168px]": size === "lg",
@@ -53,7 +53,6 @@ const Card: FC<CardProps> = (props) => {
       )}
     >
       {captain && <CardCaptain pending={pending} size={size} team={team} />}
-      <CardEnergy hideValue={hover} energy={energy} size={size} />
 
       {player && (
         <Image
@@ -82,6 +81,8 @@ const Card: FC<CardProps> = (props) => {
           {size === "xl" && !hover && <CardSticker />}
         </div>
       </div>
+
+      <CardEnergy hideValue={hover} energy={energy} size={size} />
     </div>
   );
 };
