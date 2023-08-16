@@ -1,16 +1,16 @@
-import EnergyIcon from "../app/components/icons/EnergyIcon";
+import CardEnergy from "../app/components/card/CardEnergy";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "EnergyIcon",
-  component: EnergyIcon,
+  title: "CardEnergy",
+  component: CardEnergy,
   parameters: {},
-} satisfies Meta<typeof EnergyIcon>;
+} satisfies Meta<typeof CardEnergy>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const EnergyIconStory: Story = {
+export const CardEnergyStory: Story = {
   args: {
     energy: 3,
     hideValue: false,

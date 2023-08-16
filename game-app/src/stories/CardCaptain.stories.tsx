@@ -1,16 +1,16 @@
-import CaptainIcon from "../app/components/icons/CaptainIcon";
+import CardCaptain from "../app/components/card/CardCaptain";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "CaptainIcon",
-  component: CaptainIcon,
+  title: "CardCaptain",
+  component: CardCaptain,
   parameters: {},
-} satisfies Meta<typeof CaptainIcon>;
+} satisfies Meta<typeof CardCaptain>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const CaptainIconStory: Story = {
+export const CardCaptainStory: Story = {
   args: {
     team: "blue",
     pending: false,

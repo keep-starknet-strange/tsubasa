@@ -52,7 +52,19 @@ const Card: FC<CardProps> = (props) => {
         }
       )}
     >
-      {captain && <CardCaptain pending={pending} size={size} team={team} />}
+      {captain && (
+        <div
+          className={classNames("absolute z-10 flex w-full justify-center", {
+            "top-[-20px]": size === "xl",
+            "top-[-16px]": size === "lg",
+            "top-[-12px]": size === "md",
+            "top-[-10px]": size === "sm",
+            "top-[-9px]": size === "xs",
+          })}
+        >
+          <CardCaptain pending={pending} size={size} team={team} />
+        </div>
+      )}
 
       {player && (
         <Image
