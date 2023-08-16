@@ -19,7 +19,7 @@ const CardHeader: FC<CardHeaderProps> = ({
   stamina,
 }) => {
   return (
-    <div className={classNames("flex w-full justify-between overflow-hidden")}>
+    <div className={classNames("flex w-full justify-between")}>
       <div className="z-10">
         <CardAttribute
           size={size}
