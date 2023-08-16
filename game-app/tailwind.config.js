@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        xxs: "10px",
+      },
       animation: {
         scoreboard: "scoreboard 1s linear forwards",
       },

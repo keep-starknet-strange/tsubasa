@@ -43,8 +43,8 @@ const CardEnergy: FC<CardEnergyProps> = ({ size, hideValue, energy }) => {
                 "text-2xl": size === "xl",
                 "text-xl": size === "lg",
                 "text-base": size === "md",
-                "text-sm": size === "sm",
-                "text-xs": size === "xs",
+                "text-xs": size === "sm",
+                "text-xxs": size === "xs",
               })}
             >
               {energy}
