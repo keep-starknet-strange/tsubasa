@@ -40,9 +40,9 @@ const CardsPage = () => {
 
       <div className="flex flex-wrap">
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="mx-2 my-6" key={`card-2-${index}`}>
+          <div className="mx-2 my-10" key={`card-2-${index}`}>
             <Card
-              captain={false}
+              captain={true}
               dribble={1}
               energy={1}
               hover={false}
@@ -57,9 +57,9 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6" key={`card-3-${index}`}>
+            <div className="mx-2 my-10" key={`card-3-${index}`}>
               <Card
-                captain={false}
+                captain={true}
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={true}
@@ -75,9 +75,9 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6" key={`card-4-${index}`}>
+            <div className="mx-2 my-10" key={`card-4-${index}`}>
               <Card
-                captain={false}
+                captain={true}
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={false}
@@ -92,9 +92,9 @@ const CardsPage = () => {
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-6" key={`card-5-${index}`}>
+            <div className="mx-2 my-10" key={`card-5-${index}`}>
               <Card
-                captain={false}
+                captain={true}
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={false}
