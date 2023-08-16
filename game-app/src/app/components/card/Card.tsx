@@ -34,8 +34,11 @@ const Card: FC<CardProps> = (props) => {
   } = props;
   return (
     <div
+      style={{
+        backgroundImage: `url('/images/players/${player}.png')`,
+      }}
       className={classNames(
-        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-2 border-white shadow-md",
+        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-2 border-white bg-cover bg-center bg-no-repeat shadow-md",
         {
           "h-[320px] min-h-[320px] w-[224px] min-w-[224px]": size === "xl",
           "h-[240px] min-h-[240px] w-[168px] min-w-[168px]": size === "lg",
@@ -66,14 +69,14 @@ const Card: FC<CardProps> = (props) => {
         </div>
       )}
 
-      {player && (
+      {/* {player && (
         <Image
-          className="absolute inset-0 z-0 rounded-lg"
+          className="absolute inset-0 z-0 rounded"
           fill={true}
           src={`/images/players/${player}.png`}
           alt="player"
         />
-      )}
+      )} */}
 
       {hover && <CardHover size={size} />}
 
