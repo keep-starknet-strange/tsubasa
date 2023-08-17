@@ -1,10 +1,8 @@
-import type { FC } from "react";
-
 interface CaptainIconProps {
   size: string | number;
 }
 
-const CaptainIcon: FC<CaptainIconProps> = ({ size }) => {
+const CaptainIcon = ({ size }: CaptainIconProps) => {
   return (
     <svg
       width={size}

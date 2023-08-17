@@ -1,12 +1,11 @@
 import classNames from "classnames";
 import type { CardSize } from "./types";
-import type { FC } from "react";
 
 interface CardHoverProps {
   size: CardSize;
 }
 
-const CardHover: FC<CardHoverProps> = ({ size }) => {
+const CardHover = ({ size }: CardHoverProps) => {
   return (
     <div
       className="absolute inset-x-0 bottom-0 z-10 flex h-1/2 items-end justify-center"

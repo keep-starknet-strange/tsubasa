@@ -1,6 +1,4 @@
-import type { FC } from "react";
-
-const EnergyIcon: FC = () => {
+const EnergyIcon = () => {
   return (
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g filter="url(#filter0_d_120_394)">

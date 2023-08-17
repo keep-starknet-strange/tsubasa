@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import classNames from "classnames";
 import type { CardKind, CardSize, CardColor } from "./types";
 import CardEnergy from "./CardEnergy";
@@ -22,7 +21,7 @@ interface CardProps {
   player?: string;
 }
 
-const Card: FC<CardProps> = (props) => {
+const Card = (props: CardProps) => {
   const {
     color,
     player,

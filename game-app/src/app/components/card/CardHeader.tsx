@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import CardAttribute from "./CardAttribute";
-import type { FC } from "react";
 import type { CardColor, CardSize } from "./types";
 
 interface CardHeaderProps {
@@ -11,13 +10,13 @@ interface CardHeaderProps {
   stamina: number;
 }
 
-const CardHeader: FC<CardHeaderProps> = ({
+const CardHeader = ({
   size,
   color,
   pending,
   dribble,
   stamina,
-}) => {
+}: CardHeaderProps) => {
   return (
     <div className={classNames("flex w-full justify-between")}>
       <div className="z-10">

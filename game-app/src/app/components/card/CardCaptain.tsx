@@ -1,5 +1,4 @@
 import CaptainIcon from "../icons/CaptainIcon";
-import type { FC } from "react";
 import type { CardSize, CardColor } from "./types";
 import classNames from "classnames";
 
@@ -17,7 +16,7 @@ const STAR_ICON_SIZES: Record<CardSize, number> = {
   xs: 12,
 };
 
-const CardCaptain: FC<CardCaptainProps> = ({ color: team, pending, size }) => {
+const CardCaptain = ({ color: team, pending, size }: CardCaptainProps) => {
   return (
     <div
       className={classNames(

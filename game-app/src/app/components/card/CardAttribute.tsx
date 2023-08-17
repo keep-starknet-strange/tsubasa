@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import type { CardAttributeType, CardColor, CardSize } from "./types";
 import classNames from "classnames";
 import StaminaIcon from "../icons/StaminaIcon";
@@ -14,7 +13,7 @@ interface CardAttributeProps {
   size: CardSize;
 }
 
-const CardAttribute: FC<CardAttributeProps> = (props) => {
+const CardAttribute = (props: CardAttributeProps) => {
   const { value, type, color, pending, bonus, hurt, size } = props;
 
   return (
