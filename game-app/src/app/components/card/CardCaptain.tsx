@@ -4,7 +4,7 @@ import type { CardSize, TeamColor } from "./types";
 import classNames from "classnames";
 
 interface CardCaptainProps {
-  team: TeamColor;
+  team: TeamColor
   size: CardSize;
   pending: boolean;
 }

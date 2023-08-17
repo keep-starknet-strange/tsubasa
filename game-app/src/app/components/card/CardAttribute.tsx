@@ -19,7 +19,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
 
   return (
     <div
-      className={classNames("rounded p-1 shadow", {
+      className={classNames("p-1 shadow", {
         "bg-neon": bonus,
         "bg-red": hurt,
         "text-black": (bonus && !hurt) || !pending,
@@ -31,11 +31,11 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
         "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
         "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
 
-        "h-[60px] w-[32px]": size === "xl",
-        "h-[47px] w-[26px]": size === "lg",
-        "h-[37px] w-[22px]": size === "md",
-        "h-[29px] w-[18px]": size === "sm",
-        "h-[24px] w-[14px]": size === "xs",
+        "h-[60px] w-[32px] rounded": size === "xl",
+        "h-[47px] w-[26px] rounded": size === "lg",
+        "h-[37px] w-[22px] rounded": size === "md",
+        "h-[29px] w-[18px] rounded-[3px]": size === "sm",
+        "h-[24px] w-[14px] rounded-sm": size === "xs",
       })}
     >
       <div className="flex flex-col items-center">

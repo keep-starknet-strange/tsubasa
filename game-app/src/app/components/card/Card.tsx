@@ -38,13 +38,17 @@ const Card: FC<CardProps> = (props) => {
         backgroundImage: `url('/images/players/${player}.png')`,
       }}
       className={classNames(
-        "relative z-0 min-h-[80px] min-w-[56px] rounded-lg border-2 border-white bg-cover bg-center bg-no-repeat shadow-md",
+        "relative z-0 min-h-[80px] min-w-[56px] border-2 border-white bg-cover bg-center bg-no-repeat shadow-md",
         {
-          "h-[320px] min-h-[320px] w-[224px] min-w-[224px]": size === "xl",
-          "h-[240px] min-h-[240px] w-[168px] min-w-[168px]": size === "lg",
-          "h-[160px] min-h-[160px] w-[112px] min-w-[112px]": size === "md",
-          "h-[120px] min-h-[120px] w-[84px] min-w-[84px]": size === "sm",
-          "h-[80px] min-h-[80px] w-[56px] min-w-[56px]": size === "xs",
+          "h-[320px] min-h-[320px] w-[224px] min-w-[224px] rounded-lg":
+            size === "xl",
+          "h-[240px] min-h-[240px] w-[168px] min-w-[168px] rounded-lg":
+            size === "lg",
+          "h-[160px] min-h-[160px] w-[112px] min-w-[112px] rounded-lg":
+            size === "md",
+          "h-[120px] min-h-[120px] w-[84px] min-w-[84px] rounded":
+            size === "sm",
+          "h-[80px] min-h-[80px] w-[56px] min-w-[56px] rounded": size === "xs",
 
           "bg-cyan-700": team === "blue" && pending,
           "bg-yellow-700": team === "yellow" && pending,
@@ -81,8 +85,12 @@ const Card: FC<CardProps> = (props) => {
       {hover && <CardHover size={size} />}
 
       <div
-        className={classNames("h-full p-1", {
-          "h-full p-2": size === "xl",
+        className={classNames("h-full", {
+          "p-2.5": size === "xl",
+          "p-2": size === "lg",
+          "p-1.5": size === "md",
+          "p-1": size === "sm",
+          "p-0.5": size === "xs",
         })}
       >
         <div className="relative h-full w-full">
