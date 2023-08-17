@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { CardAttributeTeam, CardAttributeType, CardSize } from "./types";
+import type { CardAttributeType, CardColor, CardSize } from "./types";
 import classNames from "classnames";
 import StaminaIcon from "../icons/StaminaIcon";
 import DribbleIcon from "../icons/DribbleIcon";
@@ -7,7 +7,7 @@ import DribbleIcon from "../icons/DribbleIcon";
 interface CardAttributeProps {
   value: string | number;
   type: CardAttributeType;
-  team: CardAttributeTeam;
+  color: CardColor;
   pending: boolean;
   bonus: boolean;
   hurt: boolean;
@@ -15,7 +15,7 @@ interface CardAttributeProps {
 }
 
 const CardAttribute: FC<CardAttributeProps> = (props) => {
-  const { value, type, team, pending, bonus, hurt, size } = props;
+  const { value, type, color, pending, bonus, hurt, size } = props;
 
   return (
     <div
@@ -24,12 +24,12 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
         "bg-red": hurt,
         "text-black": (bonus && !hurt) || !pending,
         "text-white": (pending && !bonus) || hurt,
-        "bg-cyan-700": team === "blue" && pending && !bonus && !hurt,
-        "bg-cyan-200": team === "blue" && !pending && !bonus && !hurt,
-        "bg-yellow-700": team === "yellow" && pending && !bonus && !hurt,
-        "bg-yellow-200": team === "yellow" && !pending && !bonus && !hurt,
-        "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
-        "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
+        "bg-cyan-700": color === "blue" && pending && !bonus && !hurt,
+        "bg-cyan-200": color === "blue" && !pending && !bonus && !hurt,
+        "bg-yellow-700": color === "yellow" && pending && !bonus && !hurt,
+        "bg-yellow-200": color === "yellow" && !pending && !bonus && !hurt,
+        "bg-salmon-700": color === "red" && pending && !bonus && !hurt,
+        "bg-salmon-200": color === "red" && !pending && !bonus && !hurt,
 
         "h-[60px] w-[32px] rounded py-1.5": size === "xl",
         "h-[47px] w-[26px] rounded py-[5px]": size === "lg",

@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import classNames from "classnames";
-import Image from "next/image";
-import type { CardSize, TeamColor } from "./types";
+import type { CardKind, CardSize, CardColor } from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
@@ -9,20 +8,23 @@ import CardCaptain from "./CardCaptain";
 import CardHeader from "./CardHeader";
 
 interface CardProps {
-  team: TeamColor;
-  player?: string;
-  hover: boolean;
-  captain: boolean;
+  kind: CardKind;
   size: CardSize;
+  color: CardColor;
+  hurt: boolean;
+  hover: boolean;
   pending: boolean;
+  buffed: boolean;
+  captain: boolean;
   dribble: number;
   stamina: number;
   energy: number;
+  player?: string;
 }
 
 const Card: FC<CardProps> = (props) => {
   const {
-    team,
+    color,
     player,
     hover,
     captain,
@@ -50,12 +52,12 @@ const Card: FC<CardProps> = (props) => {
             size === "sm",
           "h-[80px] min-h-[80px] w-[56px] min-w-[56px] rounded": size === "xs",
 
-          "bg-cyan-700": team === "blue" && pending,
-          "bg-yellow-700": team === "yellow" && pending,
-          "bg-salmon-700": team === "red" && pending,
-          "bg-cyan-500": team === "blue" && !pending,
-          "bg-yellow-500": team === "yellow" && !pending,
-          "bg-salmon-500": team === "red" && !pending,
+          "bg-cyan-700": color === "blue" && pending,
+          "bg-yellow-700": color === "yellow" && pending,
+          "bg-salmon-700": color === "red" && pending,
+          "bg-cyan-500": color === "blue" && !pending,
+          "bg-yellow-500": color === "yellow" && !pending,
+          "bg-salmon-500": color === "red" && !pending,
         }
       )}
     >
@@ -69,7 +71,7 @@ const Card: FC<CardProps> = (props) => {
             "top-[-9px]": size === "xs",
           })}
         >
-          <CardCaptain pending={pending} size={size} team={team} />
+          <CardCaptain pending={pending} size={size} color={color} />
         </div>
       )}
 
@@ -99,7 +101,7 @@ const Card: FC<CardProps> = (props) => {
             pending={pending}
             size={size}
             stamina={stamina}
-            team={team}
+            color={color}
           />
           {size === "xl" && !hover && <CardSticker />}
         </div>

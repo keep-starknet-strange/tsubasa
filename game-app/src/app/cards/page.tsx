@@ -17,7 +17,7 @@ const CardsPage = () => {
               hurt={false}
               pending={false}
               size={size as CardSize}
-              team="blue"
+              color="blue"
               type="dribble"
               value={randomNumber()}
             />
@@ -30,7 +30,7 @@ const CardsPage = () => {
               hurt={false}
               pending={false}
               size={size as CardSize}
-              team="yellow"
+              color="yellow"
               type="stamina"
               value={randomNumber()}
             />
@@ -50,7 +50,10 @@ const CardsPage = () => {
               player="1"
               size={size as CardSize}
               stamina={randomNumber()}
-              team="yellow"
+              color="yellow"
+              buffed={false}
+              hurt={false}
+              kind="Card"
             />
           </div>
         ))}
@@ -66,8 +69,11 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 stamina={randomNumber()}
-                team="yellow"
+                color="yellow"
                 player="1"
+                buffed={false}
+                hurt={false}
+                kind="Card"
               />
             </div>
           ))}
@@ -84,7 +90,10 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 stamina={1}
-                team="blue"
+                color="blue"
+                buffed={false}
+                hurt={false}
+                kind="Card"
               />
             </div>
           ))}
@@ -101,7 +110,10 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 stamina={randomNumber()}
-                team="red"
+                color="red"
+                buffed={false}
+                hurt={false}
+                kind="Card"
               />
             </div>
           ))}

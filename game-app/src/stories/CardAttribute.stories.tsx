@@ -16,7 +16,7 @@ export const CardAttributeStory: Story = {
   args: {
     value: 3,
     type: "stamina",
-    team: "blue",
+    color: "blue",
     pending: false,
     hurt: false,
     bonus: false,

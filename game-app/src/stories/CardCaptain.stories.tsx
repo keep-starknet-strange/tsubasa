@@ -12,7 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const CardCaptainStory: Story = {
   args: {
-    team: "blue",
+    color: "blue",
     pending: false,
     size: "xl",
   },

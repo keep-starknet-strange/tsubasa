@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import CardAttribute from "./CardAttribute";
 import type { FC } from "react";
-import type { CardSize, CardAttributeTeam } from "./types";
+import type { CardColor, CardSize } from "./types";
 
 interface CardHeaderProps {
-  team: CardAttributeTeam;
+  color: CardColor;
   pending: boolean;
   size: CardSize;
   dribble: number;
@@ -13,7 +13,7 @@ interface CardHeaderProps {
 
 const CardHeader: FC<CardHeaderProps> = ({
   size,
-  team,
+  color,
   pending,
   dribble,
   stamina,
@@ -26,7 +26,7 @@ const CardHeader: FC<CardHeaderProps> = ({
           bonus={false}
           hurt={false}
           pending={pending}
-          team={team}
+          color={color}
           type="dribble"
           value={dribble}
         />
@@ -37,7 +37,7 @@ const CardHeader: FC<CardHeaderProps> = ({
           bonus={false}
           hurt={true}
           pending={pending}
-          team={team}
+          color={color}
           type="stamina"
           value={stamina}
         />

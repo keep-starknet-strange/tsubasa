@@ -43,12 +43,13 @@ const newAirportDotFont = localFont({
 const agrandirFont = localFont({
   src: "../fonts/Agrandir/AgrandirVariable.ttf",
   variable: "--font-agrandir",
+  weight: "700",
 });
 
 const ericaoneFont = localFont({
   src: [
     {
-      path: "../font/EricaOne/EricaOne-Regular.ttf",
+      path: "../fonts/EricaOne/EricaOne-Regular.ttf",
       style: "normal",
       weight: "400",
     },
