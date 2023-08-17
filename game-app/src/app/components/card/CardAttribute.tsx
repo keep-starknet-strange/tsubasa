@@ -19,7 +19,7 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
 
   return (
     <div
-      className={classNames("p-1 shadow", {
+      className={classNames("shadow", {
         "bg-neon": bonus,
         "bg-red": hurt,
         "text-black": (bonus && !hurt) || !pending,
@@ -31,40 +31,51 @@ const CardAttribute: FC<CardAttributeProps> = (props) => {
         "bg-salmon-700": team === "red" && pending && !bonus && !hurt,
         "bg-salmon-200": team === "red" && !pending && !bonus && !hurt,
 
-        "h-[60px] w-[32px] rounded": size === "xl",
-        "h-[47px] w-[26px] rounded": size === "lg",
-        "h-[37px] w-[22px] rounded": size === "md",
-        "h-[29px] w-[18px] rounded-[3px]": size === "sm",
-        "h-[24px] w-[14px] rounded-sm": size === "xs",
+        "h-[60px] w-[32px] rounded py-1.5": size === "xl",
+        "h-[47px] w-[26px] rounded py-[5px]": size === "lg",
+        "h-[37px] w-[22px] rounded py-1": size === "md",
+        "h-[29px] w-[18px] rounded-[3px] py-[3px]": size === "sm",
+        "h-[24px] w-[14px] rounded-sm py-[3px]": size === "xs",
       })}
     >
-      <div className="flex flex-col items-center">
+      <div className="relative flex h-full w-full flex-col justify-start">
         <div
-          className={classNames("font-agrandir font-[767] leading-none", {
-            "opacity-50": pending && !bonus && !hurt,
-            "text-2xl": size === "xl",
-            "text-xl": size === "lg",
-            "text-base leading-[14px]": size === "md",
-            "text-sm leading-[12px]": size === "sm",
-            "text-xs leading-[10px]": size === "xs",
-          })}
+          className={classNames(
+            "w-full text-center font-agrandir font-[767] leading-none",
+            {
+              "opacity-50": pending && !bonus && !hurt,
+              "text-2xl": size === "xl",
+              "text-xl": size === "lg",
+              "text-base": size === "md",
+              "text-xs": size === "sm",
+              "text-xxs": size === "xs",
+            }
+          )}
         >
           {value}
         </div>
-        <div
-          className={classNames({
-            "opacity-25": pending && !bonus,
-            "opacity-50": !pending || hurt || bonus,
 
-            "h-[60px] w-[24px]": size === "xl",
-            "h-[47px] w-[20px]": size === "lg",
-            "h-[37px] w-[16px]": size === "md",
-            "h-[29px] w-[12px]": size === "sm",
-            "h-[24px] w-[8px]": size === "xs",
-          })}
+        <div
+          className={classNames(
+            "relative flex w-full justify-center leading-none",
+            {
+              "opacity-25": pending && !bonus,
+              "opacity-50": !pending || hurt || bonus,
+            }
+          )}
         >
-          {type === "dribble" && <DribbleIcon />}
-          {type === "stamina" && <StaminaIcon />}
+          <div
+            className={classNames("absolute", {
+              "top-[-2px] h-[24px] w-[24px]": size === "xl",
+              "top-[-2px] h-[20px] w-[20px]": size === "lg",
+              "top-[-2px] h-[16px] w-[16px]": size === "md",
+              "top-[-1px] h-[12px] w-[12px]": size === "sm",
+              "top-0 h-[8px] w-[8px]": size === "xs",
+            })}
+          >
+            {type === "dribble" && <DribbleIcon />}
+            {type === "stamina" && <StaminaIcon />}
+          </div>
         </div>
       </div>
     </div>
