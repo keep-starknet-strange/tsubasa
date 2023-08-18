@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import PlayerPlaceholder from "./CardPlaceholder";
 
 export default function PlayerBench() {
   return (
-    // TODO: Extract colors to the Tailwind theme once properly defined
-    <div className="rounded-b-xl bg-[#80D794] p-6 font-new-airport font-medium sm:p-8"></div>
+    <div className="flex items-start justify-center gap-2 rounded-xl bg-[#80D794] p-6">
+      <PlayerPlaceholder />
+      <PlayerPlaceholder />
+      <PlayerPlaceholder />
+      <PlayerPlaceholder />
+    </div>
   );
 }
