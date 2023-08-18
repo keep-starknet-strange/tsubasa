@@ -17,7 +17,7 @@ fn test_create_card() {
 
     let world = spawn_world();
 
-    //Create Card For test prupose
+    //Create Card For test purpose
     let mut create_card_calldata: Array<felt252> = ArrayTrait::new();
     create_card_calldata.append(1);
     create_card_calldata.append(0);
@@ -38,5 +38,4 @@ fn test_create_card() {
     let card_player2 = get!(world, 2, Card);
 
     assert(card_player1.dribble >= card_player2.defense, 'invalid Card create execution');
-//assert(card_player1.dribble != 11, 'defense is wrong');
 }

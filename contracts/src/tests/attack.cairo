@@ -76,13 +76,10 @@ fn test_attack_turn() {
     place_card_calldata.append(1); /// * `position` - The position at which the card will be placed
     let player = get!(world, (game_id, player1), Player);
     world.execute('place_card_system', place_card_calldata);
-    'Passed condition 1'.print();
 
     starknet::testing::set_contract_address(
         player2
-    ); //change the address to fit player2 ctx.origin 
-
-    // TO-DO: replace  (game_id, ctx.origin.into()); by gameId.player1
+    ); //We change the address to fit player2 ctx.origin condition
 
     let mut place_card_player2_calldata: Array<felt252> = ArrayTrait::new();
     place_card_player2_calldata.append(game_id); // * `game_id` - The current game_id.
@@ -112,5 +109,6 @@ fn test_attack_turn() {
         card_player1.current_defense == expected_remaining_defense, 'invalid Attack logic execution'
     );
 
+    //We check if the opposing card has been removed
     assert(player2.attacker.is_none(), 'Card not remove');
 }
