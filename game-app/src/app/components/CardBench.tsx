@@ -1,7 +1,7 @@
 "use client";
 
+import Card from "@/components/card/Card";
 import PlayerPlaceholder from "./CardPlaceholder";
-import Card from "./card/Card";
 import type { ExtendedCardProps } from "./card/types";
 import DraggableCard from "./dragAndDrop/DraggableCard";
 
