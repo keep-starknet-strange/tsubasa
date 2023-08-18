@@ -5,7 +5,7 @@ use option::{Option, OptionTrait};
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game, Energy, Card};
+use tsubasa::components::{Game, Card};
 use tsubasa::tests::utils::spawn_world;
 use tsubasa::systems::create_card_system;
 

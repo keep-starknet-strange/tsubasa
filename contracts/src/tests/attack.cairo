@@ -1,4 +1,4 @@
-use traits::{Into, Default};
+use traits::{Into, TryInto, Default};
 use option::{Option, OptionTrait};
 use serde::Serde;
 use array::ArrayTrait;
@@ -6,7 +6,7 @@ use debug::PrintTrait;
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game, Energy, Card};
+use tsubasa::components::{Game, Player, Card};
 use tsubasa::components::Roles;
 use tsubasa::systems::{
     create_game_system, attack_system, end_turn_system, place_card_system, create_card_system,
@@ -42,12 +42,6 @@ fn test_attack_turn() {
     assert(game.player2_score == 0, 'invalid player 2 score');
     assert(game.outcome.is_none(), 'invalid outcome');
 
-    // let place_card_calldata = array![0, 0]; // u256 { low: 0, high: 0 }
-    let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
-    place_card_calldata.append(0);
-    place_card_calldata.append(0);
-    world.execute('place_card_system', place_card_calldata);
-
     //Create Card For test prupose
     let mut create_card_calldata: Array<felt252> = ArrayTrait::new();
     create_card_calldata.append(1);
@@ -72,8 +66,35 @@ fn test_attack_turn() {
     let token_id_player2: u256 = 2;
     let card_player2 = get!(world, token_id_player2, Card);
     assert(card_player2.dribble == 10, 'stat 2 is wrong');
-    //Create card passed
+    //Create card passed--------------
 
+    // let place_card_calldata = array![0, 0]; // u256 { low: 0, high: 0 }
+    let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
+    place_card_calldata.append(game_id); // * `game_id` - The current game_id.
+    place_card_calldata.append(token_id_player1.try_into().unwrap()); //card_id
+    place_card_calldata.append(1);
+    place_card_calldata.append(1); /// * `position` - The position at which the card will be placed
+    let player = get!(world, (game_id, player1), Player);
+    world.execute('place_card_system', place_card_calldata);
+    'Passed condition 1'.print();
+
+    starknet::testing::set_contract_address(
+        player2
+    ); //change the address to fit player2 ctx.origin 
+
+    // TO-DO: replace  (game_id, ctx.origin.into()); by gameId.player1
+
+    let mut place_card_player2_calldata: Array<felt252> = ArrayTrait::new();
+    place_card_player2_calldata.append(game_id); // * `game_id` - The current game_id.
+    place_card_player2_calldata.append(token_id_player2.try_into().unwrap()); //card_id
+    place_card_player2_calldata.append(1);
+    place_card_player2_calldata.append(1);
+    let player2 = get!(world, (game_id, player2), Player);
+    world.execute('place_card_system', place_card_player2_calldata);
+
+    starknet::testing::set_contract_address(player1); //switch back to player 1
+
+    //Attack part -----------------
     let mut attack_calldata: Array<felt252> = ArrayTrait::new();
     attack_calldata.append(game.game_id);
     attack_calldata.append(1);
@@ -86,10 +107,10 @@ fn test_attack_turn() {
     let card_player1 = get!(world, token_id_player1, Card);
     let card_player2 = get!(world, token_id_player2, Card);
 
-
-
     let expected_remaining_defense = card_player1.defense - card_player2.dribble;
     assert(
         card_player1.current_defense == expected_remaining_defense, 'invalid Attack logic execution'
     );
+
+    assert(player2.attacker.is_none(), 'Card not remove');
 }
