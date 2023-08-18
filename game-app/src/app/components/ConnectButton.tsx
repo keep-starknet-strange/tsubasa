@@ -14,7 +14,7 @@ export default function ConnectButton() {
 
   return address ? (
     <button
-      className="rounded-md bg-[#7CD18F] px-5 py-2.5 text-[#A9F4BA]"
+      className="rounded-md bg-green-500 px-5 py-2.5 text-green-300"
       onClick={disconnect}
     >
       {shortenedAddress}
@@ -28,7 +28,7 @@ export default function ConnectButton() {
             <button
               key={connector.id}
               onClick={() => connect(connector)}
-              className="rounded-md bg-[#7CD18F] px-5 py-2.5 text-[#A9F4BA]"
+              className="rounded-md bg-green-500 px-5 py-2.5 text-green-200"
             >
               {connector.id}
             </button>

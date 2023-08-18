@@ -47,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`bg-[#8ADD9D] text-white ${newAirportDotFont.variable}`}>
+      <body className={`bg-green-400 text-white ${newAirportDotFont.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
