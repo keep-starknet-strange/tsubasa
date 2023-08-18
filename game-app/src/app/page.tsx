@@ -1,3 +1,4 @@
+import PlayerBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/Gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
@@ -10,12 +11,15 @@ export default function Home() {
           <ConnectButton />
         </div>
       </div>
-      <div className="flex h-full w-screen flex-col ">
-        <div className="w-full flex-1 md:relative md:h-full">
+      <div className="flex h-full w-screen flex-1 flex-col">
+        <div className="my-auto h-full w-full flex-1 md:relative md:flex md:items-center md:justify-center ">
           <div className="z-10 m-2 mx-auto w-max md:absolute md:left-1/2 md:top-0 md:m-0 md:-translate-x-1/2">
             <Scoreboard />
           </div>
           <Gameboard />
+          <div className="z-10 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
+            <PlayerBench />
+          </div>
         </div>
       </div>
     </main>
