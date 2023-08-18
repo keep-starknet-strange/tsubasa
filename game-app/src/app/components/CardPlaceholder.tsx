@@ -1,12 +1,14 @@
 "use client";
 
 import { useDroppable } from "@dnd-kit/core";
-import Card from "./card/Card";
+
 import classNames from "classnames";
-import { getCardSizeClassnames } from "./card/utils";
+
 import DraggableCard from "./dragAndDrop/DraggableCard";
 import type { ReactNode } from "react";
 import type { ExtendedCardProps } from "./card/types";
+import { getCardSizeClassnames } from "@/components/card/utils";
+import Card from "@/components/card/Card";
 
 interface Props {
   id: string;
