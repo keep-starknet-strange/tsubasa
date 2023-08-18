@@ -49,7 +49,7 @@ export default function Home() {
           alt={"Tsubasa"}
         />
 
-        <div className="hidden md:flex md:mt-24">&nbsp;</div>
+        <div className="hidden md:mt-24 md:flex">&nbsp;</div>
 
         <div className="container mx-auto my-12 mt-24 flex max-w-[300px] flex-col-reverse items-center justify-center rounded-2xl bg-greenBlack md:my-36 md:mt-36 md:max-w-[800px] md:flex-row">
           <div className=" py-6 text-center text-xl font-bold md:text-left md:text-3xl">
