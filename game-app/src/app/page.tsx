@@ -14,10 +14,8 @@ import {
 
 import RulesModale from "../components/RulesModale";
 
-interface CardProps {
+export interface ExtendedCardProps extends CardProps {
   id: string;
-  name: string;
-  position: string;
 }
 
 export default function Home() {
