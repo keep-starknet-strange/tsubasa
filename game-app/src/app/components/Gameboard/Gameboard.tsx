@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import PlayerPlaceholder from "../CardPlaceholder";
-import { useDroppable } from "@dnd-kit/core";
-import { useEffect } from "react";
 
-export default function Gameboard() {
+interface Props {
+  playerPositions: object;
+}
+
+export default function Gameboard(props: Props) {
+  // const { playerPositions } = props;
   return (
     <div className="h-screen max-h-96 w-full lg:m-auto lg:h-[645px] lg:max-h-[645px] lg:w-11/12 lg:max-w-[1296px]">
       {/* field */}
-      <div className="relative mx-auto box-border flex h-[368px] w-11/12 overflow-hidden rounded-xl border-[3px] border-solid border-[#97E8A9] bg-[#8ADD9D] lg:h-full lg:w-full ">
+      <div className="relative mx-auto box-border flex h-full max-h-[645px] w-11/12 overflow-hidden rounded-xl border-[3px] border-solid border-[#97E8A9] bg-[#8ADD9D] lg:h-full lg:w-full ">
         {/* corners */}
         <div className="absolute -left-4 -top-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9] lg:h-12 lg:w-12" />
         <div className="absolute -right-4 -top-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9]  lg:h-12 lg:w-12 " />
@@ -23,7 +26,7 @@ export default function Gameboard() {
           {/* goal circle */}
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:translate-x-0 lg:translate-y-1/2" />
           {/* goalkeeper position */}
-          <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 bg-black lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
+          <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
             <PlayerPlaceholder position="goalkeeper-1" />
           </div>
         </div>

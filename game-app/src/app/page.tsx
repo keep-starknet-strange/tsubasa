@@ -1,15 +1,21 @@
 "use client";
 
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
 import PlayerBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/Gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const onDragEnd = ({ over }) => {
-    console.log({ over });
+  const [playerPositions, setPlayerPositions] = useState({});
+  const onDragEnd = (e: DragEndEvent) => {
+    setPlayerPositions({ [`${e.over?.id}`]: e.active.data.current });
   };
+
+  useEffect(() => {
+    console.log({ playerPositions });
+  }, [playerPositions]);
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
       <div className="flex w-full items-end justify-end md:fixed">
@@ -23,7 +29,7 @@ export default function Home() {
             <div className="z-10 m-2 mx-auto w-max md:absolute md:left-1/2 md:top-0 md:m-0 md:-translate-x-1/2">
               <Scoreboard />
             </div>
-            <Gameboard />
+            <Gameboard playerPositions={playerPositions} />
             <div className="z-10 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
               <PlayerBench />
             </div>
