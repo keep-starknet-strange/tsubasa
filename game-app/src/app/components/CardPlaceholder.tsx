@@ -71,6 +71,7 @@ export default function CardPlaceholder(props: Props) {
           </div>
         ) : null}
       </div>
+      {children}
     </div>
   );
 }
