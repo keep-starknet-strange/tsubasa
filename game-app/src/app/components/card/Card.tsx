@@ -47,14 +47,10 @@ const Card = (props: CardProps) => {
       <CardBackground color={color} size={size} state={state} player={player} />
 
       <div
-        className={classNames(
-          getCardSizeClassnames(size),
-          "relative z-10 min-h-[80px] min-w-[56px]",
-          {
-            "p-0.5": state === "pending",
-            "border-2 border-white": state !== "pending",
-          }
-        )}
+        className={classNames(getCardSizeClassnames(size), "relative z-10", {
+          "p-0.5": state === "pending",
+          "border-2 border-white": state !== "pending",
+        })}
       >
         {captain && (
           <div
