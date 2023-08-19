@@ -15,10 +15,8 @@ import {
 import RulesModale from "../components/RulesModale";
 import { DragEndEvent } from "@dnd-kit/core";
 
-interface CardProps {
+export interface ExtendedCardProps extends CardProps {
   id: string;
-  name: string;
-  position: string;
 }
 
 export default function Home() {
