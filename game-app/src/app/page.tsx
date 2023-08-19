@@ -15,10 +15,6 @@ import {
 import RulesModale from "../components/RulesModale";
 import { CardProps } from "@/components/card/types";
 
-export interface ExtendedCardProps extends CardProps {
-  id: string;
-}
-
 export default function Home() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   return (

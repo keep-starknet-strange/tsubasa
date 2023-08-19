@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { ExtendedCardProps } from "@/app/page";
+import { ExtendedCardProps } from "@/components/card/types";
 
 interface Props {
   id: string;
