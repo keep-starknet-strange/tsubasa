@@ -1,20 +1,16 @@
 "use client";
 
 import { DndContext, pointerWithin } from "@dnd-kit/core";
-import PlayerBench from "./components/CardBench";
+import CardBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
 import { useState } from "react";
-import { CardProps, CardSize } from "./components/card/types";
+import type { ExtendedCardProps } from "./components/card/types";
 import type { DragEndEvent, DragOverEvent } from "@dnd-kit/core";
 
-export interface ExtendedCardProps extends CardProps {
-  id: string;
-}
-
 export default function Home() {
-  const [cardSize, setCardSize] = useState<CardSize>("sm");
+  const cardSize = "sm";
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");
   const [playersInBench, setPlayersInBench] = useState<ExtendedCardProps[]>([
@@ -195,7 +191,7 @@ export default function Home() {
               currentHoveredPlaceholder={currentHoveredPlaceholder}
             />
             <div className="z-50 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
-              <PlayerBench playersInBench={playersInBench} />
+              <CardBench playersInBench={playersInBench} />
             </div>
           </div>
         </DndContext>
