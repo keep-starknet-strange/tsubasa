@@ -7,9 +7,15 @@ import Gameboard from "./components/Gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
 import { useEffect, useState } from "react";
 
+interface CardProps {
+  id: string;
+  name: string;
+  position: string;
+}
+
 export default function Home() {
   // store number of players in bench
-  const [playersInBench, setPlayersInBench] = useState([
+  const [playersInBench, setPlayersInBench] = useState<CardProps[]>([
     {
       id: "Ayush",
       name: "Ayush",
@@ -33,82 +39,97 @@ export default function Home() {
   ]);
 
   // store map of players on gameboard
-  const [playerPositions, setPlayerPositions] = useState({});
+  const [playerPositions, setPlayerPositions] = useState<
+    Record<string, CardProps | null>
+  >({});
+
+  // handle drag interactions
   const onDragEnd = (e: DragEndEvent) => {
     // return if no valid droppable position
     if (!e.over) return;
 
+    const currentSelectedCard = e?.active?.data?.current as CardProps;
+    const currentDropContainer = e?.over?.id;
+
     // if player is placed on bench
-    if (e.over.id.toString().includes("bench")) {
-      //check if already included in bench
+    if (currentDropContainer.toString().includes("bench")) {
+      //check if already part of bench
       let isPlayerPresent = false;
       playersInBench.map((eachPlayer) => {
-        if (eachPlayer.id === e?.active?.data?.current?.id) {
+        if (eachPlayer.id === currentSelectedCard?.id) {
           isPlayerPresent = true;
         }
       });
       if (isPlayerPresent) return;
-      setPlayersInBench((prev) => [...prev, e.active.data.current]);
-      setPlayerPositions((prev) => {
-        // reset the old position and update the value of new position
-        let prevPosition;
-        Object.keys(prev).forEach((eachItem) => {
-          if (
-            prev?.[eachItem as keyof typeof playerPositions]?.id ===
-            e?.active?.data?.current?.id
-          ) {
-            prevPosition = eachItem;
-          }
-        });
 
-        return {
-          ...prev,
-          [prevPosition as keyof typeof playerPositions]: null,
-        };
-      });
-      return;
-    }
-
-    // if player is not placed on bench
-    let isValidPosition = false;
-    setPlayerPositions((prev) => {
-      // check if any other player already present on position
-      if (prev?.[e?.over?.id as keyof typeof playerPositions]) {
-        return prev;
-      }
-      isValidPosition = true;
-
-      // reset the old position and update the value of new position
-      let prevPosition;
-      Object.keys(prev).forEach((eachItem) => {
-        if (
-          prev?.[eachItem as keyof typeof playerPositions]?.id ===
-          e?.active?.data?.current?.id
-        ) {
+      //check if player is part of gamefield
+      let prevPosition = "";
+      Object.keys(playerPositions).forEach((eachItem) => {
+        if (playerPositions?.[eachItem]?.id === currentSelectedCard?.id) {
           prevPosition = eachItem;
         }
       });
 
-      // if card was previously on some other position then reset that position value
+      // unset the gamefield position if already present
+      if (prevPosition.length > 0) {
+        setPlayerPositions((prev) => {
+          // reset the old position and update the value of new position
+          return {
+            ...prev,
+            [prevPosition]: null,
+          };
+        });
+      }
+
+      // include in bench
+      setPlayersInBench((prev) => {
+        return [...prev, currentSelectedCard];
+      });
+
+      return;
+    }
+
+    // if player is not placed on bench
+
+    // flag to check if valid position chosen by user
+    let isValidPosition = false;
+    setPlayerPositions((prev) => {
+      // check if any other player already present on position
+      if (prev?.[currentDropContainer]) {
+        return prev;
+      }
+
+      // valid position check passes since user has not placed card on pre-occupied position
+      isValidPosition = true;
+
+      // check if the card was ocupying a position on the gamefield previously
+      let prevPosition;
+      Object.keys(prev).forEach((eachItem) => {
+        if (prev?.[eachItem]?.id === currentSelectedCard?.id) {
+          prevPosition = eachItem;
+        }
+      });
+
+      // if card was previously on some other position then reset that position value and update with new position
       if (prevPosition) {
         return {
           ...prev,
-          [`${e?.over?.id}`]: e.active.data.current,
-          [prevPosition as keyof typeof playerPositions]: null,
+          [currentDropContainer]: currentSelectedCard,
+          [prevPosition]: null,
         };
       }
+
       // else add new position with value in map
-      else {
-        return {
-          ...prev,
-          [`${e?.over?.id}`]: e.active.data.current,
-        };
-      }
+      return {
+        ...prev,
+        [currentDropContainer]: currentSelectedCard,
+      };
     });
 
+    // if valid drop container then remove player from bench
     if (isValidPosition) {
       setPlayersInBench((prev) =>
-        prev.filter((eachItem) => eachItem.id !== e?.active?.data?.current?.id)
+        prev.filter((eachItem) => eachItem.id !== currentSelectedCard?.id)
       );
     }
   };
