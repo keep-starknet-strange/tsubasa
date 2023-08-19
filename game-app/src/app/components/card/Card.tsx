@@ -1,5 +1,11 @@
 import classNames from "classnames";
-import type { CardKind, CardSize, CardColor, CardState } from "./types";
+import type {
+  CardKind,
+  CardSize,
+  CardColor,
+  CardState,
+  CardProps,
+} from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
@@ -9,19 +15,6 @@ import { getCardSizeClassnames } from "./utils";
 import CardPending from "./CardPending";
 import CardBackground from "./CardBackground";
 import CardEmpty from "./CardEmpty";
-
-interface CardProps {
-  kind: CardKind;
-  size: CardSize;
-  color: CardColor;
-  hover: boolean;
-  captain: boolean;
-  dribble: number;
-  stamina: number;
-  energy: number;
-  player?: string;
-  state?: CardState;
-}
 
 const Card = (props: CardProps) => {
   const {
