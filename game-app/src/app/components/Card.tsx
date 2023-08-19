@@ -5,21 +5,30 @@ import PlayerPlaceholder from "./CardPlaceholder";
 import { CSS } from "@dnd-kit/utilities";
 
 interface Props {
-  playerName: string;
-  data: object;
+  data: {
+    id: string;
+    name: string;
+    position: string;
+  };
 }
 
 export default function Card(props: Props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.playerName,
+    id: props.data.id,
     data: props.data,
   });
   const style = {
     transform: CSS.Transform.toString(transform),
   };
   return (
-    <div ref={setNodeRef} {...listeners} {...attributes} style={style}>
-      <div className="h-12 w-12 bg-black">{props.playerName}</div>
+    <div
+      className="z-50"
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+    >
+      <div className="h-12 w-12 bg-black">{props.data.name}</div>
     </div>
   );
 }
