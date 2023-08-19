@@ -74,17 +74,7 @@ const Card = (props: CardProps) => {
           </div>
         )}
 
-        {/* {player && (
-        <Image
-          className="absolute inset-0 z-0 rounded"
-          fill={true}
-          src={`/images/players/${player}.png`}
-          alt="player"
-        />
-      )} */}
-
         {hover && <CardHover size={size} />}
-
         <div
           className={classNames("h-full", {
             "p-2.5": size === "xl",
@@ -106,7 +96,6 @@ const Card = (props: CardProps) => {
             {size === "xl" && !hover && state !== "pending" && <CardSticker />}
           </div>
         </div>
-
         {state !== "pending" && (
           <CardEnergy hideValue={hover} energy={energy} size={size} />
         )}
