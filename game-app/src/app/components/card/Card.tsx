@@ -49,7 +49,7 @@ const Card = (props: CardProps) => {
       <div
         className={classNames(
           getCardSizeClassnames(size),
-          "relative z-10 min-h-[80px] min-w-[56px]"
+          "relative z-10 min-h-[80px] min-w-[56px] border-2"
         )}
       >
         {captain && (
