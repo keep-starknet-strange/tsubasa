@@ -136,32 +136,3 @@ export default function Gameboard(props: Props) {
     </div>
   );
 }
-
-//   {/* 2) placeholder on bench with no position name , only card */}
-//   <div
-//     ref={setNodeRef}
-//     className={classNames(
-//       getCardSizeClassnames("sm"),
-//       "z-10 flex items-center justify-center rounded-lg bg-[#71CD87] "
-//     )}
-//   >
-//     {playerPositions?.[id] ? (
-//       <DraggableCard
-//         id={playerPositions[id]?.id}
-//         data={playerPositions[id]}
-//       >
-//         <Card {...playerPositions[id]} />
-//       </DraggableCard>
-//     ) : null}
-//   </div>
-//   {/* 1) placeholder on game field with position name */}
-//   {!playerPositions?.[id] && position ? (
-//     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#8ADD9D]">
-//       <p className="text-xs text-[#71CD87]">
-//         {position?.toUpperCase().charAt(0)}
-//       </p>
-//     </div>
-//   ) : null}
-
-//   {/* 3) placeholder with no position name , no card */}
-//   {children ? children : null}

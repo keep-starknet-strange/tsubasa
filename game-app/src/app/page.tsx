@@ -70,7 +70,10 @@ export default function Home() {
   >({});
 
   const onDragOver = (e: DragOverEvent) => {
-    if (!e.over) return;
+    if (!e.over) {
+      setCurrentHoveredPlaceholder("");
+      return;
+    }
     setCurrentHoveredPlaceholder(e.over.id.toString());
   };
 
