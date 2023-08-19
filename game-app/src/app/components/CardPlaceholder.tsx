@@ -1,17 +1,16 @@
 "use client";
 
 import { useDroppable } from "@dnd-kit/core";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 interface CardProps {
-  position?: string;
-  isDropable?: boolean;
+  position: string;
   children?: ReactNode;
 }
 
 export default function PlayerPlaceholder(props: CardProps) {
   const { position, children } = props;
-  const { setNodeRef, isOver, over } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id: position,
   });
 
@@ -19,6 +18,7 @@ export default function PlayerPlaceholder(props: CardProps) {
     // TODO: Extract colors to the Tailwind theme once properly defined
     <div className="relative flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg bg-[#80D794] p-2 lg:min-h-[136px] lg:min-w-[100px]">
       <div className="flex min-h-[60px] min-w-[36px] items-center justify-center rounded-lg bg-[#71CD87] px-2 py-5 lg:min-h-[108px] lg:min-w-[72px]">
+        {children}
         {position ? (
           <div
             ref={setNodeRef}
@@ -30,7 +30,6 @@ export default function PlayerPlaceholder(props: CardProps) {
           </div>
         ) : null}
       </div>
-      {children}
     </div>
   );
 }
