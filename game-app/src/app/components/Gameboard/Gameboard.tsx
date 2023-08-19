@@ -2,8 +2,11 @@
 
 import Image from "next/image";
 import PlayerPlaceholder from "../CardPlaceholder";
+import { useDroppable } from "@dnd-kit/core";
+import { useEffect } from "react";
 
 export default function Gameboard() {
+
   return (
     <div className="h-screen max-h-96 w-full lg:m-auto lg:h-[645px] lg:max-h-[645px] lg:w-11/12 lg:max-w-[1296px]">
       {/* field */}
@@ -21,7 +24,7 @@ export default function Gameboard() {
           {/* goal circle */}
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:translate-x-0 lg:translate-y-1/2" />
           {/* goalkeeper position */}
-          <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
+          <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 bg-black lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
             <PlayerPlaceholder position="goalkeeper" />
           </div>
         </div>
