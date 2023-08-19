@@ -4,7 +4,7 @@ import PlayerPlaceholder from "./CardPlaceholder";
 import Card from "./Card";
 
 interface Props {
-  playersInBench: { data: { id: string; name: string; position: string } }[];
+  playersInBench: { id: string; name: string; position: string }[];
 }
 
 const CARDS_ALLOWED_IN_DECK = 4;

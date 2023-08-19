@@ -35,14 +35,22 @@ export default function Home() {
   // store map of players on gameboard
   const [playerPositions, setPlayerPositions] = useState({});
   const onDragEnd = (e: DragEndEvent) => {
+    // return if no valid droppable position
     if (!e.over) return;
 
     // if player is placed on bench
     if (e.over.id.toString().includes("bench")) {
-      setPlayersInBench((prev) => {
-        return [...prev, e.active.data.current];
+      //check if already included in bench
+      let isPlayerPresent = false;
+      playersInBench.map((eachPlayer) => {
+        if (eachPlayer.id === e?.active?.data?.current?.id) {
+          isPlayerPresent = true;
+        }
       });
+      if (isPlayerPresent) return;
+      setPlayersInBench((prev) => [...prev, e.active.data.current]);
       setPlayerPositions((prev) => {
+        // reset the old position and update the value of new position
         let prevPosition;
         Object.keys(prev).forEach((eachItem) => {
           if (
@@ -60,13 +68,17 @@ export default function Home() {
       });
       return;
     }
+
     // if player is not placed on bench
-
-    setPlayersInBench((prev) =>
-      prev.filter((eachItem) => eachItem.id !== e?.active?.data?.current?.id)
-    );
-
+    let isValidPosition = false;
     setPlayerPositions((prev) => {
+      // check if any other player already present on position
+      if (prev?.[e?.over?.id as keyof typeof playerPositions]) {
+        return prev;
+      }
+      isValidPosition = true;
+
+      // reset the old position and update the value of new position
       let prevPosition;
       Object.keys(prev).forEach((eachItem) => {
         if (
@@ -77,19 +89,28 @@ export default function Home() {
         }
       });
 
+      // if card was previously on some other position then reset that position value
       if (prevPosition) {
         return {
           ...prev,
           [`${e?.over?.id}`]: e.active.data.current,
           [prevPosition as keyof typeof playerPositions]: null,
         };
-      } else {
+      }
+      // else add new position with value in map
+      else {
         return {
           ...prev,
           [`${e?.over?.id}`]: e.active.data.current,
         };
       }
     });
+
+    if (isValidPosition) {
+      setPlayersInBench((prev) =>
+        prev.filter((eachItem) => eachItem.id !== e?.active?.data?.current?.id)
+      );
+    }
   };
 
   return (
