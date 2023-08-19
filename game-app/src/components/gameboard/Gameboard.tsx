@@ -20,7 +20,7 @@ export default function Gameboard() {
         <div className="absolute -bottom-4 -left-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9]  lg:h-12 lg:w-12 " />
         <div className="absolute -bottom-4 -right-4	h-9 w-9 rounded-full border-[3px] border-solid border-[#97E8A9] lg:h-12 lg:w-12" />
 
-        {/* left / top penalty box */}
+        {/* left / bottom penalty box */}
         <div className="absolute bottom-0 left-2/4 -translate-x-2/4 lg:bottom-auto lg:left-0 lg:top-2/4 lg:-translate-x-0 lg:-translate-y-2/4">
           {/* goal boxes */}
           <div className="relative z-20 h-12 w-32 rounded-t-xl border-[3px]  border-b-0  border-solid border-[#97E8A9]	 bg-[#8ADD9D] lg:h-96 lg:w-24 lg:rounded-r-xl lg:rounded-t-none lg:border-b-[3px] lg:border-l-0" />
@@ -28,23 +28,23 @@ export default function Gameboard() {
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:translate-x-0 lg:translate-y-1/2" />
           {/* goalkeeper position */}
           <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 bg-black lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
-            <PlayerPlaceholder position="goalkeeper" />
+            <PlayerPlaceholder position="goalkeeper-1" />
           </div>
         </div>
 
         {/* defender position */}
         <div className="absolute left-8 top-12 z-30 lg:left-[12.5%] lg:top-1/4">
-          <PlayerPlaceholder position="defender" />
+          <PlayerPlaceholder position="defender-1" />
         </div>
 
         {/* midfielder position */}
         <div className="absolute bottom-20 right-8 z-30 lg:bottom-1/4 lg:left-[22%] lg:right-auto">
-          <PlayerPlaceholder position="midfielder" />
+          <PlayerPlaceholder position="midfielder-1" />
         </div>
 
         {/* forward position */}
-        <div className="absolute bottom-1/2 left-1/2 z-30 -translate-x-1/2 translate-y-32 lg:bottom-2/4 lg:left-[40%] lg:-translate-x-1/2 lg:translate-y-1/2 ">
-          <PlayerPlaceholder position="forward" />
+        <div className="absolute bottom-1/4 left-1/2 z-30 -translate-x-1/2 -translate-y-1 lg:bottom-2/4 lg:left-[40%] lg:-translate-x-1/2 lg:translate-y-1/2 ">
+          <PlayerPlaceholder position="forward-1" />
         </div>
 
         {/* center line */}
@@ -65,21 +65,21 @@ export default function Gameboard() {
           </div>
 
           {/* defender position */}
-          <div className="absolute left-8 top-12 z-30 lg:left-auto lg:right-[12.5%] lg:top-1/4 ">
-            <PlayerPlaceholder position="defender" />
+          <div className="absolute bottom-12 left-8 z-30 lg:left-auto lg:right-[12.5%] lg:top-1/4 ">
+            <PlayerPlaceholder position="defender-2" />
           </div>
 
           {/* midfielder position */}
           <div className="absolute right-8 top-20 z-30  lg:bottom-1/4 lg:left-auto lg:right-[22%] lg:top-auto">
-            <PlayerPlaceholder position="midfielder" />
+            <PlayerPlaceholder position="midfielder-2" />
           </div>
 
           {/* forward position */}
           <div className="absolute left-1/2 top-1/4 z-30 -translate-x-1/2 translate-y-1  lg:left-auto lg:right-[40%] lg:top-2/4 lg:-translate-y-1/2 lg:translate-x-1/2">
-            <PlayerPlaceholder position="forward" />
+            <PlayerPlaceholder position="forward-2" />
           </div>
 
-          {/* right / bottom penalty box */}
+          {/* right / top penalty box */}
           <div className="absolute left-2/4 top-0 -translate-x-2/4 lg:left-auto lg:right-0 lg:top-2/4 lg:-translate-y-2/4 lg:translate-x-0">
             {/* goal boxes */}
             <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] lg:h-96 lg:w-24 lg:rounded-b-none lg:rounded-l-xl lg:border-r-0 lg:border-t-[3px]" />
@@ -87,11 +87,11 @@ export default function Gameboard() {
             <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:-translate-x-1/2 lg:translate-y-1/2" />
             {/* goalkeeper position */}
             <div className="absolute left-1/2 top-2 z-30 -translate-x-1/2 lg:left-auto lg:right-2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0">
-              <PlayerPlaceholder position="goalkeeper" />
+              <PlayerPlaceholder position="goalkeeper-2" />
             </div>
           </div>
+          <EndTurnButton isWaiting={isWaiting} />
         </div>
-        <EndTurnButton isWaiting={isWaiting} />
       </div>
     </div>
   );
