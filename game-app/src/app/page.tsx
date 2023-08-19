@@ -5,7 +5,6 @@ import Scoreboard from "./components/Scoreboard";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
-      g{" "}
       <div className="flex w-full items-end justify-end md:fixed">
         <div className="p-2">
           <ConnectButton />
