@@ -1,9 +1,9 @@
 "use client";
 
-import { ExtendedCardProps } from "../page";
+import type { ExtendedCardProps } from "../page";
 import PlayerPlaceholder from "./CardPlaceholder";
 import Card from "./card/Card";
-import Draggable from "./dnd/Draggable";
+import DraggableCard from "./dragAndDrop/DraggableCard";
 
 const CARDS_ALLOWED_IN_DECK = 4;
 
@@ -18,12 +18,12 @@ export default function PlayerBench(props: Props) {
       {Array.from({ length: CARDS_ALLOWED_IN_DECK }, (_, index) => (
         <PlayerPlaceholder key={index} id={`bench-${index}`}>
           {playersInBench[index] ? (
-            <Draggable
+            <DraggableCard
               id={playersInBench[index].id}
               data={playersInBench[index]}
             >
               <Card {...playersInBench[index]} />
-            </Draggable>
+            </DraggableCard>
           ) : null}
         </PlayerPlaceholder>
       ))}
