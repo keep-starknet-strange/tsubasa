@@ -1,26 +1,19 @@
 "use client";
 
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverEvent,
-  pointerWithin,
-} from "@dnd-kit/core";
+import { DndContext, pointerWithin } from "@dnd-kit/core";
 import PlayerBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
-import { useEffect, useState } from "react";
-import useWindowDimensions from "./hooks/useWindowDimensions";
+import { useState } from "react";
 import { CardProps, CardSize } from "./components/card/types";
+import type { DragEndEvent, DragOverEvent } from "@dnd-kit/core";
 
 export interface ExtendedCardProps extends CardProps {
   id: string;
 }
 
 export default function Home() {
-  // store number of players in bench
-  const { width, height } = useWindowDimensions();
   const [cardSize, setCardSize] = useState<CardSize>("sm");
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");
@@ -77,11 +70,12 @@ export default function Home() {
 
   // store map of players on gameboard
   const [playerPositions, setPlayerPositions] = useState<
-    Record<string, ExtendedCardProps | null>
+    Record<string, ExtendedCardProps>
   >({});
 
   const onDragOver = (e: DragOverEvent) => {
-    setCurrentHoveredPlaceholder(e.over?.id);
+    if (!e.over) return;
+    setCurrentHoveredPlaceholder(e.over.id.toString());
   };
 
   // handle drag interactions
@@ -115,11 +109,11 @@ export default function Home() {
       // unset the gamefield position if already present
       if (prevPosition.length > 0) {
         setPlayerPositions((prev) => {
+          const copy = { ...prev };
+          delete copy[prevPosition];
           // reset the old position and update the value of new position
-          return {
-            ...prev,
-            [prevPosition]: null,
-          };
+
+          return copy;
         });
       }
 
@@ -154,10 +148,12 @@ export default function Home() {
 
       // if card was previously on some other position then reset that position value and update with new position
       if (prevPosition) {
+        const copy = { ...prev };
+        delete copy[prevPosition];
+
         return {
-          ...prev,
+          ...copy,
           [currentDropContainer]: currentSelectedCard,
-          [prevPosition]: null,
         };
       }
 
@@ -176,15 +172,6 @@ export default function Home() {
       setCurrentHoveredPlaceholder("");
     }
   };
-
-  // TODO: fix card size
-  useEffect(() => {
-    if (width < 1024 && cardSize !== "sm") {
-      setCardSize("sm");
-    } else if (width >= 1024 && cardSize !== "md") {
-      setCardSize("md");
-    }
-  }, [width]);
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">

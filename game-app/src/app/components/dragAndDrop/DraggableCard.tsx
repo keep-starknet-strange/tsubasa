@@ -1,14 +1,15 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { CardProps } from "../card/types";
+import type { ExtendedCardProps } from "@/app/page";
+import type { ReactNode } from "react";
 
 interface Props {
   id: string;
   children?: ReactNode;
-  data: CardProps;
+  data: ExtendedCardProps;
 }
-export default function Draggable(props: Props) {
+export default function DraggableCard(props: Props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
     data: props.data,
