@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import EndTurnButton from "../EndTurnButton";
 import PlayerPlaceholder from "../CardPlaceholder";
-import type { ExtendedCardProps } from "@/app/page";
+import CardPlaceholder from "../CardPlaceholder";
+import type { ExtendedCardProps } from "../card/types";
 
 interface Props {
   playerPositions: Record<string, ExtendedCardProps>;
@@ -33,7 +34,7 @@ export default function Gameboard(props: Props) {
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:translate-x-0 md:translate-y-1/2" />
           {/* goalkeeper position */}
           <div className="absolute bottom-2 left-1/2  z-30 -translate-x-1/2 md:bottom-1/2 md:left-2 md:translate-x-0 md:translate-y-1/2">
-            <PlayerPlaceholder
+            <CardPlaceholder
               currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-1"
               position="goalkeeper"
@@ -44,7 +45,7 @@ export default function Gameboard(props: Props) {
 
         {/* defender position */}
         <div className="absolute left-8 top-12 z-30 md:bottom-1/4 md:left-[12.5%] md:top-auto">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="defender-1"
             position="defender"
@@ -54,7 +55,7 @@ export default function Gameboard(props: Props) {
 
         {/* midfielder position */}
         <div className="absolute bottom-20 right-8 z-30 md:bottom-auto md:left-[22%] md:right-auto md:top-1/4">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="midfielder-1"
             position="midfielder"
@@ -64,7 +65,7 @@ export default function Gameboard(props: Props) {
 
         {/* forward position */}
         <div className="absolute bottom-1/4 left-1/2 z-30 -translate-x-1/2 -translate-y-1 md:bottom-2/4 md:left-[40%] md:-translate-x-1/2 md:translate-y-1/2 ">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="forward-1"
             position="forward"
@@ -140,32 +141,3 @@ export default function Gameboard(props: Props) {
     </div>
   );
 }
-
-//   {/* 2) placeholder on bench with no position name , only card */}
-//   <div
-//     ref={setNodeRef}
-//     className={classNames(
-//       getCardSizeClassnames("sm"),
-//       "z-10 flex items-center justify-center rounded-lg bg-[#71CD87] "
-//     )}
-//   >
-//     {playerPositions?.[id] ? (
-//       <DraggableCard
-//         id={playerPositions[id]?.id}
-//         data={playerPositions[id]}
-//       >
-//         <Card {...playerPositions[id]} />
-//       </DraggableCard>
-//     ) : null}
-//   </div>
-//   {/* 1) placeholder on game field with position name */}
-//   {!playerPositions?.[id] && position ? (
-//     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#8ADD9D]">
-//       <p className="text-xs text-[#71CD87]">
-//         {position?.toUpperCase().charAt(0)}
-//       </p>
-//     </div>
-//   ) : null}
-
-//   {/* 3) placeholder with no position name , no card */}
-//   {children ? children : null}
