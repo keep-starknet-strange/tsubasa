@@ -13,9 +13,11 @@ import {
 } from "../components/icons";
 
 import RulesModale from "../components/RulesModale";
+import { DragEndEvent } from "@dnd-kit/core";
 
 export default function Home() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
       <div className="mx-auto font-agrandir md:container">
