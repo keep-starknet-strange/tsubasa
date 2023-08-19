@@ -13,11 +13,10 @@ import {
 } from "../components/icons";
 
 import RulesModale from "../components/RulesModale";
+import { CardProps } from "@/components/card/types";
 
-interface CardProps {
+export interface ExtendedCardProps extends CardProps {
   id: string;
-  name: string;
-  position: string;
 }
 
 export default function Home() {
