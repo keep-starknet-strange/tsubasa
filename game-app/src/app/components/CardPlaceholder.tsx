@@ -32,6 +32,11 @@ export default function CardPlaceholder(props: Props) {
     id: id,
   });
 
+export default function PlayerPlaceholder(props: CardProps) {
+  const { position, children, playerPositions, id } = props;
+  const { setNodeRef } = useDroppable({
+    id: id,
+  });
   return (
     <div
       className={classNames(
