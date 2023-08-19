@@ -1,24 +1,26 @@
 import classNames from "classnames";
-import type { CardKind, CardSize, CardColor } from "./types";
+import type { CardKind, CardSize, CardColor, CardState } from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
 import CardCaptain from "./CardCaptain";
 import CardHeader from "./CardHeader";
+import { getCardSizeClassnames } from "./utils";
+import CardPending from "./CardPending";
+import CardBackground from "./CardBackground";
+import CardEmpty from "./CardEmpty";
 
 interface CardProps {
   kind: CardKind;
   size: CardSize;
   color: CardColor;
-  hurt: boolean;
   hover: boolean;
-  pending: boolean;
-  buffed: boolean;
   captain: boolean;
   dribble: number;
   stamina: number;
   energy: number;
   player?: string;
+  state?: CardState;
 }
 
 const Card = (props: CardProps) => {
@@ -28,53 +30,47 @@ const Card = (props: CardProps) => {
     hover,
     captain,
     size,
-    pending,
     dribble,
     stamina,
     energy,
+    kind,
+    state = "standard",
   } = props;
+
+  if (kind === "card-black") {
+    return <CardEmpty color={color} size={size} />;
+  }
+
   return (
-    <div
-      style={{
-        backgroundImage: `url('/images/players/${player}.png')`,
-      }}
-      className={classNames(
-        "relative z-0 min-h-[80px] min-w-[56px] border-2 border-white bg-cover bg-center bg-no-repeat shadow-md",
-        {
-          "h-[320px] min-h-[320px] w-[224px] min-w-[224px] rounded-lg":
-            size === "xl",
-          "h-[240px] min-h-[240px] w-[168px] min-w-[168px] rounded-lg":
-            size === "lg",
-          "h-[160px] min-h-[160px] w-[112px] min-w-[112px] rounded-lg":
-            size === "md",
-          "h-[120px] min-h-[120px] w-[84px] min-w-[84px] rounded":
-            size === "sm",
-          "h-[80px] min-h-[80px] w-[56px] min-w-[56px] rounded": size === "xs",
+    <div className="relative">
+      {state === "pending" && <CardPending size={size} />}
+      <CardBackground color={color} size={size} state={state} player={player} />
 
-          "bg-cyan-700": color === "blue" && pending,
-          "bg-yellow-700": color === "yellow" && pending,
-          "bg-salmon-700": color === "red" && pending,
-          "bg-cyan-500": color === "blue" && !pending,
-          "bg-yellow-500": color === "yellow" && !pending,
-          "bg-salmon-500": color === "red" && !pending,
-        }
-      )}
-    >
-      {captain && (
-        <div
-          className={classNames("absolute z-10 flex w-full justify-center", {
-            "top-[-20px]": size === "xl",
-            "top-[-16px]": size === "lg",
-            "top-[-12px]": size === "md",
-            "top-[-10px]": size === "sm",
-            "top-[-9px]": size === "xs",
-          })}
-        >
-          <CardCaptain pending={pending} size={size} color={color} />
-        </div>
-      )}
+      <div
+        className={classNames(
+          getCardSizeClassnames(size),
+          "relative z-10 min-h-[80px] min-w-[56px]"
+        )}
+      >
+        {captain && (
+          <div
+            className={classNames("absolute z-10 flex w-full justify-center", {
+              "top-[-20px]": size === "xl",
+              "top-[-16px]": size === "lg",
+              "top-[-12px]": size === "md",
+              "top-[-10px]": size === "sm",
+              "top-[-9px]": size === "xs",
+            })}
+          >
+            <CardCaptain
+              pending={state === "pending"}
+              size={size}
+              color={color}
+            />
+          </div>
+        )}
 
-      {/* {player && (
+        {/* {player && (
         <Image
           className="absolute inset-0 z-0 rounded"
           fill={true}
@@ -83,30 +79,34 @@ const Card = (props: CardProps) => {
         />
       )} */}
 
-      {hover && <CardHover size={size} />}
+        {hover && <CardHover size={size} />}
 
-      <div
-        className={classNames("h-full", {
-          "p-2.5": size === "xl",
-          "p-2": size === "lg",
-          "p-1.5": size === "md",
-          "p-1": size === "sm",
-          "p-0.5": size === "xs",
-        })}
-      >
-        <div className="relative h-full w-full">
-          <CardHeader
-            dribble={dribble}
-            pending={pending}
-            size={size}
-            stamina={stamina}
-            color={color}
-          />
-          {size === "xl" && !hover && <CardSticker />}
+        <div
+          className={classNames("h-full", {
+            "p-2.5": size === "xl",
+            "p-2": size === "lg",
+            "p-1.5": size === "md",
+            "p-1": size === "sm",
+            "p-0.5": size === "xs",
+          })}
+        >
+          <div className="relative h-full w-full">
+            <CardHeader
+              dribble={dribble}
+              pending={state === "pending"}
+              size={size}
+              stamina={stamina}
+              color={color}
+              state={state}
+            />
+            {size === "xl" && !hover && state !== "pending" && <CardSticker />}
+          </div>
         </div>
-      </div>
 
-      <CardEnergy hideValue={hover} energy={energy} size={size} />
+        {state !== "pending" && (
+          <CardEnergy hideValue={hover} energy={energy} size={size} />
+        )}
+      </div>
     </div>
   );
 };

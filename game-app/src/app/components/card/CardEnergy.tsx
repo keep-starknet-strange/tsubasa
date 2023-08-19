@@ -14,11 +14,11 @@ const CardEnergy = ({ size, hideValue, energy }: CardEnergyProps) => {
       className={classNames(
         "absolute z-10 flex w-full items-center justify-center",
         {
-          "bottom-[-41px]": size === "xl",
-          "bottom-[-32px]": size === "lg",
-          "bottom-[-23px]": size === "md",
-          "bottom-[-19px]": size === "sm",
-          "bottom-[-15px]": size === "xs",
+          "bottom-[-39px]": size === "xl",
+          "bottom-[-30px]": size === "lg",
+          "bottom-[-21px]": size === "md",
+          "bottom-[-17px]": size === "sm",
+          "bottom-[-13px]": size === "xs",
         }
       )}
     >

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+
 import type { CardAttributeType, CardColor, CardSize } from "./types";
 import classNames from "classnames";
 import StaminaIcon from "../icons/StaminaIcon";
@@ -8,27 +10,27 @@ interface CardAttributeProps {
   type: CardAttributeType;
   color: CardColor;
   pending: boolean;
-  bonus: boolean;
-  hurt: boolean;
   size: CardSize;
+  buffed?: boolean;
+  hurt?: boolean;
 }
 
 const CardAttribute = (props: CardAttributeProps) => {
-  const { value, type, color, pending, bonus, hurt, size } = props;
+  const { value, type, color, pending, buffed, hurt, size } = props;
 
   return (
     <div
       className={classNames("shadow", {
-        "bg-neon": bonus,
+        "bg-neon": buffed,
         "bg-red": hurt,
-        "text-black": (bonus && !hurt) || !pending,
-        "text-white": (pending && !bonus) || hurt,
-        "bg-cyan-700": color === "blue" && pending && !bonus && !hurt,
-        "bg-cyan-200": color === "blue" && !pending && !bonus && !hurt,
-        "bg-yellow-700": color === "yellow" && pending && !bonus && !hurt,
-        "bg-yellow-200": color === "yellow" && !pending && !bonus && !hurt,
-        "bg-salmon-700": color === "red" && pending && !bonus && !hurt,
-        "bg-salmon-200": color === "red" && !pending && !bonus && !hurt,
+        "text-black": (buffed && !hurt) || !pending,
+        "text-white": (pending && !buffed) || hurt,
+        "bg-cyan-700": color === "blue" && pending && !buffed && !hurt,
+        "bg-cyan-200": color === "blue" && !pending && !buffed && !hurt,
+        "bg-yellow-700": color === "yellow" && pending && !buffed && !hurt,
+        "bg-yellow-200": color === "yellow" && !pending && !buffed && !hurt,
+        "bg-salmon-700": color === "red" && pending && !buffed && !hurt,
+        "bg-salmon-200": color === "red" && !pending && !buffed && !hurt,
 
         "h-[60px] w-[32px] rounded py-1.5": size === "xl",
         "h-[47px] w-[26px] rounded py-[5px]": size === "lg",
@@ -42,7 +44,7 @@ const CardAttribute = (props: CardAttributeProps) => {
           className={classNames(
             "w-full text-center font-agrandir font-[767] leading-none",
             {
-              "opacity-50": pending && !bonus && !hurt,
+              "opacity-50": pending && !buffed && !hurt,
               "text-2xl": size === "xl",
               "text-xl": size === "lg",
               "text-base": size === "md",
@@ -58,8 +60,8 @@ const CardAttribute = (props: CardAttributeProps) => {
           className={classNames(
             "relative flex w-full justify-center leading-none",
             {
-              "opacity-25": pending && !bonus,
-              "opacity-50": !pending || hurt || bonus,
+              "opacity-25": pending && !buffed,
+              "opacity-50": !pending || hurt || buffed,
             }
           )}
         >

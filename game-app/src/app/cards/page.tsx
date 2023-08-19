@@ -11,9 +11,9 @@ const CardsPage = () => {
     <div className="p-10">
       <div className="flex flex-wrap">
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="m-1" key={`card-0-${index}`}>
+          <div className="m-1" key={`card-attribute-0-${index}`}>
             <CardAttribute
-              bonus={false}
+              buffed={false}
               hurt={false}
               pending={false}
               size={size as CardSize}
@@ -24,10 +24,34 @@ const CardsPage = () => {
           </div>
         ))}
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="m-1" key={`card-1-${index}`}>
+          <div className="m-1" key={`card-attribute-1-${index}`}>
             <CardAttribute
-              bonus={false}
+              buffed={false}
               hurt={false}
+              pending={false}
+              size={size as CardSize}
+              color="yellow"
+              type="stamina"
+              value={randomNumber()}
+            />
+          </div>
+        ))}
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+          <div className="m-1" key={`card-attribute-2-${index}`}>
+            <CardAttribute
+              hurt={true}
+              pending={false}
+              size={size as CardSize}
+              color="yellow"
+              type="stamina"
+              value={randomNumber()}
+            />
+          </div>
+        ))}
+        {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+          <div className="m-1" key={`card-attribute-2-${index}`}>
+            <CardAttribute
+              buffed={true}
               pending={false}
               size={size as CardSize}
               color="yellow"
@@ -40,23 +64,39 @@ const CardsPage = () => {
 
       <div className="flex flex-wrap">
         {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-          <div className="mx-2 my-10" key={`card-2-${index}`}>
+          <div className="mx-2 my-10" key={`card-1-${index}`}>
             <Card
               captain={true}
               dribble={1}
               energy={1}
               hover={false}
-              pending={false}
               player="1"
               size={size as CardSize}
               stamina={randomNumber()}
               color="yellow"
-              buffed={false}
-              hurt={false}
-              kind="Card"
+              kind="card"
             />
           </div>
         ))}
+
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-10" key={`card-2-${index}`}>
+              <Card
+                captain={true}
+                dribble={1}
+                energy={1}
+                hover={false}
+                player="1"
+                size={size as CardSize}
+                stamina={randomNumber()}
+                color="yellow"
+                kind="card"
+                state="pending"
+              />
+            </div>
+          ))}
+        </div>
 
         <div className="flex flex-wrap">
           {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
@@ -66,14 +106,11 @@ const CardsPage = () => {
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={true}
-                pending={false}
                 size={size as CardSize}
                 stamina={randomNumber()}
                 color="yellow"
                 player="1"
-                buffed={false}
-                hurt={false}
-                kind="Card"
+                kind="card"
               />
             </div>
           ))}
@@ -87,13 +124,10 @@ const CardsPage = () => {
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={false}
-                pending={false}
                 size={size as CardSize}
                 stamina={1}
                 color="blue"
-                buffed={false}
-                hurt={false}
-                kind="Card"
+                kind="card"
               />
             </div>
           ))}
@@ -107,13 +141,60 @@ const CardsPage = () => {
                 dribble={randomNumber()}
                 energy={randomNumber()}
                 hover={false}
-                pending={false}
                 size={size as CardSize}
                 stamina={randomNumber()}
                 color="red"
-                buffed={false}
-                hurt={false}
-                kind="Card"
+                kind="card"
+                state="buffed"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-10" key={`card-6-${index}`}>
+              <Card
+                captain={true}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={false}
+                size={size as CardSize}
+                stamina={randomNumber()}
+                color="blue"
+                kind="card-black"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-10" key={`card-7-${index}`}>
+              <Card
+                captain={true}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={false}
+                size={size as CardSize}
+                stamina={randomNumber()}
+                color="red"
+                kind="card-black"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap">
+          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
+            <div className="mx-2 my-10" key={`card-8-${index}`}>
+              <Card
+                captain={true}
+                dribble={randomNumber()}
+                energy={randomNumber()}
+                hover={false}
+                size={size as CardSize}
+                stamina={randomNumber()}
+                color="yellow"
+                kind="card-black"
               />
             </div>
           ))}

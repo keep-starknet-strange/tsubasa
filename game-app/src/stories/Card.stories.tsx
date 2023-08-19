@@ -21,8 +21,6 @@ export const CardStory: Story = {
     dribble: 1,
     stamina: 3,
     energy: 1,
-    buffed: false,
-    hurt: false,
-    kind: "Card",
+    kind: "card",
   },
 };

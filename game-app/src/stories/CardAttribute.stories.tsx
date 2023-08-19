@@ -19,7 +19,7 @@ export const CardAttributeStory: Story = {
     color: "blue",
     pending: false,
     hurt: false,
-    bonus: false,
+    buffed: false,
     size: "xl",
   },
 };

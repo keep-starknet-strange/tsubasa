@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import CardAttribute from "./CardAttribute";
-import type { CardColor, CardSize } from "./types";
+import type { CardColor, CardSize, CardState } from "./types";
 
 interface CardHeaderProps {
   color: CardColor;
@@ -8,6 +8,7 @@ interface CardHeaderProps {
   size: CardSize;
   dribble: number;
   stamina: number;
+  state: CardState;
 }
 
 const CardHeader = ({
@@ -16,14 +17,15 @@ const CardHeader = ({
   pending,
   dribble,
   stamina,
+  state,
 }: CardHeaderProps) => {
   return (
     <div className={classNames("flex w-full justify-between")}>
       <div className="z-10">
         <CardAttribute
           size={size}
-          bonus={false}
-          hurt={false}
+          buffed={state === "buffed"}
+          hurt={state === "hurt"}
           pending={pending}
           color={color}
           type="dribble"
@@ -33,8 +35,8 @@ const CardHeader = ({
       <div className="z-10">
         <CardAttribute
           size={size}
-          bonus={false}
-          hurt={true}
+          buffed={state === "buffed"}
+          hurt={state === "hurt"}
           pending={pending}
           color={color}
           type="stamina"
