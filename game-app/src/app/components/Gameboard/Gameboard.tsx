@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import PlayerPlaceholder from "../CardPlaceholder";
-import type { ExtendedCardProps } from "@/app/page";
+import CardPlaceholder from "../CardPlaceholder";
+import type { ExtendedCardProps } from "../card/types";
 
 interface Props {
   playerPositions: Record<string, ExtendedCardProps>;
@@ -29,7 +29,7 @@ export default function Gameboard(props: Props) {
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:translate-x-0 md:translate-y-1/2" />
           {/* goalkeeper position */}
           <div className="absolute bottom-2 left-1/2  z-30 -translate-x-1/2 md:bottom-1/2 md:left-2 md:translate-x-0 md:translate-y-1/2">
-            <PlayerPlaceholder
+            <CardPlaceholder
               currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-1"
               position="goalkeeper"
@@ -40,7 +40,7 @@ export default function Gameboard(props: Props) {
 
         {/* defender position */}
         <div className="absolute left-8 top-12 z-30 md:bottom-1/4 md:left-[12.5%] md:top-auto">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="defender-1"
             position="defender"
@@ -50,7 +50,7 @@ export default function Gameboard(props: Props) {
 
         {/* midfielder position */}
         <div className="absolute bottom-20 right-8 z-30 md:bottom-auto md:left-[22%] md:right-auto md:top-1/4">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="midfielder-1"
             position="midfielder"
@@ -60,7 +60,7 @@ export default function Gameboard(props: Props) {
 
         {/* forward position */}
         <div className="absolute bottom-1/4 left-1/2 z-30 -translate-x-1/2 -translate-y-1 md:bottom-2/4 md:left-[40%] md:-translate-x-1/2 md:translate-y-1/2 ">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="forward-1"
             position="forward"
@@ -88,7 +88,7 @@ export default function Gameboard(props: Props) {
 
         {/* defender position */}
         <div className="absolute bottom-12 left-8 z-30 md:bottom-1/4 md:left-auto md:right-[12.5%] ">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="defender-2"
             position="defender"
@@ -98,7 +98,7 @@ export default function Gameboard(props: Props) {
 
         {/* midfielder position */}
         <div className="absolute right-8 top-20 z-30  md:left-auto md:right-[22%] md:top-1/4 ">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="midfielder-2"
             position="midfielder"
@@ -108,7 +108,7 @@ export default function Gameboard(props: Props) {
 
         {/* forward position */}
         <div className="absolute left-1/2 top-1/4 z-30 -translate-x-1/2 translate-y-1  md:left-auto md:right-[40%] md:top-2/4 md:-translate-y-1/2 md:translate-x-1/2">
-          <PlayerPlaceholder
+          <CardPlaceholder
             currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="forward-2"
             position="forward"
@@ -124,7 +124,7 @@ export default function Gameboard(props: Props) {
           <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:-translate-x-1/2 md:translate-y-1/2" />
           {/* goalkeeper position */}
           <div className="absolute left-1/2 top-2 z-30 -translate-x-1/2 md:left-auto md:right-2 md:top-1/2 md:-translate-y-1/2 md:translate-x-0">
-            <PlayerPlaceholder
+            <CardPlaceholder
               currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-2"
               position="goalkeeper"
