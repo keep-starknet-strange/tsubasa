@@ -1,14 +1,19 @@
 "use client";
 
-import { useDroppable, DragOverlay } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
 import { ReactNode } from "react";
-import Card from "./Card";
+import Card from "./card/Card";
+import { ExtendedCardProps } from "../page";
+import Draggable from "./dnd/Draggable";
+import classNames from "classnames";
+import { getCardSizeClassnames } from "./card/utils";
 
 interface CardProps {
   id: string;
   position?: string;
   children?: ReactNode;
-  playerPositions?: object;
+  playerPositions?: Record<string, ExtendedCardProps | null>;
+  currentHoveredPlaceholder?: string;
 }
 
 /*
@@ -19,18 +24,36 @@ three conditions in which card placeholder is used
 */
 
 export default function PlayerPlaceholder(props: CardProps) {
-  const { position, children, playerPositions, id } = props;
+  const { position, children, playerPositions, id, currentHoveredPlaceholder } =
+    props;
   const { setNodeRef } = useDroppable({
     id: id,
   });
+
   return (
-    <div className="relative flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg bg-[#80D794] p-2 lg:min-h-[136px] lg:min-w-[100px]">
+    <div
+      className={classNames(
+        {
+          "border-white shadow-[0px_0px_10px_rgba(0,0,0)] shadow-white":
+            currentHoveredPlaceholder === id,
+        },
+        "relative flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-4 transition-all duration-300 ease-in-out lg:min-h-[136px] lg:min-w-[100px]"
+      )}
+    >
       <div
         ref={setNodeRef}
-        className="flex min-h-[60px] min-w-[36px] items-center justify-center rounded-lg bg-[#71CD87] px-2 py-5 lg:min-h-[108px] lg:min-w-[72px]"
+        className={classNames(
+          getCardSizeClassnames("sm"),
+          "z-10 flex items-center justify-center rounded-lg bg-[#71CD87] px-2 py-5"
+        )}
+        // className=" min-h-[60px] min-w-[36px]  lg:min-h-[108px] lg:min-w-[72px]"
       >
-        {playerPositions?.[id as keyof typeof playerPositions] ? (
-          <Card data={playerPositions[id as keyof typeof playerPositions]} />
+        {playerPositions &&
+        playerPositions?.[id as keyof typeof playerPositions] &&
+        playerPositions[id]?.id ? (
+          <Draggable id={playerPositions[id]?.id} data={playerPositions[id]}>
+            <Card {...playerPositions[id]} />
+          </Draggable>
         ) : null}
         {children ? children : null}
         {!playerPositions?.[id as keyof typeof playerPositions] && position ? (
