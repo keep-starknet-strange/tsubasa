@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import PlayerPlaceholder from "../CardPlaceholder";
-import { ExtendedCardProps } from "@/app/page";
+import type { ExtendedCardProps } from "@/app/page";
 
 interface Props {
-  playerPositions: Record<string, ExtendedCardProps | null>;
+  playerPositions: Record<string, ExtendedCardProps>;
   currentHoveredPlaceholder: string | undefined;
 }
 
@@ -28,7 +28,7 @@ export default function Gameboard(props: Props) {
           {/* goal circle */}
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:translate-x-0 md:translate-y-1/2" />
           {/* goalkeeper position */}
-          <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 md:bottom-1/2 md:left-2 md:translate-x-0 md:translate-y-1/2">
+          <div className="absolute bottom-2 left-1/2  z-30 -translate-x-1/2 md:bottom-1/2 md:left-2 md:translate-x-0 md:translate-y-1/2">
             <PlayerPlaceholder
               currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-1"
@@ -69,7 +69,7 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* center line */}
-        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-[#97E8A9] md:bottom-0 md:left-2/4 md:top-0" />
+        <div className="absolute left-0 right-0 top-2/4  border-[3px] border-solid border-[#97E8A9] md:bottom-0 md:left-2/4 md:top-0" />
 
         {/* center circle */}
         <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
@@ -136,3 +136,32 @@ export default function Gameboard(props: Props) {
     </div>
   );
 }
+
+//   {/* 2) placeholder on bench with no position name , only card */}
+//   <div
+//     ref={setNodeRef}
+//     className={classNames(
+//       getCardSizeClassnames("sm"),
+//       "z-10 flex items-center justify-center rounded-lg bg-[#71CD87] "
+//     )}
+//   >
+//     {playerPositions?.[id] ? (
+//       <DraggableCard
+//         id={playerPositions[id]?.id}
+//         data={playerPositions[id]}
+//       >
+//         <Card {...playerPositions[id]} />
+//       </DraggableCard>
+//     ) : null}
+//   </div>
+//   {/* 1) placeholder on game field with position name */}
+//   {!playerPositions?.[id] && position ? (
+//     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#8ADD9D]">
+//       <p className="text-xs text-[#71CD87]">
+//         {position?.toUpperCase().charAt(0)}
+//       </p>
+//     </div>
+//   ) : null}
+
+//   {/* 3) placeholder with no position name , no card */}
+//   {children ? children : null}
