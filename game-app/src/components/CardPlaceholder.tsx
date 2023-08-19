@@ -33,18 +33,18 @@ export default function CardPlaceholder(props: Props) {
   return (
     <div
       className={classNames(
+        "relative z-50 flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out lg:min-h-[136px] lg:min-w-[100px] lg:p-4",
         {
           "border-white shadow-[0px_0px_10px_rgba(0,0,0)] shadow-white":
             currentHoveredPlaceholder === id,
-        },
-        "relative flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out lg:min-h-[136px] lg:min-w-[100px] lg:p-4"
+        }
       )}
     >
       <div
         ref={setNodeRef}
         className={classNames(
           getCardSizeClassnames("sm"),
-          "z-10 flex items-center justify-center rounded-lg bg-[#71CD87] "
+          "flex items-center justify-center rounded-lg bg-[#71CD87] "
         )}
       >
         {/* 1) placeholder on bench with no position name , only card */}
