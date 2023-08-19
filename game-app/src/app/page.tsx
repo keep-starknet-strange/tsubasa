@@ -15,6 +15,12 @@ import {
 import RulesModale from "../components/RulesModale";
 import { DragEndEvent } from "@dnd-kit/core";
 
+interface CardProps {
+  id: string;
+  name: string;
+  position: string;
+}
+
 export default function Home() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
 
