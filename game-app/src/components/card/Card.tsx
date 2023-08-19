@@ -1,5 +1,12 @@
 import classNames from "classnames";
 import type { CardData } from "./types";
+import type {
+  CardKind,
+  CardSize,
+  CardColor,
+  CardState,
+  CardProps,
+} from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";

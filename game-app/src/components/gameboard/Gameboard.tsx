@@ -4,15 +4,17 @@ import Image from "next/image";
 import { useState } from "react";
 import EndTurnButton from "../EndTurnButton";
 import PlayerPlaceholder from "../CardPlaceholder";
+import { ExtendedCardProps } from "@/app/page";
 
 interface Props {
-  playerPositions: object;
+  playerPositions: Record<string, ExtendedCardProps | null>;
+  currentHoveredPlaceholder: string | undefined;
 }
 
 export default function Gameboard(props: Props) {
   const [isWaiting, setIsWaiting] = useState(false);
 
-  const { playerPositions } = props;
+  const { playerPositions, currentHoveredPlaceholder } = props;
   return (
     <div className="h-screen max-h-96 w-full md:m-auto md:h-[645px] md:max-h-[645px] md:w-11/12 md:max-w-[1296px]">
       {/* field */}
@@ -26,12 +28,13 @@ export default function Gameboard(props: Props) {
         {/* left / bottom penalty box */}
         <div className="absolute bottom-0 left-2/4 -translate-x-2/4 md:bottom-auto md:left-0 md:top-2/4 md:-translate-x-0 md:-translate-y-2/4">
           {/* goal boxes */}
-          <div className="relative z-20 h-12 w-32 rounded-t-xl border-[3px]  border-b-0  border-solid border-[#97E8A9]	 bg-[#8ADD9D] md:h-96 md:w-24 md:rounded-r-xl md:rounded-t-none md:border-b-[3px] md:border-l-0" />
+          <div className="relative z-20 h-12 w-32 rounded-t-xl border-[3px]  border-b-0  border-solid border-[#97E8A9]	 bg-[#8ADD9D] md:h-96 md:w-24 md:rounded-l-none md:rounded-r-xl md:border-b-[3px] md:border-l-0" />
           {/* goal circle */}
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:translate-x-0 md:translate-y-1/2" />
           {/* goalkeeper position */}
           <div className="absolute bottom-2 left-1/2 z-30 -translate-x-1/2 md:bottom-1/2 md:left-2 md:translate-x-0 md:translate-y-1/2">
             <PlayerPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-1"
               position="goalkeeper"
               playerPositions={playerPositions}
@@ -40,8 +43,9 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* defender position */}
-        <div className="absolute left-8 top-12 z-30 md:left-[12.5%] md:top-1/4">
+        <div className="absolute left-8 top-12 z-30 md:bottom-1/4 md:left-[12.5%] md:top-auto">
           <PlayerPlaceholder
+            currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="defender-1"
             position="defender"
             playerPositions={playerPositions}
@@ -49,8 +53,9 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* midfielder position */}
-        <div className="absolute bottom-20 right-8 z-30 md:bottom-1/4 md:left-[22%] md:right-auto">
+        <div className="absolute bottom-20 right-8 z-30 md:bottom-auto md:left-[22%] md:right-auto md:top-1/4">
           <PlayerPlaceholder
+            currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="midfielder-1"
             position="midfielder"
             playerPositions={playerPositions}
@@ -60,6 +65,7 @@ export default function Gameboard(props: Props) {
         {/* forward position */}
         <div className="absolute bottom-1/4 left-1/2 z-30 -translate-x-1/2 -translate-y-1 md:bottom-2/4 md:left-[40%] md:-translate-x-1/2 md:translate-y-1/2 ">
           <PlayerPlaceholder
+            currentHoveredPlaceholder={currentHoveredPlaceholder}
             id="forward-1"
             position="forward"
             playerPositions={playerPositions}
@@ -84,8 +90,9 @@ export default function Gameboard(props: Props) {
           </div>
 
           {/* defender position */}
-          <div className="absolute bottom-12 left-8 z-30 md:left-auto md:right-[12.5%] md:top-1/4 ">
+          <div className="absolute bottom-12 left-8 z-30 md:bottom-1/4 md:left-auto md:right-[12.5%] ">
             <PlayerPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="defender-2"
               position="defender"
               playerPositions={playerPositions}
@@ -93,8 +100,9 @@ export default function Gameboard(props: Props) {
           </div>
 
           {/* midfielder position */}
-          <div className="absolute right-8 top-20 z-30  md:bottom-1/4 md:left-auto md:right-[22%] md:top-auto">
+          <div className="absolute right-8 top-20 z-30  md:left-auto md:right-[22%] md:top-1/4 ">
             <PlayerPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="midfielder-2"
               position="midfielder"
               playerPositions={playerPositions}
@@ -104,6 +112,7 @@ export default function Gameboard(props: Props) {
           {/* forward position */}
           <div className="absolute left-1/2 top-1/4 z-30 -translate-x-1/2 translate-y-1  md:left-auto md:right-[40%] md:top-2/4 md:-translate-y-1/2 md:translate-x-1/2">
             <PlayerPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="forward-2"
               position="forward"
               playerPositions={playerPositions}
