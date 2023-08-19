@@ -3,7 +3,7 @@
 import { DndContext, DragEndEvent, pointerWithin } from "@dnd-kit/core";
 import PlayerBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
-import Gameboard from "./components/Gameboard/Gameboard";
+import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
 import { useEffect, useState } from "react";
 
