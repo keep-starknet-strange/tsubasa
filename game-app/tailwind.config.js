@@ -30,6 +30,7 @@ module.exports = {
       },
     },
     colors: {
+      transparent: "transparent",
       lightBlue: "#B6DAFB",
       red: "#E24A4A",
       black: "#222222",

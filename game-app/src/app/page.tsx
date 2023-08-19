@@ -1,54 +1,96 @@
 "use client";
 
-import { DndContext, DragEndEvent, pointerWithin } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverEvent,
+  pointerWithin,
+} from "@dnd-kit/core";
 import PlayerBench from "./components/CardBench";
 import ConnectButton from "./components/ConnectButton";
 import Gameboard from "./components/gameboard/Gameboard";
 import Scoreboard from "./components/Scoreboard";
 import { useEffect, useState } from "react";
+import useWindowDimensions from "./hooks/useWindowDimensions";
+import { CardProps, CardSize } from "./components/card/types";
 
-interface CardProps {
+export interface ExtendedCardProps extends CardProps {
   id: string;
-  name: string;
-  position: string;
 }
 
 export default function Home() {
   // store number of players in bench
-  const [playersInBench, setPlayersInBench] = useState<CardProps[]>([
+  const { width, height } = useWindowDimensions();
+  const [cardSize, setCardSize] = useState<CardSize>("sm");
+  const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
+    useState<string>("");
+  const [playersInBench, setPlayersInBench] = useState<ExtendedCardProps[]>([
     {
-      id: "Ayush",
-      name: "Ayush",
-      position: "Goalkeeper",
+      id: "player-1",
+      kind: "card",
+      player: "1",
+      captain: true,
+      dribble: 1,
+      energy: 1,
+      size: cardSize,
+      stamina: 7,
+      color: "yellow",
+      hover: false,
     },
     {
-      id: "Lucas",
-      name: "Lucas",
-      position: "Forward",
+      id: "player-2",
+      kind: "card",
+      player: "1",
+      captain: true,
+      dribble: 1,
+      energy: 1,
+      size: cardSize,
+      stamina: 7,
+      color: "yellow",
+      hover: false,
     },
     {
-      id: "Yohan",
-      name: "Yohan",
-      position: "Midfielder",
+      id: "player-3",
+      kind: "card",
+      player: "1",
+      captain: true,
+      dribble: 1,
+      energy: 1,
+      size: cardSize,
+      stamina: 7,
+      color: "yellow",
+      hover: false,
     },
     {
-      id: "Click",
-      name: "Click",
-      position: "Defender",
+      id: "player-4",
+      kind: "card",
+      player: "1",
+      captain: true,
+      dribble: 1,
+      energy: 1,
+      size: cardSize,
+      stamina: 7,
+      color: "yellow",
+      hover: false,
     },
   ]);
 
   // store map of players on gameboard
   const [playerPositions, setPlayerPositions] = useState<
-    Record<string, CardProps | null>
+    Record<string, ExtendedCardProps | null>
   >({});
+
+  const onDragOver = (e: DragOverEvent) => {
+    setCurrentHoveredPlaceholder(e.over?.id);
+  };
 
   // handle drag interactions
   const onDragEnd = (e: DragEndEvent) => {
     // return if no valid droppable position
+
     if (!e.over) return;
 
-    const currentSelectedCard = e?.active?.data?.current as CardProps;
+    const currentSelectedCard = e?.active?.data?.current as ExtendedCardProps;
     const currentDropContainer = e?.over?.id;
 
     // if player is placed on bench
@@ -89,7 +131,7 @@ export default function Home() {
       return;
     }
 
-    // if player is not placed on bench
+    // if player is placed on gameboard
 
     // flag to check if valid position chosen by user
     let isValidPosition = false;
@@ -131,8 +173,18 @@ export default function Home() {
       setPlayersInBench((prev) =>
         prev.filter((eachItem) => eachItem.id !== currentSelectedCard?.id)
       );
+      setCurrentHoveredPlaceholder("");
     }
   };
+
+  // TODO: fix card size
+  useEffect(() => {
+    if (width < 1024 && cardSize !== "sm") {
+      setCardSize("sm");
+    } else if (width >= 1024 && cardSize !== "md") {
+      setCardSize("md");
+    }
+  }, [width]);
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
@@ -142,13 +194,20 @@ export default function Home() {
         </div>
       </div>
       <div className="flex h-full w-screen flex-1 flex-col">
-        <DndContext collisionDetection={pointerWithin} onDragEnd={onDragEnd}>
+        <DndContext
+          collisionDetection={pointerWithin}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
           <div className="my-auto h-full w-full flex-1 md:relative md:flex md:items-center md:justify-center ">
             <div className="z-10 m-2 mx-auto w-max md:absolute md:left-1/2 md:top-0 md:m-0 md:-translate-x-1/2">
               <Scoreboard />
             </div>
-            <Gameboard playerPositions={playerPositions} />
-            <div className="z-10 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
+            <Gameboard
+              playerPositions={playerPositions}
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
+            />
+            <div className="z-50 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
               <PlayerBench playersInBench={playersInBench} />
             </div>
           </div>
