@@ -17,10 +17,10 @@ export const CardStory: Story = {
     hover: false,
     captain: false,
     size: "xl",
-    pending: false,
     dribble: 1,
     stamina: 3,
     energy: 1,
     kind: "card",
+    state: "standard",
   },
 };
