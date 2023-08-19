@@ -14,8 +14,8 @@ interface CardProps {
 /*
 three conditions in which card placeholder is used
 - placeholder on game field with position name
-- placeholder on bench with no position only card
-- placeholder with no position , no card
+- placeholder on bench with no position name , only card
+- placeholder with no position name , no card
 */
 
 export default function PlayerPlaceholder(props: CardProps) {
