@@ -13,7 +13,6 @@ import {
 } from "../components/icons";
 
 import RulesModale from "../components/RulesModale";
-import { DragEndEvent } from "@dnd-kit/core";
 
 export default function Home() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);

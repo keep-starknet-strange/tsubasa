@@ -31,7 +31,6 @@ export default function CardPlaceholder(props: Props) {
   const { setNodeRef } = useDroppable({
     id: id,
   });
-
   return (
     <div
       className={classNames(
