@@ -7,7 +7,7 @@ import { CSS } from "@dnd-kit/utilities";
 export default function Card() {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: "unique-id",
-  });
+});
   const style = {
     transform: CSS.Transform.toString(transform),
   };

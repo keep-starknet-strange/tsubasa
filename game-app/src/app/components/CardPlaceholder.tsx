@@ -11,12 +11,9 @@ interface CardProps {
 
 export default function PlayerPlaceholder(props: CardProps) {
   const { position, children } = props;
-  const { setNodeRef, isOver } = useDroppable({
-    id: "wohoooooo",
+  const { setNodeRef, isOver, over } = useDroppable({
+    id: position,
   });
-  useEffect(() => {
-    console.log({ isOver });
-  }, [isOver]);
 
   return (
     // TODO: Extract colors to the Tailwind theme once properly defined
