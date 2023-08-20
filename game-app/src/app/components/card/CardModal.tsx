@@ -3,6 +3,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CardModalContent from "./CardModalContent";
+import Image from "next/image";
 
 export default function CardModal() {
   const [open, setOpen] = useState(true);
@@ -33,16 +34,16 @@ export default function CardModal() {
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <Dialog.Panel className="h-full w-full transform overflow-auto p-10 transition-all">
-              <div className="relative">
+              <div className="relative h-full w-full">
                 <div className="absolute right-0 top-0">
-                  <button
-                    type="button"
-                    className="focus:ring-indigo-500 rounded-md px-4 text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  <Image
+                    className="cursor-pointer"
                     onClick={() => setOpen(false)}
-                  >
-                    Close
-                    {/* <XMarkIcon className="h-6 w-6" aria-hidden="true" /> */}
-                  </button>
+                    src="/images/icons/close.svg"
+                    width={32}
+                    height={32}
+                    alt="close"
+                  />
                 </div>
                 <CardModalContent
                   dribble={1}
@@ -50,6 +51,8 @@ export default function CardModal() {
                   position="Forward"
                   stamina={2}
                   team="Cairo"
+                  size="xl"
+                  color="yellow"
                 />
               </div>
             </Dialog.Panel>
