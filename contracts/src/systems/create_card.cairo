@@ -18,23 +18,24 @@ mod create_card_system {
     fn execute(
         ctx: Context,
         token_id: felt252,
-        dribble: felt252,
-        defense: felt252,
-        cost: felt252,
-        role: Roles
-    ) { //TO-DO: add cost parameter,is capitain
+        dribble: u8,
+        defense: u8,
+        cost: u8,
+        role: Roles,
+        is_captain: bool
+    ) {
         let mut value = Roles::Attacker;
 
         set!(
             ctx.world, Card {
                 token_id: token_id.into(),
-                dribble: dribble.try_into().unwrap(),
-                current_dribble: dribble.try_into().unwrap(),
-                defense: defense.try_into().unwrap(),
-                current_defense: defense.try_into().unwrap(),
-                cost: cost.try_into().unwrap(),
+                dribble: dribble,
+                current_dribble: dribble,
+                defense: defense,
+                current_defense: defense,
+                cost: cost,
                 role: role,
-                is_captain: false
+                is_captain: is_captain
             }
         );
         let mut token_idz: u256 = token_id.into();
