@@ -8,6 +8,7 @@ import Image from "next/image";
 interface CardModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  addToDeck?: () => Promise<void>;
 }
 
 export default function CardModal(props: CardModalProps) {
@@ -60,7 +61,7 @@ export default function CardModal(props: CardModalProps) {
                   team="Cairo"
                   size="xl"
                   color="yellow"
-                  addToDeck={async () => {}}
+                  addToDeck={props.addToDeck}
                 />
               </div>
             </Dialog.Panel>

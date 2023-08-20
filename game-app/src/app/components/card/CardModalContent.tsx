@@ -84,7 +84,11 @@ const CardModalContent = ({
 
           <div className="mt-10 flex">
             {addToDeck && (
-              <Button className="w-full" onClick={addToDeck} variant="primary">
+              <Button
+                className="w-full"
+                onClick={() => addToDeck()}
+                variant="primary"
+              >
                 Add to deck
               </Button>
             )}

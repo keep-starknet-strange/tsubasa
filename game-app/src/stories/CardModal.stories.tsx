@@ -10,8 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-let open = false;
-
 export const CardModalStory: Story = {
   args: {
     open: true,
