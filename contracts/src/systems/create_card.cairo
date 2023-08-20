@@ -7,14 +7,10 @@ mod create_card_system {
     use traits::Into;
     use dojo::world::Context;
     use starknet::ContractAddress;
-    use tsubasa::components::{Game, Card};
-    use array::{ArrayTrait};
-    use tsubasa::components::Roles;
+    use tsubasa::components::{Game,Roles, Card};
     use option::{Option, OptionTrait};
-    use traits::TryInto;
-    use debug::PrintTrait;
 
-    //This part is for test prupose
+
     fn execute(
         ctx: Context,
         token_id: felt252,
@@ -24,8 +20,6 @@ mod create_card_system {
         role: Roles,
         is_captain: bool
     ) {
-        let mut value = Roles::Attacker;
-
         set!(
             ctx.world, Card {
                 token_id: token_id.into(),
@@ -38,8 +32,5 @@ mod create_card_system {
                 is_captain: is_captain
             }
         );
-        let mut token_idz: u256 = token_id.into();
-        let card = get!(ctx.world, token_idz, Card);
-        card.defense.print();
     }
 }
