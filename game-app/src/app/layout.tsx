@@ -57,6 +57,17 @@ const ericaoneFont = localFont({
   variable: "--font-erica-one",
 });
 
+const adieuFont = localFont({
+  src: [
+    {
+      path: "../fonts/Adieu/Adieu-Regular.ttf",
+      style: "normal",
+      weight: "400",
+    },
+  ],
+  variable: "--font-adieu",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -65,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
+        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable} ${adieuFont.variable}`}
       >
         <Providers>{children}</Providers>
       </body>
