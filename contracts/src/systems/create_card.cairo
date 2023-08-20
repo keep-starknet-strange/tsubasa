@@ -16,13 +16,14 @@ mod create_card_system {
 
     //This part is for test prupose
     fn execute(
-        ctx: Context, token_id: felt252, dribble: felt252, defense: felt252,cost:felt252,role: felt252
+        ctx: Context,
+        token_id: felt252,
+        dribble: felt252,
+        defense: felt252,
+        cost: felt252,
+        role: Roles
     ) { //TO-DO: add cost parameter,is capitain
         let mut value = Roles::Attacker;
-        match role { // Actually the match support only 0 and _ (cairo dosn't support the 1,2.. yet)
-            0 => value = Roles::Attacker,
-            _ => value = Roles::Midfielder,
-        }
 
         set!(
             ctx.world, Card {
@@ -32,7 +33,7 @@ mod create_card_system {
                 defense: defense.try_into().unwrap(),
                 current_defense: defense.try_into().unwrap(),
                 cost: cost.try_into().unwrap(),
-                role: value,
+                role: role,
                 is_captain: false
             }
         );

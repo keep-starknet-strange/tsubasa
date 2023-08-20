@@ -1,6 +1,7 @@
 use starknet::ContractAddress;
 use debug::PrintTrait;
 use option::{Option, OptionTrait};
+use core::traits::TryInto;
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -39,6 +40,18 @@ impl RolesSerdeLen of dojo::SerdeLen<Roles> {
         2
     }
 }
+
+// impl RolePrint of dojo::Roles {
+//     #[inline(always)]
+//     fn returnRole(self: Role) {
+//         match self {
+//             Roles::Goalkeeper => 'Goalkeeper'.print(),
+//             Roles::Defender => 'Defender'.print(),
+//             Roles::Midfielder => 'Midfielder'.print(),
+//             Roles::Attacker => 'Attacker'.print(),
+//         }
+//     }
+// }
 
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
