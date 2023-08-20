@@ -4,6 +4,7 @@ import { CardColor, CardSize } from "./types";
 import { getCardSizeClassnames } from "./utils";
 import { DribbleIcon, StaminaIcon } from "../icons";
 import Image from "next/image";
+import Button from "../Button";
 
 interface CardModalContentProps {
   team: string;
@@ -13,6 +14,7 @@ interface CardModalContentProps {
   name: string;
   size: CardSize;
   color: CardColor;
+  addToDeck?: () => Promise<void>;
 }
 
 const cardSize = "xl";
@@ -24,6 +26,7 @@ const CardModalContent = ({
   stamina,
   name,
   color,
+  addToDeck,
 }: CardModalContentProps) => {
   return (
     <div className=" flex h-full w-full items-center justify-center text-white">
@@ -77,6 +80,14 @@ const CardModalContent = ({
               </div>
             </div>
             <div className="text-right font-bold">{stamina}</div>
+          </div>
+
+          <div className="mt-10 flex">
+            {addToDeck && (
+              <Button className="w-full" onClick={addToDeck} variant="primary">
+                Add to deck
+              </Button>
+            )}
           </div>
         </div>
       </div>

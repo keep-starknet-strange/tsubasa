@@ -1,16 +1,23 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CardModalContent from "./CardModalContent";
 import Image from "next/image";
 
-export default function CardModal() {
-  const [open, setOpen] = useState(true);
+interface CardModalProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
 
+export default function CardModal(props: CardModalProps) {
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-20" onClose={() => {}}>
+    <Transition.Root show={props.open} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-20"
+        onClose={(value) => props.setOpen(value)}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,7 +45,7 @@ export default function CardModal() {
                 <div className="absolute right-0 top-0">
                   <Image
                     className="cursor-pointer"
-                    onClick={() => setOpen(false)}
+                    onClick={() => props.setOpen(false)}
                     src="/images/icons/close.svg"
                     width={32}
                     height={32}
@@ -53,6 +60,7 @@ export default function CardModal() {
                   team="Cairo"
                   size="xl"
                   color="yellow"
+                  addToDeck={async () => {}}
                 />
               </div>
             </Dialog.Panel>

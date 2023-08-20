@@ -2,7 +2,7 @@ import Button from "../app/components/Button";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Button",
+  title: "Buttons/Primary Button",
   component: Button,
   parameters: {},
 } satisfies Meta<typeof Button>;
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const ButtonStory: Story = {
   args: {
-    text: "End Turn",
+    children: "End Turn",
     variant: "primary",
   },
 };
