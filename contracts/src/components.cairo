@@ -60,6 +60,25 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
+#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+struct Player {
+    #[key]
+    game_id: felt252,
+    #[key]
+    player: ContractAddress,
+    goalkeeper: Option<Placement>,
+    defender: Option<Placement>,
+    midfielder: Option<Placement>,
+    attacker: Option<Placement>,
+    remaining_energy: u128
+}
+
+#[derive(Drop, Copy, Serde)]
+enum Placement {
+    Side: u256,
+    Field: u256
+}
+
 #[derive(Component, Copy, Drop, Serde)]
 enum Outcome {
     Player1: ContractAddress,
@@ -67,21 +86,20 @@ enum Outcome {
     Draw: bool,
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
-struct Energy {
-    #[key]
-    game_id: felt252,
-    #[key]
-    player: ContractAddress,
-    /// The remaining energy of the player in a turn.
-    remaining: u128,
-}
-
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
         // 1 (variant id size) + 1 (value contained by the variant)
         2
+    }
+}
+
+
+impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
+    #[inline(always)]
+    fn len() -> usize {
+        // 1 (variant id size) + 2 (value contained by the variant)
+        3
     }
 }
 
@@ -123,3 +141,19 @@ impl RolesPrint of debug::PrintTrait<Roles> {
     }
 }
 
+#[cfg(test)]
+impl PlacementPrint of debug::PrintTrait<Option<Placement>> {
+    fn print(self: Option<Placement>) {
+        match self {
+            Option::Some(val) => match val {
+                Placement::Side(card_id) => {
+                    ('Side '.print(), card_id.print());
+                },
+                Placement::Field(card_id) => {
+                    ('Field '.print(), card_id.print());
+                },
+            },
+            Option::None => 'None'.print(),
+        }
+    }
+}
