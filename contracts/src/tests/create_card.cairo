@@ -17,7 +17,6 @@ fn test_create_card() {
 
     let world = spawn_world();
 
-    //Create Card For test prupose
     let mut create_card_calldata = array![];
     create_card_calldata.append(1); //Token_id
     create_card_calldata.append(22); //Dribble
