@@ -18,7 +18,7 @@ fn test_create_card() {
     let world = spawn_world();
 
     //Create Card For test prupose
-    let mut create_card_calldata: Array = ArrayTrait::new();
+    let mut create_card_calldata = array![];
     create_card_calldata.append(1); //Token_id
     create_card_calldata.append(22); //Dribble
     create_card_calldata.append(17); //Defense
@@ -28,7 +28,7 @@ fn test_create_card() {
 
     world.execute('create_card_system', create_card_calldata);
 
-    let mut create_card_calldata_player2: Array<felt252> = ArrayTrait::new();
+    let mut create_card_calldata_player2 = array![];
     create_card_calldata_player2.append(2); //Token_id
     create_card_calldata_player2.append(10); //Dribble
     create_card_calldata_player2.append(15); //Defense
