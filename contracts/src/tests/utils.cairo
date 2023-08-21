@@ -9,6 +9,8 @@ use tsubasa::components::{Card, card, Game, game};
 use tsubasa::systems::place_card_system;
 use tsubasa::systems::attack_system;
 use tsubasa::systems::create_game_system;
+use tsubasa::systems::create_card_system;
+
 use tsubasa::systems::end_turn_system;
 
 
@@ -23,6 +25,7 @@ fn spawn_world() -> IWorldDispatcher {
         place_card_system::TEST_CLASS_HASH,
         attack_system::TEST_CLASS_HASH,
         end_turn_system::TEST_CLASS_HASH,
+        create_card_system::TEST_CLASS_HASH,
     ];
 
     // deploy executor, world and register components/systems

@@ -25,7 +25,7 @@ struct Card {
 }
 
 /// Available roles for cards
-#[derive(Copy, Drop, Serde)]
+#[derive(Copy, PartialEq, Drop, Serde)]
 enum Roles {
     Goalkeeper,
     Defender,
