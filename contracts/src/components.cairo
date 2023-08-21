@@ -1,7 +1,6 @@
 use starknet::ContractAddress;
 use debug::PrintTrait;
 use option::{Option, OptionTrait};
-use core::traits::TryInto;
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -37,7 +36,7 @@ enum Roles {
 impl RolesSerdeLen of dojo::SerdeLen<Roles> {
     #[inline(always)]
     fn len() -> usize {
-        2
+        1
     }
 }
 

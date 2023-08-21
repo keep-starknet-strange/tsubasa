@@ -1,14 +1,8 @@
-#[derive(Copy, Drop, Serde)]
-use tsubasa::components::Roles;
-
-
 #[system]
 mod create_card_system {
     use traits::Into;
     use dojo::world::Context;
-    use starknet::ContractAddress;
     use tsubasa::components::{Game,Roles, Card};
-    use option::{Option, OptionTrait};
 
 
     fn execute(
