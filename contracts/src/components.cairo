@@ -25,7 +25,7 @@ struct Card {
 }
 
 /// Available roles for cards
-#[derive(Copy, Drop, Serde)]
+#[derive(Copy,PartialEq, Drop, Serde)]
 enum Roles {
     Goalkeeper,
     Defender,
@@ -39,7 +39,6 @@ impl RolesSerdeLen of dojo::SerdeLen<Roles> {
         1
     }
 }
-
 
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
