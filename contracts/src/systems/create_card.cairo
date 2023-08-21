@@ -2,7 +2,7 @@
 mod create_card_system {
     use traits::Into;
     use dojo::world::Context;
-    use tsubasa::components::{Game,Roles,Card};
+    use tsubasa::components::{Game, Roles, Card};
 
     /// Creates a card.
     ///
