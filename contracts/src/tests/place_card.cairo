@@ -27,11 +27,8 @@ fn test_place_card() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(1); // Roles::Defender
+    /// card_id.low, card_id.high, Roles::Defender
+    let place_card_calldata = array![game_id, 1, 0, 1];
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 1, 'energy should be 1');
@@ -69,11 +66,8 @@ fn test_place_card_overflow() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(1); // Roles::Defender
+    /// card_id.low, card_id.high, Roles::Defender
+    let place_card_calldata = array![game_id, 1, 0, 1];
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 1, 'energy should be 1');
@@ -98,11 +92,8 @@ fn test_place_card_on_its_role() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(3); // Roles::Attacker
+    /// card_id.low, card_id.high, Roles::Attacker
+    let place_card_calldata = array![game_id, 1, 0, 3];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -132,11 +123,8 @@ fn test_place_card_not_on_its_role() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(0); // Roles::Goalkeeper
+    /// card_id.low, card_id.high, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -166,11 +154,8 @@ fn test_place_card_is_not_captain() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(0); // Roles::Goalkeeper
+    /// card_id.low, card_id.high, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -200,11 +185,8 @@ fn test_place_card_is_captain() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    let mut place_card_calldata: Array = Default::default();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(1); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(0); // Roles::Goalkeeper
+    /// card_id.low, card_id.high, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
