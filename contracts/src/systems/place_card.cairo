@@ -26,57 +26,28 @@ mod place_card_system {
         let mut card = get!(ctx.world, (card_id), Card);
         assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
 
-        let mut is_on_its_role = false;
-        match position {
+        let mut is_on_its_role = match position {
             Roles::Goalkeeper => {
                 assert(player.goalkeeper.is_none(), 'Goalkeeper already placed');
                 player.goalkeeper = Option::Some(Placement::Side(card_id));
-                match card.role {
-                    Roles::Goalkeeper => {
-                        is_on_its_role = true;
-                    },
-                    Roles::Defender => (),
-                    Roles::Midfielder => (),
-                    Roles::Attacker => (),
-                }
+                card.role == Roles::Goalkeeper
             },
             Roles::Defender => {
                 assert(player.defender.is_none(), 'Defender already placed');
                 player.defender = Option::Some(Placement::Side(card_id));
-                match card.role {
-                    Roles::Goalkeeper => (),
-                    Roles::Defender => {
-                        is_on_its_role = true;
-                    },
-                    Roles::Midfielder => (),
-                    Roles::Attacker => (),
-                }
+                card.role == Roles::Defender
             },
             Roles::Midfielder => {
                 assert(player.midfielder.is_none(), 'Midfielder already placed');
                 player.midfielder = Option::Some(Placement::Side(card_id));
-                match card.role {
-                    Roles::Goalkeeper => (),
-                    Roles::Defender => (),
-                    Roles::Midfielder => {
-                        is_on_its_role = true;
-                    },
-                    Roles::Attacker => (),
-                }
+                card.role == Roles::Midfielder
             },
             Roles::Attacker => {
                 assert(player.attacker.is_none(), 'Attacker already placed');
                 player.attacker = Option::Some(Placement::Side(card_id));
-                match card.role {
-                    Roles::Goalkeeper => (),
-                    Roles::Defender => (),
-                    Roles::Midfielder => (),
-                    Roles::Attacker => {
-                        is_on_its_role = true;
-                    },
-                }
+                card.role == Roles::Attacker
             }
-        }
+        };
 
         if (is_on_its_role) {
             card.current_dribble += 1;
