@@ -40,17 +40,6 @@ impl RolesSerdeLen of dojo::SerdeLen<Roles> {
     }
 }
 
-// impl RolePrint of dojo::Roles {
-//     #[inline(always)]
-//     fn returnRole(self: Role) {
-//         match self {
-//             Roles::Goalkeeper => 'Goalkeeper'.print(),
-//             Roles::Defender => 'Defender'.print(),
-//             Roles::Midfielder => 'Midfielder'.print(),
-//             Roles::Attacker => 'Attacker'.print(),
-//         }
-//     }
-// }
 
 /// Represents a game. As long as the winner is `None` the game isn't considered as finished.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
