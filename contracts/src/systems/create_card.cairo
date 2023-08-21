@@ -5,13 +5,16 @@ mod create_card_system {
     use tsubasa::components::{Game,Roles,Card};
 
     /// Creates a card.
-    /// *`ctx` - Dojo context.
-    /// * `token_id: The NFT token ID of the card being created.
-    /// * `dribble`: The dribble stat of the card being created.
-    /// *`defense`: The defense stat of the card being created.
-    /// *`cost`: The cost of the card being created.
-    /// *`role`: The role of the card being created.
-    /// *`is_captain`: Whether the card being created is the captain.
+    ///
+    /// # Arguments
+    ///
+    /// * `ctx` - Dojo context.
+    /// * `token_id - The NFT token ID of the card being created.
+    /// * `dribble` - The dribble stat of the card being created.
+    /// * `defense` - The defense stat of the card being created.
+    /// * `cost` - The cost of the card being created.
+    /// * `role` - The role of the card being created.
+    /// * `is_captain` - Whether the card being created is the captain.
     fn execute(
         ctx: Context,
         token_id: felt252,

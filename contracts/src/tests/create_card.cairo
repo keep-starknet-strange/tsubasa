@@ -17,7 +17,7 @@ fn test_create_card() {
 
     let world = spawn_world();
 
-    //Token_id/Dribble/Defense/Cost/Role 0:Goalkeeper / 1:Defender etc../is_captain 0:false - 1:true 
+    // Token_id, Dribble, Defense, Cost, Role
     let mut create_card_calldata = array![1, 22, 17, 10, 3, 1];
     world.execute('create_card_system', create_card_calldata);
 
