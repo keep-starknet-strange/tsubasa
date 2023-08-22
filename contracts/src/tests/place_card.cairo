@@ -27,7 +27,7 @@ fn test_place_card() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Defender
+    // card_id.low, card_id.high, Roles::Defender
     let place_card_calldata = array![game_id, 1, 0, 1];
     let player = get!(world, (game_id, player1), Player);
 
@@ -66,7 +66,7 @@ fn test_place_card_overflow() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Defender
+    // card_id.low, card_id.high, Roles::Defender
     let place_card_calldata = array![game_id, 1, 0, 1];
     let player = get!(world, (game_id, player1), Player);
 
@@ -92,7 +92,7 @@ fn test_place_card_on_its_role() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Attacker
+    // card_id.low, card_id.high, Roles::Attacker
     let place_card_calldata = array![game_id, 1, 0, 3];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
@@ -123,7 +123,7 @@ fn test_place_card_not_on_its_role() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Goalkeeper
+    // card_id.low, card_id.high, Roles::Goalkeeper
     let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
@@ -154,7 +154,7 @@ fn test_place_card_is_not_captain() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Goalkeeper
+    // card_id.low, card_id.high, Roles::Goalkeeper
     let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
@@ -185,7 +185,7 @@ fn test_place_card_is_captain() {
     };
     set!(world, (card));
     set_caller_address(player1);
-    /// card_id.low, card_id.high, Roles::Goalkeeper
+    // card_id.low, card_id.high, Roles::Goalkeeper
     let place_card_calldata = array![game_id, 1, 0, 0];
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
