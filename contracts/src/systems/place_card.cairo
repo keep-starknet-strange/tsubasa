@@ -26,7 +26,7 @@ mod place_card_system {
         let mut card = get!(ctx.world, (card_id), Card);
         assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
 
-        let mut is_on_its_role = match position {
+        let is_on_its_role = match position {
             Roles::Goalkeeper => {
                 assert(player.goalkeeper.is_none(), 'Goalkeeper already placed');
                 player.goalkeeper = Option::Some(Placement::Side(card_id));
