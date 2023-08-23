@@ -38,7 +38,7 @@ enum Roles {
 impl RolesSerdeLen of dojo::SerdeLen<Roles> {
     #[inline(always)]
     fn len() -> usize {
-        1
+        2
     }
 }
 
