@@ -2,9 +2,10 @@ use array::ArrayTrait;
 use option::{Option, OptionTrait};
 use serde::Serde;
 use starknet::ContractAddress;
-
+use starknet::testing::set_contract_address;
 use dojo::world::IWorldDispatcherTrait;
-
+use clone::Clone;
+use debug::PrintTrait;
 use tsubasa::components::{Game, Player};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world};
@@ -13,22 +14,16 @@ use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 #[available_gas(30000000)]
 fn test_end_turn() {
     let world = spawn_world();
-    let (player1, player2) = get_players();
+    let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
-
-    let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
-    place_card_calldata.append(game_id);
-    place_card_calldata.append(0); // card_id.low
-    place_card_calldata.append(0); // card_id.high
-    place_card_calldata.append(0); // Roles::Goalkeeper
+    // card_id.low, card_id.high, Roles::Goalkeeper
+    let mut place_card_calldata = array![game_id, 0, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
-    let mut attack_calldata: Array<felt252> = ArrayTrait::new();
-    attack_calldata.append(0);
+    let mut attack_calldata = array![0];
     world.execute('attack_system', attack_calldata);
 
-    let mut end_turn_calldata: Array<felt252> = ArrayTrait::new();
-    end_turn_calldata.append(game_id);
+    let end_turn_calldata = array![game_id];
     world.execute('end_turn_system', end_turn_calldata);
 
     let game = get!(world, game_id, Game);
@@ -54,3 +49,46 @@ fn test_end_turn() {
     // Check that player energy is correclty incremented at the end of each turn.
     assert(player.remaining_energy == 2, 'Wrong player energy value');
 }
+
+#[test]
+#[should_panic]
+#[available_gas(30000000)]
+fn test_end_turn_wrong_player() {
+    let world = spawn_world();
+    let (player1, player2, _) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
+    set_contract_address(player2);
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', end_turn_calldata);
+}
+
+#[test]
+#[should_panic]
+#[available_gas(30000000)]
+fn test_end_turn_right_player_then_wrong_player() {
+    let world = spawn_world();
+    let (player1, player2, _) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
+    set_contract_address(player1);
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    world.execute('end_turn_system', end_turn_calldata);
+}
+
+#[test]
+#[available_gas(30000000)]
+fn test_end_turn_right_players_twice() {
+    let world = spawn_world();
+    let (player1, player2, _) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
+    set_contract_address(player1);
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    set_contract_address(player2);
+    world.execute('end_turn_system', end_turn_calldata);
+}
+

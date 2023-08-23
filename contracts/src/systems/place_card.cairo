@@ -8,8 +8,9 @@ mod place_card_system {
 
     use dojo::world::Context;
 
-    use tsubasa::components::{Card, Roles, Placement, Player};
+    use tsubasa::components::{Card, Game, Roles, Placement, Player};
     use tsubasa::events::CardPlaced;
+    use tsubasa::systems::check_turn;
 
     /// Places a card and puts it in pending state. Deducts its energy cost from the 
     /// remaining energy of the player. Will fail if the player doesn't have enough energy
@@ -21,6 +22,8 @@ mod place_card_system {
     /// * `card_id` - The token id of the card that has to be placed.
     /// * `position` - The position at which the card will be placed
     fn execute(ctx: Context, game_id: felt252, card_id: u256, position: Roles) {
+        let game = get!(ctx.world, game_id, Game);
+        check_turn(@game, @ctx.origin);
         let game_player_key: (felt252, felt252) = (game_id, ctx.origin.into());
         let mut player = get!(ctx.world, game_player_key, Player);
         let mut card = get!(ctx.world, (card_id), Card);
