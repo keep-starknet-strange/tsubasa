@@ -109,6 +109,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "clicksave",
+      "name": "clicksave",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3332646?v=4",
+      "profile": "https://github.com/clicksave",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
