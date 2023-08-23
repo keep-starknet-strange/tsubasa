@@ -1,6 +1,8 @@
 use starknet::ContractAddress;
-use debug::PrintTrait;
 use option::{Option, OptionTrait};
+
+#[cfg(test)]
+use debug::PrintTrait;
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -25,7 +27,7 @@ struct Card {
 }
 
 /// Available roles for cards
-#[derive(Copy, Drop, Serde)]
+#[derive(Copy, PartialEq, Drop, Serde)]
 enum Roles {
     Goalkeeper,
     Defender,

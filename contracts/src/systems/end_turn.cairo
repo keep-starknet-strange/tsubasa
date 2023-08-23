@@ -3,9 +3,9 @@ mod end_turn_system {
     use array::ArrayTrait;
 
     use dojo::world::Context;
-
     use tsubasa::components::{Game, Player};
     use tsubasa::events::EndTurn;
+    use tsubasa::systems::check_turn;
 
 
     /// Ends a turn and increments the energy of the player who ended the turn.
@@ -16,8 +16,10 @@ mod end_turn_system {
     /// * `game_id` - The current game id.
     fn execute(ctx: Context, game_id: felt252) {
         let game = get!(ctx.world, game_id, Game);
+        check_turn(@game, @ctx.origin);
         set!(
-            ctx.world, Game {
+            ctx.world,
+            Game {
                 game_id,
                 player1: game.player1,
                 player2: game.player2,
