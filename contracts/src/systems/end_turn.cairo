@@ -18,8 +18,7 @@ mod end_turn_system {
         let game = get!(ctx.world, game_id, Game);
         check_turn(@game, @ctx.origin);
         set!(
-            ctx.world,
-            Game {
+            ctx.world, Game {
                 game_id,
                 player1: game.player1,
                 player2: game.player2,

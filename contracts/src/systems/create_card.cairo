@@ -25,8 +25,7 @@ mod create_card_system {
         is_captain: bool
     ) {
         set!(
-            ctx.world,
-            Card {
+            ctx.world, Card {
                 token_id: token_id.into(),
                 dribble: dribble,
                 current_dribble: dribble,

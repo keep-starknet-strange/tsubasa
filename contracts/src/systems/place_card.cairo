@@ -5,6 +5,7 @@ mod place_card_system {
     use serde::Serde;
     use starknet::ContractAddress;
     use traits::Into;
+    use debug::PrintTrait;
 
     use dojo::world::Context;
 
@@ -26,6 +27,7 @@ mod place_card_system {
         check_turn(@game, @ctx.origin);
         let game_player_key: (felt252, felt252) = (game_id, ctx.origin.into());
         let mut player = get!(ctx.world, game_player_key, Player);
+       // card_id.print();
         let mut card = get!(ctx.world, (card_id), Card);
         assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
 

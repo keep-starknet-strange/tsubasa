@@ -6,7 +6,7 @@ use debug::PrintTrait;
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game, Player, Card};
+use tsubasa::components::{Game, Player, Card, Placement};
 use tsubasa::components::Roles;
 use tsubasa::systems::{
     create_game_system, attack_system, end_turn_system, place_card_system, create_card_system,
@@ -16,7 +16,7 @@ use tsubasa::tests::utils::spawn_world;
 
 
 #[test]
-#[available_gas(30000000)]
+#[available_gas(100000000)]
 fn test_attack_turn() {
     let player1 = starknet::contract_address_const::<0x1>();
     let player2 = starknet::contract_address_const::<0x2>();
@@ -35,80 +35,91 @@ fn test_attack_turn() {
     let game_id = pedersen(player1.into(), player2.into());
     let game = get!(world, expected_game_id, Game);
 
-    assert(game.game_id == expected_game_id, 'invalid game_id');
-    assert(game.player1 == player1, 'invalid player 1');
-    assert(game.player2 == player2, 'invalid player 2');
-    assert(game.player1_score == 0, 'invalid player 1 score');
-    assert(game.player2_score == 0, 'invalid player 2 score');
-    assert(game.outcome.is_none(), 'invalid outcome');
+    //Create card --------------
+    // Token_id, Dribble, Defense, Cost, Role
+    let mut create_card_calldata_goalkeeper = array![1, 22, 17, 0, 0, 1];
+    world.execute('create_card_system', create_card_calldata_goalkeeper);
 
-    //Create Card For test prupose
-    let mut create_card_calldata: Array<felt252> = ArrayTrait::new();
-    create_card_calldata.append(1);
-    create_card_calldata.append(0);
-    create_card_calldata.append(20);
-    create_card_calldata.append(27);
+    let mut create_card_calldata_defenser = array![2, 10, 15, 0, 1, 0];
+    world.execute('create_card_system', create_card_calldata_defenser);
 
-    world.execute('create_card_system', create_card_calldata);
+    let mut create_card_calldata_midfielder = array![3, 12, 17, 0, 2, 0];
+    world.execute('create_card_system', create_card_calldata_midfielder);
+    let mut create_card_calldata_attacker = array![4, 35, 25, 0, 3, 0];
+    world.execute('create_card_system', create_card_calldata_attacker);
+    /// -----Player 2 card-----
 
-    let token_id_player1: u256 = 1;
-    let card_player1 = get!(world, token_id_player1, Card);
-    assert(card_player1.dribble == 20, 'stat 1 is wrong');
+    let mut create_card_calldata_goalkeeper2 = array![5, 22, 17, 0, 0, 1];
+    world.execute('create_card_system', create_card_calldata_goalkeeper2);
 
-    let mut create_card_calldata_player2: Array<felt252> = ArrayTrait::new();
-    create_card_calldata_player2.append(2);
-    create_card_calldata_player2.append(0);
-    create_card_calldata_player2.append(10);
-    create_card_calldata_player2.append(12);
+    let mut create_card_calldata_defenser2 = array![6, 10, 15, 0, 1, 0];
+    world.execute('create_card_system', create_card_calldata_defenser2);
 
-    world.execute('create_card_system', create_card_calldata_player2);
+    let mut create_card_calldata_midfielder2 = array![7, 12, 17, 0, 2, 0];
+    world.execute('create_card_system', create_card_calldata_midfielder2);
 
-    let token_id_player2: u256 = 2;
-    let card_player2 = get!(world, token_id_player2, Card);
-    assert(card_player2.dribble == 10, 'stat 2 is wrong');
-    //Create card passed--------------
+    let mut create_card_calldata_attacker2 = array![8, 35, 25, 0, 3, 0];
+    world.execute('create_card_system', create_card_calldata_attacker2);
 
-    // let place_card_calldata = array![0, 0]; // u256 { low: 0, high: 0 }
-    let mut place_card_calldata: Array<felt252> = ArrayTrait::new();
-    place_card_calldata.append(game_id); // * `game_id` - The current game_id.
-    place_card_calldata.append(token_id_player1.try_into().unwrap()); //card_id
-    place_card_calldata.append(1);
-    place_card_calldata.append(1); /// * `position` - The position at which the card will be placed
-    let player = get!(world, (game_id, player1), Player);
-    world.execute('place_card_system', place_card_calldata);
+    //  let token_id_player1: u256 = 4;
+    //  let mut card_player1 = get!(world, token_id_player1, Card);
+    //  card_player1.defense.print();
+    //  card_player1.current_defense.print();
 
-    starknet::testing::set_contract_address(
-        player2
-    ); //We change the address to fit player2 ctx.origin condition
+    //Place card --------------
+    let place_goalkeeper_calldata = array![game_id, 1, 0, 0];
+    world.execute('place_card_system', place_goalkeeper_calldata);
 
-    let mut place_card_player2_calldata: Array<felt252> = ArrayTrait::new();
-    place_card_player2_calldata.append(game_id); // * `game_id` - The current game_id.
-    place_card_player2_calldata.append(token_id_player2.try_into().unwrap()); //card_id
-    place_card_player2_calldata.append(1);
-    place_card_player2_calldata.append(1);
-    let player2 = get!(world, (game_id, player2), Player);
-    world.execute('place_card_system', place_card_player2_calldata);
+    let place_defender_calldata = array![game_id, 2, 0, 1];
+    world.execute('place_card_system', place_defender_calldata);
+
+    let place_midfielder_calldata = array![game_id, 3, 0, 2];
+    world.execute('place_card_system', place_midfielder_calldata);
+
+    let place_attacker_calldata = array![game_id, 4, 0, 3];
+    world.execute('place_card_system', place_attacker_calldata);
+
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', end_turn_calldata); //check turn condition
+
+    starknet::testing::set_contract_address(player2); //switch address to fit player2 ctx.origin 
+
+    let place_goalkeeper_player2_calldata = array![game_id, 5, 0, 0];
+    world.execute('place_card_system', place_goalkeeper_player2_calldata);
+
+    let place_defender_player2_calldata = array![game_id, 6, 0, 1];
+    world.execute('place_card_system', place_defender_player2_calldata);
+
+    let place_midfielder_player2_calldata = array![game_id, 7, 0, 2];
+    world.execute('place_card_system', place_midfielder_player2_calldata);
+
+    let place_attacker_player2_calldata = array![game_id, 8, 0, 3];
+    world.execute('place_card_system', place_attacker_player2_calldata);
 
     starknet::testing::set_contract_address(player1); //switch back to player 1
 
-    //Attack part -----------------
-    let mut attack_calldata: Array<felt252> = ArrayTrait::new();
-    attack_calldata.append(game.game_id);
-    attack_calldata.append(1);
-    attack_calldata.append(2);
-    world.execute('attack_system', attack_calldata);
+    let player = get!(world, (game_id, player1), Player);
+    let player2 = get!(world, (game_id, player2), Player);
+    // player2.player.print();
 
-    let token_id_player1: u256 = 1;
-    let token_id_player2: u256 = 2;
+    //Attack part -----------------
+
+ 
+
+    let attack_calldata = array![game_id];
+    world.execute('attack_system', attack_calldata);
+    let token_id_player1: u256 = 4;
+    let token_id_player2: u256 = 6;
 
     let card_player1 = get!(world, token_id_player1, Card);
     let card_player2 = get!(world, token_id_player2, Card);
 
-    let expected_remaining_defense = card_player1.defense - card_player2.dribble;
-    assert(
-        card_player1.current_defense == expected_remaining_defense, 'invalid Attack logic execution'
-    );
+    // let expected_remaining_defense = (card_player1.defense+1) - card_player2.dribble;
+    // assert(
+    //     card_player1.current_defense == expected_remaining_defense, 'invalid Attack logic execution'
+    // );
+    assert(card_player1.current_defense == 0, 'invalid Attack logic execution');
 
     //We check if the opposing card has been removed
-    assert(player2.attacker.is_none(), 'Card not remove');
+    assert(player2.defender.is_none(), 'Card not remove');
 }

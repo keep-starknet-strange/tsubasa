@@ -101,9 +101,11 @@ impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     #[inline(always)]
     fn len() -> usize {
         // 1 (variant id size) + 2 (value contained by the variant)
-        3
+        4 //<-Fix error  Player failed to deserialize
     }
 }
+
+
 
 #[cfg(test)]
 impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {

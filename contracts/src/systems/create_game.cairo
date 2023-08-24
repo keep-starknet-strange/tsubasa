@@ -21,8 +21,7 @@ mod create_game_system {
         let game_id = pedersen(player1.into(), player2.into());
 
         set!(
-            ctx.world,
-            Game {
+            ctx.world, Game {
                 game_id,
                 player1,
                 player2,
@@ -44,8 +43,7 @@ mod create_game_system {
                     midfielder: Option::None,
                     attacker: Option::None,
                     remaining_energy: 1,
-                },
-                Player {
+                    }, Player {
                     game_id,
                     player: player2,
                     goalkeeper: Option::None,

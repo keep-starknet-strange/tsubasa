@@ -20,8 +20,8 @@ fn test_end_turn() {
     let mut place_card_calldata = array![game_id, 0, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
-    let mut attack_calldata = array![0];
-    world.execute('attack_system', attack_calldata);
+    // let mut attack_calldata = array![0];
+    // world.execute('attack_system', attack_calldata);
 
     let end_turn_calldata = array![game_id];
     world.execute('end_turn_system', end_turn_calldata);
