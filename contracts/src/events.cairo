@@ -25,4 +25,3 @@ struct CardPlaced {
     card_id: u256,
     position: Roles,
 }
-

@@ -1,6 +1,5 @@
 #[system]
 mod attack_system {
-    use debug::PrintTrait;
     use dojo::world::Context;
     use tsubasa::components::Game;
 
