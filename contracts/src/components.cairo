@@ -63,6 +63,15 @@ struct Game {
 }
 
 #[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
+struct DeckCard {
+    #[key]
+    player: ContractAddress,
+    #[key]
+    card_number: u8,
+    token_id: u256
+}
+
+#[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct Player {
     #[key]
     game_id: felt252,
@@ -72,7 +81,7 @@ struct Player {
     defender: Option<Placement>,
     midfielder: Option<Placement>,
     attacker: Option<Placement>,
-    remaining_energy: u128
+    remaining_energy: u128,
 }
 #[generate_trait]
 impl GetSetPlacement of GetSetPlacementTrait {
@@ -141,7 +150,6 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
         3
     }
 }
-
 
 impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     #[inline(always)]
