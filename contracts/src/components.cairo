@@ -67,7 +67,7 @@ struct DeckCard {
     #[key]
     player: ContractAddress,
     #[key]
-    card_number: u8,
+    card_index: u8,
     token_id: u256
 }
 

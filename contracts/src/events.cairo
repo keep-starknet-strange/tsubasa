@@ -27,7 +27,8 @@ struct CardPlaced {
 }
 
 #[derive(Drop, starknet::Event)]
-struct DeckCreated {
-    game_id: felt252,
+struct CardAssignedToDeck {
     player: ContractAddress,
+    card_index: u8,
+    token_id: u256,
 }
