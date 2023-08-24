@@ -131,6 +131,7 @@ impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
     }
 }
 
+
 #[cfg(test)]
 impl RolesPrint of debug::PrintTrait<Roles> {
     fn print(self: Roles) {
