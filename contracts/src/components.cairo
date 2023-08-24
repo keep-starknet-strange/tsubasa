@@ -81,7 +81,7 @@ enum Placement {
     Field: u256
 }
 
-#[derive(Component, Copy, Drop, Serde)]
+#[derive(Component, Copy, Drop, Serde, PartialEq)]
 enum Outcome {
     Player1: ContractAddress,
     Player2: ContractAddress,
@@ -91,8 +91,8 @@ enum Outcome {
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
-        // 1 (variant id size) + 1 (value contained by the variant)
-        2
+        // 1 (option variant) + 1 (variant id size) + 1 (value contained by the variant)
+        3
     }
 }
 

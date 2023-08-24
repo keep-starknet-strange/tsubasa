@@ -13,6 +13,6 @@ fn test_attack() {
     let place_card_calldata: Array = array![game_id, 0, 0, 1];
     world.execute('place_card_system', place_card_calldata);
 
-    let attack_calldata = array![0];
+    let attack_calldata = array![game_id, 0];
     world.execute('attack_system', attack_calldata);
 }
