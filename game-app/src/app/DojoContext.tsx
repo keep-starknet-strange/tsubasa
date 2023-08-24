@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from 'react';
 import type { SetupResult } from "./dojo/setup";
-import { Account, RpcProvider } from "starknet";
+import { Account, RpcProvider, constants } from "starknet";
 import { useBurner } from "@dojoengine/create-burner";
 
 const DojoContext = createContext<SetupResult | null>(null);
@@ -22,7 +22,7 @@ export const useDojo = () => {
     const value = useContext(DojoContext);
 
     const provider = new RpcProvider({
-        nodeUrl: "http://localhost:5050",
+        nodeUrl: process.env.NEXT_PUBLIC_NODE_URL!,
     });
 
     // this can be substituted with a wallet provider
