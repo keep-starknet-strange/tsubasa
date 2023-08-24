@@ -8,19 +8,30 @@ mod assign_card_system {
 
     use dojo::world::Context;
 
-    use tsubasa::components::{Card, Roles, Placement, Player};
+    use tsubasa::components::DeckCard;
+    use tsubasa::events::CardAssignedToDeck;
 
-    /// Creates deck after the game is initialized.
+    /// Assigns a card to an index in the deck pile
     ///
     /// # Arguments
     ///
     /// * `ctx` - Dojo context.
     /// * `player` - Player who owns the deck.
-    fn execute(ctx: Context, game_id: felt252, player: ContractAddress){
-        let game_player_key: (felt252, felt252) = (game_id, player.into());
-        let mut player = get!(ctx.world, game_player_key, Player);
-        // assert(player.deck.is_none(), 'Player already has a deck');
+    /// * `token_id` - Card NFT token_id
+    /// * `card_index` - Index of the card in the pile
+    fn execute(ctx: Context, game_id: felt252, player: ContractAddress, token_id: u256, card_index: u8){
+        assert(card_index < 1, 'card index starts from 1');
+        assert(card_index > 8, 'card index ends at 8');
+        
+        set!(
+            ctx.world,
+            DeckCard {
+                player,
+                card_index,
+                token_id
+            }
+        );
 
-        // emit!(ctx.world, DeckCreated {})
+        emit!(ctx.world, CardAssignedToDeck {player, card_index, token_id});
     }
 }

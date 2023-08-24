@@ -62,6 +62,7 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
+/// Represents each card of the 8 that exists in a player's deck
 #[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct DeckCard {
     #[key]
