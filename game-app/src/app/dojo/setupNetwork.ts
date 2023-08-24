@@ -18,7 +18,7 @@ export function setupNetwork() {
 
     const contractComponents = defineContractComponents(world);
 
-    const provider = new RPCProvider(WORLD_ADDRESS);
+    const provider = new RPCProvider(WORLD_ADDRESS, process.env.NEXT_PUBLIC_NODE_URL);
 
     return {
         contractComponents,
