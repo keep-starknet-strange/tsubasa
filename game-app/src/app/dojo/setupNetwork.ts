@@ -1,8 +1,9 @@
 import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
-import { RPCProvider, Query } from "@dojoengine/core";
+import { RPCProvider } from "@dojoengine/core";
+import type { Query } from "@dojoengine/core";
 import { Account, num } from "starknet";
-import { GraphQLClient } from 'graphql-request';
+// import { GraphQLClient } from 'graphql-request';
 // import { getSdk } from '../generated/graphql';
 
 export const WORLD_ADDRESS = process.env.NEXT_PUBLIC_WORLD_ADDRESS!
@@ -11,7 +12,7 @@ export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
 export function setupNetwork() {
 
-    const client = new GraphQLClient('http://localhost:8080');
+    // const client = new GraphQLClient('http://localhost:8080');
 
     // const graphSdk = getSdk(client);
 

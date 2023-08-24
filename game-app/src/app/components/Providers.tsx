@@ -14,9 +14,9 @@ interface ProviderProps {
   children: React.ReactNode;
 }
 
-export default async function Providers({ children }: ProviderProps) {
+export default function Providers({ children }: ProviderProps) {
 
-  const setupResult = await setup();
+  const setupResult = setup();
 
   return (
 

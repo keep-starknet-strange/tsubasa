@@ -1,8 +1,8 @@
-import { SetupNetworkResult } from "./setupNetwork";
+import type { SetupNetworkResult } from "./setupNetwork";
 // import { Account, InvokeTransactionReceiptResponse, shortString } from "starknet";
 // import { EntityIndex, getComponentValue, setComponent } from "@latticexyz/recs";
 // import { uuid } from "@latticexyz/utils";
-import { ClientComponents } from "./createClientComponents";
+import type { ClientComponents } from "./createClientComponents";
 import { Account } from "starknet";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;

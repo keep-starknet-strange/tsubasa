@@ -1,5 +1,5 @@
-import { overridableComponent } from "@latticexyz/recs";
-import { SetupNetworkResult } from "./setupNetwork";
+// import { overridableComponent } from "@latticexyz/recs";
+import type { SetupNetworkResult } from "./setupNetwork";
 
 
 export type ClientComponents = ReturnType<typeof createClientComponents>;
