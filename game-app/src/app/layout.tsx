@@ -64,14 +64,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-<<<<<<< HEAD
-      <body className={`bg-green-400 text-white ${newAirportDotFont.variable}`}>
-
-=======
       <body
         className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
->>>>>>> 5307191a259773ceafe3d4772104043cbc9a9177
         <Providers>{children}</Providers>
       </body>
     </html>

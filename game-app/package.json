@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@dojoengine/core": "^0.0.15",
-    "@dojoengine/create-burner": "^0.0.1",
+    "@dojoengine/create-burner": "^0.0.3",
     "@dojoengine/react": "^0.0.3",
     "@latticexyz/recs": "^1.43.0",
     "@latticexyz/utils": "^1.43.0",

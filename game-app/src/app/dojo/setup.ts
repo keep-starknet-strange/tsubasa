@@ -4,8 +4,8 @@ import { setupNetwork } from "./setupNetwork";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
-export async function setup() {
-    const network = await setupNetwork();
+export function setup() {
+    const network = setupNetwork();
     const components = createClientComponents(network);
     const systemCalls = createSystemCalls(network, components);
     return {

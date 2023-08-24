@@ -1,7 +1,7 @@
 import { createContext, useContext, ReactNode } from "react";
 import { SetupResult } from "./dojo/setup";
-// import { useBurner } from "@dojoengine/create-burner";
 import { Account, RpcProvider } from "starknet";
+import { useBurner } from "@dojoengine/create-burner";
 
 const DojoContext = createContext<SetupResult | null>(null);
 
@@ -25,19 +25,19 @@ export const useDojo = () => {
     });
 
     // this can be substituted with a wallet provider
-    const masterAccount = new Account(provider, "import.meta.env.VITE_PUBLIC_MASTER_ADDRESS!", "import.meta.env.VITE_PUBLIC_MASTER_PRIVATE_KEY!")
+    const masterAccount = new Account(provider, process.env.NEXT_PUBLIC_MASTER_ADDRESS!, process.env.NEXT_PUBLIC_MASTER_PRIVATE_KEY!)
 
-    // const { create, list, get, account, select } = useBurner(
-    //     {
-    //         masterAccount: masterAccount,
-    //         accountClassHash: "import.meta.env.VITE_PUBLIC_ACCOUNT_CLASS_HASH!",
-    //         provider: provider
-    //     }
-    // );
+    const { create, list, get, account, select } = useBurner(
+        {
+            masterAccount: masterAccount,
+            accountClassHash: "import.meta.env.VITE_PUBLIC_ACCOUNT_CLASS_HASH!",
+            provider: provider
+        }
+    );
 
     if (!value) throw new Error("Must be used within a DojoProvider");
     return {
         setup: value,
-        // account: { create, list, get, select, account: account ? account : masterAccount }
+        account: { create, list, get, select, account: account ? account : masterAccount }
     };
 };
