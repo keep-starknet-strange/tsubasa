@@ -109,6 +109,44 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "clicksave",
+      "name": "clicksave",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3332646?v=4",
+      "profile": "https://github.com/clicksave",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "ElegantShinobi",
+      "name": "ElegantShinobi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/141261475?v=4",
+      "profile": "https://github.com/ElegantShinobi",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "Matth26",
+      "name": "Matthias",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9798638?v=4",
+      "profile": "https://github.com/Matth26",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "WhoIsNac",
+      "name": "0xNac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/90337466?v=4",
+      "profile": "https://github.com/WhoIsNac",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
