@@ -24,27 +24,35 @@ interface CreateGame extends SystemCall {
 }
 
 export function createSystemCalls(
-    { execute, contractComponents }: SetupNetworkResult,
-    { Card, Game, Player }: ClientComponents
+    { execute }: SetupNetworkResult,
+    { }: ClientComponents
 ) {
 
     // Add Systems here:
     const create_game = async ({ account, player_2_address }: CreateGame) => {
 
-        const tx = await execute(account, EntryPoints.CREATE_GAME, [player_2_address]);
-        const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+        try {
+            const tx = await execute(account, EntryPoints.CREATE_GAME, [player_2_address]);
+            const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
-        console.log(receipt)
+            console.log(receipt)
+        } catch (e) {
+            console.log(e)
+        }
 
+
+
+
+        return
     };
 
-    const create_card = async ({ }) => { };
+    // const create_card = async ({ }) => { };
 
-    const attack = async () => { }
+    // const attack = async () => { }
 
-    const end_turn = async () => { }
+    // const end_turn = async () => { }
 
-    const place_card = async () => { }
+    // const place_card = async () => { }
 
     return {
         create_game
