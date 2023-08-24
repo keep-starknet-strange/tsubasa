@@ -28,16 +28,17 @@ mod end_turn_system {
         player.remaining_energy = game.turn / 2 + 2;
         set!(ctx.world, (player));
 
-        /// End the Game
-        /// If one reached score 2, set winner 
-        let mut game_outcome = game.outcome;
-        if (game.player1_score == 2) {
-            let winner = Outcome::Player1((game.player1));
-            game_outcome = Option::Some(winner);
-        } else if (game.player2_score == 2) {
-            let winner = Outcome::Player2((game.player2));
-            game_outcome = Option::Some(winner);
-        }
+        // End the Game
+        // If one reached score 2, set winner 
+        game
+            .outcome =
+                if (game.player1_score == 2) {
+                    Option::Some(Outcome::Player1(game.player1))
+                } else if (game.player2_score == 2) {
+                    Option::Some(Outcome::Player2(game.player2))
+                } else {
+                    Option::None
+                };
 
         set!(ctx.world, (game));
     }
