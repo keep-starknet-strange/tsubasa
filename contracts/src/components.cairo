@@ -62,7 +62,7 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct Player {
     #[key]
     game_id: felt252,
@@ -102,6 +102,23 @@ impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     fn len() -> usize {
         // 1 (variant id size) + 2 (value contained by the variant)
         3
+    }
+}
+
+#[generate_trait]
+impl PlayerImpl of PlayerTrait {
+    /// Moves a card on the field if necessary.
+    #[inline(always)]
+    fn update_card_placement(ref self: Option<Placement>) {
+        self = match self {
+            Option::Some(placement) => {
+                match placement {
+                    Placement::Side(card_id) => Option::Some(Placement::Field(card_id)),
+                    Placement::Field(card_id) => Option::Some(Placement::Field(card_id)),
+                }
+            },
+            Option::None => Option::None
+        }
     }
 }
 
