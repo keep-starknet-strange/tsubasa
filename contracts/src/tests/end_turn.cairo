@@ -20,7 +20,7 @@ fn test_end_turn() {
     let mut place_card_calldata = array![game_id, 0, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
-    let mut attack_calldata = array![game_id, 0];
+    let mut attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
 
     let end_turn_calldata = array![game_id];
@@ -160,11 +160,18 @@ fn test_end_turn_with_card_on_side() {
     let place_card_calldata = array![game_id, 1, 0, 1];
     world.execute('place_card_system', place_card_calldata);
 
+    let player = get!(world, (game_id, player1), Player);
+    match player.defender {
+        Option::Some(placement) => {
+            match placement {
+                Placement::Side(id) => assert(id == 1, 'Card id should be 1'),
+                Placement::Field(_) => panic_with_felt252('Wrong Placement'),
+            }
+        },
+        Option::None => panic_with_felt252('Should be some'),
+    }
     let end_turn_calldata: Array = array![game_id];
     world.execute('end_turn_system', (@end_turn_calldata).clone());
-
-    set_contract_address(player2);
-    world.execute('end_turn_system', end_turn_calldata);
 
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
