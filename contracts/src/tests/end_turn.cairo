@@ -6,7 +6,7 @@ use starknet::testing::set_contract_address;
 use dojo::world::IWorldDispatcherTrait;
 use clone::Clone;
 use debug::PrintTrait;
-use tsubasa::components::{Game, Player, Outcome};
+use tsubasa::components::{Game, Player, Outcome, Card, Roles, Placement};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 
@@ -121,7 +121,7 @@ fn test_end_turn_right_player_then_wrong_player() {
 }
 
 #[test]
-#[available_gas(30000000)]
+#[available_gas(300000000)]
 fn test_end_turn_right_players_twice() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
@@ -137,3 +137,43 @@ fn test_end_turn_right_players_twice() {
     world.execute('end_turn_system', end_turn_calldata);
 }
 
+#[test]
+#[available_gas(30000000)]
+fn test_end_turn_with_card_on_side() {
+    let world = spawn_world();
+    let (player1, player2, executor) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
+    let card = Card {
+        token_id: 1,
+        dribble: 1,
+        current_dribble: 1,
+        defense: 2,
+        current_defense: 2,
+        cost: 1,
+        role: Roles::Goalkeeper,
+        is_captain: false
+    };
+    set_contract_address(executor);
+    set!(world, (card));
+    set_contract_address(player1);
+    // 1_u256.low, 0_u256.high, Roles::Defender
+    let place_card_calldata = array![game_id, 1, 0, 1];
+    world.execute('place_card_system', place_card_calldata);
+
+    let end_turn_calldata: Array = array![game_id];
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', end_turn_calldata);
+
+    let player = get!(world, (game_id, player1), Player);
+    match player.defender {
+        Option::Some(placement) => {
+            match placement {
+                Placement::Side(_) => panic_with_felt252('Wrong Placement'),
+                Placement::Field(id) => assert(id == 1, 'Card id should be 1'),
+            }
+        },
+        Option::None => panic_with_felt252('Should be some'),
+    }
+}
