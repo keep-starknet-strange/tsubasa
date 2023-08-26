@@ -4,20 +4,26 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CardModalContent from "./CardModalContent";
 import Image from "next/image";
+import { useCardModal } from "./CardModalContext";
 
-interface CardModalProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  addToDeck?: () => Promise<void>;
-}
+export default function CardModal() {
+  const { isOpen, hide } = useCardModal();
 
-export default function CardModal(props: CardModalProps) {
+  if (!isOpen) return null;
+
+  async function addToDeck() {
+    // TODO
+  }
   return (
-    <Transition.Root show={props.open} as={Fragment}>
+    <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-20"
-        onClose={(value) => props.setOpen(value)}
+        onClose={(value) => {
+          if (!value) {
+            hide();
+          }
+        }}
       >
         <Transition.Child
           as={Fragment}
@@ -28,7 +34,7 @@ export default function CardModal(props: CardModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black bg-opacity-80 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex text-black">
@@ -46,7 +52,7 @@ export default function CardModal(props: CardModalProps) {
                 <div className="absolute right-0 top-0">
                   <Image
                     className="cursor-pointer"
-                    onClick={() => props.setOpen(false)}
+                    onClick={hide}
                     src="/images/icons/close.svg"
                     width={32}
                     height={32}
@@ -61,7 +67,7 @@ export default function CardModal(props: CardModalProps) {
                   team="Cairo"
                   size="xl"
                   color="yellow"
-                  addToDeck={props.addToDeck}
+                  addToDeck={addToDeck}
                 />
               </div>
             </Dialog.Panel>

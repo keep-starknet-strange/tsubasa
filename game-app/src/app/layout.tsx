@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import Providers from "./components/Providers";
 import "./globals.css";
+import CardModal from "./components/card/CardModal";
 
 export const metadata: Metadata = {
   title: "Tsubasa",
@@ -78,7 +79,12 @@ export default function RootLayout({
       <body
         className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable} ${adieuFont.variable}`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <>
+            <CardModal />
+            {children}
+          </>
+        </Providers>
       </body>
     </html>
   );

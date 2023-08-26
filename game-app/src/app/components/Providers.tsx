@@ -1,7 +1,8 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { InjectedConnector, StarknetConfig } from "@starknet-react/core";
-import React from "react";
+import { CardModalProvider } from "./card/CardModalContext";
 
 const starknetConnectors = [
   new InjectedConnector({ options: { id: "braavos" } }),
@@ -9,13 +10,13 @@ const starknetConnectors = [
 ];
 
 interface ProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function Providers({ children }: ProviderProps) {
   return (
     <StarknetConfig autoConnect connectors={starknetConnectors}>
-      {children}
+      <CardModalProvider>{children}</CardModalProvider>
     </StarknetConfig>
   );
 }
