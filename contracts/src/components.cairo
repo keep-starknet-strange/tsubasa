@@ -146,8 +146,8 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
 impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     #[inline(always)]
     fn len() -> usize {
-        // 1 (variant id size) + 2 (value contained by the variant)
-        3
+        // 1 (option variant) +  1 (variant id size) + 2 (value contained by the variant)
+        4
     }
 }
 

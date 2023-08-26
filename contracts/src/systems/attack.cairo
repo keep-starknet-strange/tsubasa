@@ -47,8 +47,7 @@ mod attack_system {
         } else {
             j = 0
         };
-        set!(world, (attacker_card));
-        set!(world, (defender_card));
+        set!(world, (attacker_card, defender_card));
         false
     }
 
