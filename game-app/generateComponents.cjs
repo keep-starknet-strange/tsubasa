@@ -8,7 +8,7 @@ const path = require("path");
 const jsonFilePath = path.resolve(__dirname, "../contracts/target/dev/manifest.json");
 
 // Path to the output JS file
-const jsFilePath = path.resolve(__dirname, "./src/app/dojo/contractComponents.ts");
+const jsFilePath = path.resolve(__dirname, "./src/dojo/contractComponents.ts");
 
 // Read the JSON file
 fs.readFile(jsonFilePath, "utf8", (err, jsonString) => {

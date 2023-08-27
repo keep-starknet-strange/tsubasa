@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import Providers from "./components/Providers";
+import Providers from "../components/Providers";
+import Navigation from "@/components/Navigation";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -65,9 +67,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
+        className={`bg-green-400 text-white overflow-x-hidden ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <div className="fixed bottom-0 md:bottom-10 z-50 flex w-full justify-center ">
+            <Navigation />
+          </div>
+        </Providers>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
-import Card from "../components/card/Card";
-import CardAttribute from "../components/card/CardAttribute";
-import type { CardSize } from "../components/card/types";
+import Card from "../../components/card/Card";
+import CardAttribute from "../../components/card/CardAttribute";
+import type { CardSize } from "../../components/card/types";
 
 function randomNumber() {
   return Math.floor(Math.random() * 9) + 1;
