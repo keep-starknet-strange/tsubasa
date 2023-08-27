@@ -3,7 +3,7 @@ import type { SetupNetworkResult } from "./setupNetwork";
 // import { EntityIndex, getComponentValue, setComponent } from "@latticexyz/recs";
 // import { uuid } from "@latticexyz/utils";
 import type { ClientComponents } from "./createClientComponents";
-import { Account } from "starknet";
+import type { Account } from "starknet";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
