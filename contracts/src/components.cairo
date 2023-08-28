@@ -5,7 +5,7 @@ use option::{Option, OptionTrait};
 use debug::PrintTrait;
 
 /// Represents a playing card. It only contains the token id of the NFT.
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Component, Copy, Drop, Serde, SerdeLen, PartialEq)]
 struct Card {
     /// The token id in the NFT contract of this card.
     #[key]
@@ -74,11 +74,57 @@ struct Player {
     attacker: Option<Placement>,
     remaining_energy: u128
 }
+#[generate_trait]
+impl GetSetPlacement of GetSetPlacementTrait {
+    #[inline(always)]
+    fn get_token_id(self: Player, i: usize) -> Option<u256> {
+        if i == 0 {
+            self.goalkeeper.get_token_id()
+        } else if i == 1 {
+            self.defender.get_token_id()
+        } else if i == 2 {
+            self.midfielder.get_token_id()
+        } else if i == 3 {
+            self.attacker.get_token_id()
+        } else {
+            Option::None
+        }
+    }
+
+    #[inline(always)]
+    fn set_placement(ref self: Player, i: usize, val: Option<Placement>) {
+        if i == 0 {
+            self.goalkeeper = val;
+        } else if i == 1 {
+            self.defender = val;
+        } else if i == 2 {
+            self.midfielder = val;
+        } else if i == 3 {
+            self.attacker = val;
+        }
+    }
+}
 
 #[derive(Drop, Copy, Serde)]
 enum Placement {
     Side: u256,
     Field: u256
+}
+
+#[generate_trait]
+impl GetTokenId of GetTokenIdTrait {
+    #[inline(always)]
+    fn get_token_id(self: Option<Placement>) -> Option<u256> {
+        match self {
+            Option::Some(placement) => {
+                match placement {
+                    Placement::Side(_) => Option::None,
+                    Placement::Field(val) => Option::Some(val),
+                }
+            },
+            Option::None => Option::None,
+        }
+    }
 }
 
 #[derive(Component, Copy, Drop, Serde, PartialEq)]
@@ -100,8 +146,8 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
 impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     #[inline(always)]
     fn len() -> usize {
-        // 1 (variant id size) + 2 (value contained by the variant)
-        3
+        // 1 (option variant) +  1 (variant id size) + 2 (value contained by the variant)
+        4
     }
 }
 

@@ -5,13 +5,14 @@ mod place_card_system {
     use serde::Serde;
     use starknet::ContractAddress;
     use traits::Into;
-
+    use array::SpanTrait;
     use dojo::world::Context;
+    use traits::Index;
 
     use tsubasa::components::{Card, Game, Roles, Placement, Player};
     use tsubasa::events::CardPlaced;
     use tsubasa::systems::check_turn;
-
+    use debug::PrintTrait;
     /// Places a card and puts it in pending state. Deducts its energy cost from the 
     /// remaining energy of the player. Will fail if the player doesn't have enough energy
     ///

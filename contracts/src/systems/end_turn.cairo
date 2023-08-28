@@ -26,20 +26,12 @@ mod end_turn_system {
         // Increments the energy of the player 
         let mut player = get!(ctx.world, (game_id, ctx.origin), Player);
         player.remaining_energy = game.turn / 2 + 2;
-        let opponent_address = if game.player1 == ctx.origin {
-            game.player2
-        } else {
-            game.player1
-        };
-        let mut opponent = get!(ctx.world, (game_id, opponent_address), Player);
-
-        opponent.goalkeeper.update_card_placement();
-        opponent.defender.update_card_placement();
-        opponent.midfielder.update_card_placement();
-        opponent.attacker.update_card_placement();
+        player.goalkeeper.update_card_placement();
+        player.defender.update_card_placement();
+        player.midfielder.update_card_placement();
+        player.attacker.update_card_placement();
 
         set!(ctx.world, (player));
-        set!(ctx.world, (opponent));
 
         // End the Game
         // If one reached score 2, set winner 

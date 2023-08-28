@@ -17,6 +17,7 @@ mod utils {
 
     use tsubasa::components::Game;
 
+    #[inline(always)]
     fn check_turn(game: @Game, origin: @ContractAddress) {
         let is_player2_turn = U128Rem::rem(*game.turn, 2);
         if is_player2_turn == 1 {
