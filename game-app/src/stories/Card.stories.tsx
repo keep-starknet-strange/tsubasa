@@ -1,4 +1,4 @@
-import Card from "../app/components/card/Card";
+import Card from "../components/card/Card";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {

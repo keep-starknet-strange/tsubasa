@@ -1,9 +1,13 @@
 "use client";
 
-import Card from "../components/card/Card";
-import CardAttribute from "../components/card/CardAttribute";
-import type { CardSize } from "../components/card/types";
-import { useCardModal } from "../components/card/CardModalContext";
+import { useCardModal } from "../../components/card/CardModalContext";
+import Card from "../../components/card/Card";
+import CardAttribute from "../../components/card/CardAttribute";
+import type { CardSize } from "../../components/card/types";
+
+function randomNumber() {
+  return Math.floor(Math.random() * 9) + 1;
+}
 
 const CardsPage = () => {
   const { show } = useCardModal();

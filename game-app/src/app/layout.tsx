@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import Providers from "./components/Providers";
+import Providers from "../components/Providers";
+import Navigation from "@/components/Navigation";
+import CardModal from "@/components/card/CardModal";
+
 import "./globals.css";
-import CardModal from "./components/card/CardModal";
 
 export const metadata: Metadata = {
   title: "Tsubasa",
@@ -77,13 +79,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable} ${adieuFont.variable}`}
+        className={`overflow-x-hidden bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
         <Providers>
-          <>
-            <CardModal />
-            {children}
-          </>
+          <CardModal />
+          {children}
+          <div className="z-60 fixed bottom-0 flex w-full justify-center md:bottom-10 ">
+            <Navigation />
+          </div>
         </Providers>
       </body>
     </html>

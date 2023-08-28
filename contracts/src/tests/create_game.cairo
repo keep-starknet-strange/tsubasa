@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use option::{Option, OptionTrait};
 use serde::Serde;
-use starknet::testing::set_caller_address;
+use starknet::testing::set_contract_address;
 use traits::Into;
 
 use dojo::world::IWorldDispatcherTrait;
@@ -13,15 +13,14 @@ use tsubasa::systems::create_game_system;
 #[test]
 #[available_gas(30000000)]
 fn test_create_game() {
-    let (player1, player2) = get_players();
+    let (player1, player2, _) = get_players();
     let world = spawn_world();
     let game_id = create_game(world, player1, player2);
 
     // use player1 address
-    set_caller_address(player1);
+    set_contract_address(player1);
 
-    let mut create_game_calldata: Array<felt252> = ArrayTrait::new();
-    create_game_calldata.append(player2.into());
+    let mut create_game_calldata = array![player2.into()];
 
     // create game
     world.execute('create_game_system', create_game_calldata);

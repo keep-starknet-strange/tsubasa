@@ -2,6 +2,9 @@
 
 import type { ReactNode } from "react";
 import { InjectedConnector, StarknetConfig } from "@starknet-react/core";
+import React from "react";
+import { DojoProvider } from "../DojoContext";
+import { setup } from "../dojo/setup";
 import { CardModalProvider } from "./card/CardModalContext";
 
 const starknetConnectors = [
@@ -14,9 +17,13 @@ interface ProviderProps {
 }
 
 export default function Providers({ children }: ProviderProps) {
+  const setupResult = setup();
+
   return (
     <StarknetConfig autoConnect connectors={starknetConnectors}>
-      <CardModalProvider>{children}</CardModalProvider>
+      <CardModalProvider>
+        <DojoProvider value={setupResult}>{children}</DojoProvider>
+      </CardModalProvider>
     </StarknetConfig>
   );
 }

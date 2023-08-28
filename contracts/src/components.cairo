@@ -1,6 +1,8 @@
 use starknet::ContractAddress;
-use debug::PrintTrait;
 use option::{Option, OptionTrait};
+
+#[cfg(test)]
+use debug::PrintTrait;
 
 /// Represents a playing card. It only contains the token id of the NFT.
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
@@ -25,7 +27,7 @@ struct Card {
 }
 
 /// Available roles for cards
-#[derive(Copy, Drop, Serde)]
+#[derive(Copy, PartialEq, Drop, Serde)]
 enum Roles {
     Goalkeeper,
     Defender,
@@ -60,7 +62,7 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct Player {
     #[key]
     game_id: felt252,
@@ -79,7 +81,7 @@ enum Placement {
     Field: u256
 }
 
-#[derive(Component, Copy, Drop, Serde)]
+#[derive(Component, Copy, Drop, Serde, PartialEq)]
 enum Outcome {
     Player1: ContractAddress,
     Player2: ContractAddress,
@@ -89,8 +91,8 @@ enum Outcome {
 impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
     #[inline(always)]
     fn len() -> usize {
-        // 1 (variant id size) + 1 (value contained by the variant)
-        2
+        // 1 (option variant) + 1 (variant id size) + 1 (value contained by the variant)
+        3
     }
 }
 
@@ -100,6 +102,23 @@ impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     fn len() -> usize {
         // 1 (variant id size) + 2 (value contained by the variant)
         3
+    }
+}
+
+#[generate_trait]
+impl PlayerImpl of PlayerTrait {
+    /// Moves a card on the field if necessary.
+    #[inline(always)]
+    fn update_card_placement(ref self: Option<Placement>) {
+        self = match self {
+            Option::Some(placement) => {
+                match placement {
+                    Placement::Side(card_id) => Option::Some(Placement::Field(card_id)),
+                    Placement::Field(card_id) => Option::Some(Placement::Field(card_id)),
+                }
+            },
+            Option::None => Option::None
+        }
     }
 }
 

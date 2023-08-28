@@ -31,6 +31,9 @@ module.exports = {
       },
     },
     colors: {
+      dojoRed: "#ff2f42",
+      cartridgeYellow: "#FFC52A",
+      starkwareBlue: "#28286e",
       lightBlue: "#B6DAFB",
       red: "#E24A4A",
       black: "#222222",
@@ -45,6 +48,7 @@ module.exports = {
         600: "#71CD87",
         700: "#61B174",
         800: "#1D6D2F",
+        900: "#185926",
       },
       cyan: {
         200: "#04F0DB",
