@@ -1,4 +1,4 @@
-import CardModal from "../app/components/card/CardModal";
+import CardModal from "../components/card/CardModal";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
