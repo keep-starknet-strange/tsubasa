@@ -51,18 +51,30 @@ fn test_end_turn() {
 }
 
 #[test]
-#[available_gas(30000000)]
+#[available_gas(300000000)]
 fn test_end_game() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
+    // Token_id, Dribble, Defense, Cost, Role
+    let mut create_card_calldata = array![0, 0, 22, 17, 0, 1, 0];
+    world.execute('create_card_system', create_card_calldata);
+
     // card_id.low, card_id.high, Roles::Goalkeeper
     let mut place_card_calldata = array![game_id, 0, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
-    let mut attack_calldata = array![game_id, 1];
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', end_turn_calldata);
+    set_contract_address(player2);
+
+    let end_turn_calldata = array![game_id];
+    world.execute('end_turn_system', end_turn_calldata);
+
+    set_contract_address(player1);
+    let mut attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
-    let mut attack_calldata_again = array![game_id, 1];
+    let mut attack_calldata_again = array![game_id];
     world.execute('attack_system', attack_calldata_again);
 
     let end_turn_calldata = array![game_id];
@@ -74,9 +86,9 @@ fn test_end_game() {
         game_id,
         player1,
         player2,
-        player1_score: 0,
-        player2_score: 2,
-        turn: 1,
+        player1_score: 2,
+        player2_score: 0,
+        turn: 3,
         outcome: Option::Some(Outcome::Player2(player2)),
     };
 
@@ -88,11 +100,11 @@ fn test_end_game() {
     // Check that option is Some
     assert(game.outcome.is_some(), 'Wrong outcome value');
     let outcome = game.outcome.unwrap();
-    assert(outcome == Outcome::Player2(player2), 'Wrong winner');
+    assert(outcome == Outcome::Player1(player1), 'Wrong winner');
 
     let player = get!(world, (game_id, player1), Player);
     // Check that player energy is correclty incremented at the end of each turn.
-    assert(player.remaining_energy == 2, 'Wrong player energy value');
+    assert(player.remaining_energy == 3, 'Wrong player energy value');
 }
 
 #[test]
