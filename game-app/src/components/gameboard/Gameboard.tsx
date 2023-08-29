@@ -13,8 +13,12 @@ export default function Gameboard() {
     from: { transform: "x" },
   }));
 
+  const [springs2, api2] = useSpring(() => ({
+    from: { transform: "x" },
+  }));
+
   // attack
-  const handleClick = () => {
+  const triggerAttackAnimation = () => {
     api.start({
       from: { transform: "translate3d(0px, 0px, 0px)" },
       to: [
@@ -26,7 +30,15 @@ export default function Gameboard() {
     });
   };
 
-  //todo create take damage animation
+  const triggerTakeDamangeAnimation = () => {
+    api2.start({
+      from: { transform: "translate3d(0px, 0px, 0px)" },
+      to: [
+        { transform: "translate3d(0px, 20px, 0px)" }, // go backward
+      ],
+      config: { tension: 210, friction: 20, clamp: true }, // possible to add mass here
+    });
+  };
 
   return (
     <div className=" h-screen max-h-96 w-full flex-1 md:m-auto md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px]">
@@ -74,7 +86,7 @@ export default function Gameboard() {
                   kind="card"
                   size={"sm"}
                   color={"blue"}
-                  onClick={handleClick}
+                  onClick={triggerAttackAnimation}
                   hover={false}
                   captain={false}
                   dribble={0}
@@ -109,13 +121,13 @@ export default function Gameboard() {
           </div>
           <div className="absolute left-[16rem] top-[18rem]" id="player4-team2">
             {/* PLAYER 8 */}
-            <animated.div style={{ ...springs }}>
+            <animated.div style={{ ...springs2 }}>
               <div className="md:-rotate-90">
                 <Card
                   kind="card"
                   size={"sm"}
                   color={"blue"}
-                  onClick={handleClick}
+                  onClick={triggerTakeDamangeAnimation}
                   hover={false}
                   captain={false}
                   dribble={0}
