@@ -23,7 +23,6 @@ export default function Gameboard() {
         { transform: "translate3d(0px, 0px, 0px)" }, // Initial position
       ],
       config: { tension: 210, friction: 20, clamp: true }, // possible to add mass here
-      // reset: true,
     });
   };
 
