@@ -9,10 +9,25 @@ import { useSpring, animated } from "@react-spring/web";
 export default function Gameboard() {
   const [isWaiting, setIsWaiting] = useState(false);
 
-  const springs = useSpring({
-    from: { x: 0 },
-    to: { x: 100 },
-  });
+  const [springs, api] = useSpring(() => ({
+    from: { transform: "x" },
+  }));
+
+  // attack
+  const handleClick = () => {
+    api.start({
+      from: { transform: "translate3d(0px, 0px, 0px)" },
+      to: [
+        { transform: "translate3d(0px, 20px, 0px)" }, // go backward
+        { transform: "translate3d(0px, -150px, 0px)" }, // hit
+        { transform: "translate3d(0px, 0px, 0px)" }, // Initial position
+      ],
+      config: { tension: 210, friction: 20, clamp: true }, // possible to add mass here
+      // reset: true,
+    });
+  };
+
+  //todo create take damage animation
 
   return (
     <div className=" h-screen max-h-96 w-full flex-1 md:m-auto md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px]">
@@ -53,6 +68,7 @@ export default function Gameboard() {
                       kind="card"
                       size={"sm"}
                       color={"blue"}
+                      onClick={handleClick}
                       hover={false}
                       captain={false}
                       dribble={0}
