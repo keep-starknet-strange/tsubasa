@@ -3,7 +3,7 @@
 import PlayerPlaceholder from "./CardPlaceholder";
 import Card from "./card/Card";
 import type { ExtendedCardProps } from "./card/types";
-import DraggableCard from "./dragAndDrop/DraggableCard";
+import DraggableCard from "@/components/dragAndDrop/DraggableCard";
 
 const CARDS_ALLOWED_IN_DECK = 4;
 
