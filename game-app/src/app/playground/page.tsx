@@ -146,7 +146,6 @@ export default function Home() {
           prevPosition = eachItem;
         }
       });
-
       // if card was previously on some other position then reset that position value and update with new position
       if (prevPosition) {
         const copy = { ...prev };

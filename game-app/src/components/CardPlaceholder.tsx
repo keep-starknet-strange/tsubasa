@@ -4,7 +4,7 @@ import { useDroppable } from "@dnd-kit/core";
 import Card from "./card/Card";
 import classNames from "classnames";
 import { getCardSizeClassnames } from "./card/utils";
-import DraggableCard from "./dragAndDrop/DraggableCard";
+import DraggableCard from "@/components/dragAndDrop/DraggableCard";
 import type { ReactNode } from "react";
 import type { ExtendedCardProps } from "./card/types";
 
