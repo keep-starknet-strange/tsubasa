@@ -59,9 +59,15 @@ const config: StorybookConfig = {
       src: url('/Agrandir/AgrandirVariable.ttf');
     }
 
+    @font-face {
+      font-family: 'Adieu';
+      src: url('/Adieu/Adieu-Regular.ttf');
+    }
+
     :root {
       --font-new-airport: 'NewAirport', sans-serif;
       --font-agrandir: 'Agrandir', sans-serif;
+      --font-adieu: 'Adieu', sans-serif;
     }
     
     ${head}
@@ -71,7 +77,7 @@ const config: StorybookConfig = {
   `,
 
   docs: {
-    autodocs: true
-  }
+    autodocs: true,
+  },
 };
 export default config;

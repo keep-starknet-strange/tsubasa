@@ -7,3 +7,16 @@ export type CardAttributeType = "dribble" | "stamina";
 export type CardKind = "card-black" | "card";
 
 export type CardState = "buffed" | "hurt" | "standard" | "pending";
+
+export type CardData = {
+  kind: CardKind;
+  size: CardSize;
+  color: CardColor;
+  hover: boolean;
+  captain: boolean;
+  dribble: number;
+  stamina: number;
+  energy: number;
+  player?: string;
+  state?: CardState;
+};

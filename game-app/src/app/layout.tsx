@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import Providers from "../components/Providers";
 import Navigation from "@/components/Navigation";
+import CardModal from "@/components/card/CardModal";
 
 import "./globals.css";
 
@@ -59,6 +60,17 @@ const ericaoneFont = localFont({
   variable: "--font-erica-one",
 });
 
+const adieuFont = localFont({
+  src: [
+    {
+      path: "../fonts/Adieu/Adieu-Regular.ttf",
+      style: "normal",
+      weight: "400",
+    },
+  ],
+  variable: "--font-adieu",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -67,11 +79,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white overflow-x-hidden ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
+        className={`overflow-x-hidden bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
         <Providers>
+          <CardModal />
           {children}
-          <div className="fixed bottom-0 md:bottom-10 z-50 flex w-full justify-center ">
+          <div className="z-60 fixed bottom-0 flex w-full justify-center md:bottom-10 ">
             <Navigation />
           </div>
         </Providers>

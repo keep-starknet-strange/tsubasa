@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { CardKind, CardSize, CardColor, CardState } from "./types";
+import type { CardData } from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
@@ -10,20 +10,12 @@ import CardPending from "./CardPending";
 import CardBackground from "./CardBackground";
 import CardEmpty from "./CardEmpty";
 
-interface CardProps {
-  kind: CardKind;
-  size: CardSize;
-  color: CardColor;
-  hover: boolean;
-  captain: boolean;
-  dribble: number;
-  stamina: number;
-  energy: number;
-  player?: string;
-  state?: CardState;
+interface CardProps extends CardData {
+  onClick?: (data: CardData) => void;
 }
 
 const Card = (props: CardProps) => {
+  const { onClick, ...data } = props;
   const {
     color,
     player,
@@ -35,14 +27,14 @@ const Card = (props: CardProps) => {
     energy,
     kind,
     state = "standard",
-  } = props;
+  } = data;
 
   if (kind === "card-black") {
     return <CardEmpty color={color} size={size} />;
   }
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={() => onClick && onClick(data)}>
       {state === "pending" && <CardPending size={size} />}
       <CardBackground color={color} size={size} state={state} player={player} />
 

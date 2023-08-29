@@ -20,6 +20,7 @@ module.exports = {
         "new-airport": ["var(--font-new-airport)"],
         agrandir: ["var(--font-agrandir)"],
         "erica-one": ["var(--font-erica-one)"],
+        adieu: ["var(--font-adieu)"],
       },
       keyframes: {
         scoreboard: {
