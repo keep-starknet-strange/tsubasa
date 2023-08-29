@@ -67,11 +67,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-green-400 text-white overflow-x-hidden ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
+        className={`overflow-x-hidden bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
         <Providers>
           {children}
-          <div className="fixed bottom-0 md:bottom-10 z-50 flex w-full justify-center ">
+          <div className="fixed bottom-0 z-20 flex w-full justify-center md:bottom-10 ">
             <Navigation />
           </div>
         </Providers>
