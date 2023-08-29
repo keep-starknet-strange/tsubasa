@@ -61,23 +61,69 @@ export default function Gameboard() {
                   height={120}
                   alt="Wings center"
                 />
-                <animated.div style={{ ...springs }}>
-                  <div className="md:-rotate-90">
-                    <Card
-                      kind="card"
-                      size={"sm"}
-                      color={"blue"}
-                      onClick={handleClick}
-                      hover={false}
-                      captain={false}
-                      dribble={0}
-                      stamina={0}
-                      energy={0}
-                    />
-                  </div>
-                </animated.div>
               </div>
             </div>
+          </div>
+
+          {/* Team1 */}
+          <div className="absolute left-[20rem] top-[30rem]" id="player1-team1">
+            {/* PLAYER 1 */}
+            <animated.div style={{ ...springs }}>
+              <div className="md:-rotate-90">
+                <Card
+                  kind="card"
+                  size={"sm"}
+                  color={"blue"}
+                  onClick={handleClick}
+                  hover={false}
+                  captain={false}
+                  dribble={0}
+                  stamina={0}
+                  energy={0}
+                />
+              </div>
+            </animated.div>
+          </div>
+          <div className="absolute left-[16rem] top-[36rem]" id="player2-team1">
+            {/* PLAYER 2 */}
+          </div>
+          <div className="absolute left-[20rem] top-[42rem]" id="player3-team1">
+            {/* PLAYER3 */}
+          </div>
+          <div className="absolute left-[16rem] top-[48rem]" id="player4-team1">
+            {/* PLAYER 4 */}
+          </div>
+
+          {/* Team2 */}
+          <div className="absolute left-[20rem] z-50" id="player1-team2">
+            {/* PLAYER 5 */}
+          </div>
+          <div
+            className="absolute left-[16rem] top-[6rem] z-50"
+            id="player2-team2"
+          >
+            {/* PLAYER 6 */}
+          </div>
+          <div className="absolute left-[20rem] top-[12rem]" id="player3-team2">
+            {/* PLAYER 7 */}
+          </div>
+          <div className="absolute left-[16rem] top-[18rem]" id="player4-team2">
+            {/* PLAYER 8 */}
+            <animated.div style={{ ...springs }}>
+              <div className="md:-rotate-90">
+                <Card
+                  kind="card"
+                  size={"sm"}
+                  color={"blue"}
+                  onClick={handleClick}
+                  hover={false}
+                  captain={false}
+                  dribble={0}
+                  stamina={0}
+                  energy={0}
+                />
+              </div>
+            </animated.div>
           </div>
 
           <div className="absolute left-2/4 top-0 -translate-x-2/4">
