@@ -3,9 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 import EndTurnButton from "../EndTurnButton";
+import Card from "../card/Card";
+import { useSpring, animated } from "@react-spring/web";
 
 export default function Gameboard() {
   const [isWaiting, setIsWaiting] = useState(false);
+
+  const springs = useSpring({
+    from: { x: 0 },
+    to: { x: 100 },
+  });
 
   return (
     <div className=" h-screen max-h-96 w-full flex-1 md:m-auto md:max-h-[1096px] md:min-h-[768px] md:max-w-[656px]">
@@ -27,7 +34,7 @@ export default function Gameboard() {
           </div>
 
           {/* center line */}
-          <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300" />
+          <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300"></div>
 
           {/* center circle */}
           <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
@@ -40,6 +47,20 @@ export default function Gameboard() {
                   height={120}
                   alt="Wings center"
                 />
+                <animated.div style={{ ...springs }}>
+                  <div className="md:-rotate-90">
+                    <Card
+                      kind="card"
+                      size={"sm"}
+                      color={"blue"}
+                      hover={false}
+                      captain={false}
+                      dribble={0}
+                      stamina={0}
+                      energy={0}
+                    />
+                  </div>
+                </animated.div>
               </div>
             </div>
           </div>
