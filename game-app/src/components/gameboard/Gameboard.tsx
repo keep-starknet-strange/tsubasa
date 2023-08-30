@@ -4,78 +4,16 @@ import Image from "next/image";
 import { useState } from "react";
 import EndTurnButton from "../EndTurnButton";
 import Card from "../card/Card";
-import { useSpring, animated } from "@react-spring/web";
+import { animated } from "@react-spring/web";
+import { triggerAttackAnimation } from "../../animations/animations";
+import { usePlayerAnimations } from "../../animations/usePlayerAnimations";
 
 export default function Gameboard() {
   const [isWaiting, setIsWaiting] = useState(false);
+  const { animationApis, animationSprings } = usePlayerAnimations();
 
-  const [springs, api] = useSpring(() => ({
-    from: { transform: "x" },
-  }));
-
-  const [springs2, api2] = useSpring(() => ({
-    from: { transform: "x" },
-  }));
-
-  // Define the type for the animationApis object
-  interface AnimationApis {
-    [key: string]: typeof api | typeof api2; // Replace with the actual type of your SpringRef
-  }
-
-  const animationApis: AnimationApis = {
-    "player1-team1": api,
-    "player4-team2": api2,
-    // Add more mappings as needed
-  };
-
-  // attack
-  const triggerAttackAnimation = (
-    attackingElementId: string,
-    attackedElementId: string
-  ) => {
-    const attackingElement = document.getElementById(attackingElementId);
-    const attackedElement = document.getElementById(attackedElementId);
-    if (attackingElement && attackedElement) {
-      // Get the position of the attacking card using the passed attackingElementId
-      const attackingCard = attackingElement.getBoundingClientRect();
-
-      // Get the position of the attacked card using the passed attackedElementId
-      const attackedCard = attackedElement.getBoundingClientRect();
-
-      // Calculate the distance to move in the x and y directions
-      const moveX = attackedCard.x - attackingCard.x - 60;
-      const moveY = attackedCard.y - attackingCard.y;
-
-      // Update the animation for the attacking card
-      api.start({
-        from: { transform: "translate3d(0px, 0px, 0px)" },
-        to: [
-          //TODO adapt the animation with the version rotate free
-          { transform: "translate3d(0px, 20px, 0px)" }, // go backward
-
-          { transform: `translate3d(${moveY}px, -${moveX}px, 0px)` }, // Move towards the attacked card
-          { transform: "translate3d(0px, 0px, 0px)" }, // Return to the initial position
-        ],
-        config: { tension: 210, friction: 20, clamp: true },
-      });
-
-      setTimeout(() => {
-        triggerTakeDamangeAnimation(attackedElementId);
-      }, 500);
-    }
-  };
-
-  const triggerTakeDamangeAnimation = (attackedElementId: string) => {
-    const attackedApi = animationApis[attackedElementId];
-    api2.start({
-      from: { transform: "translate3d(0px, 0px, 0px)" },
-      to: [
-        { transform: "translate3d(0px, -50px, 0px)" }, // go backward
-        { transform: "translate3d(0px, 0x, 0px)" }, // go to start position
-      ],
-      reset: true,
-      config: { tension: 210, friction: 20, clamp: true }, // possible to add mass here
-    });
+  const handleAttack = (fromPlayer: string, toPlayer: string) => {
+    triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
   };
 
   return (
@@ -118,15 +56,14 @@ export default function Gameboard() {
           {/* Team1 */}
           <div className="absolute left-[20rem] top-[30rem]" id="player1-team1">
             {/* PLAYER 1 */}
-            <animated.div style={{ ...springs }}>
+            <animated.div style={animationSprings["player1-team1"]}>
+              {/* TODO  use animation spring depending on element ID */}
               <div className="md:-rotate-90">
                 <Card
                   kind="card"
                   size={"sm"}
                   color={"blue"}
-                  onClick={() =>
-                    triggerAttackAnimation("player1-team1", "player4-team2")
-                  }
+                  onClick={() => handleAttack("player1-team1", "player4-team2")}
                   hover={false}
                   captain={false}
                   dribble={0}
@@ -161,7 +98,7 @@ export default function Gameboard() {
           </div>
           <div className="absolute left-[16rem] top-[18rem]" id="player4-team2">
             {/* PLAYER 8 */}
-            <animated.div style={{ ...springs2 }}>
+            <animated.div style={animationSprings["player4-team2"]}>
               <div className="md:-rotate-90">
                 <Card
                   kind="card"
