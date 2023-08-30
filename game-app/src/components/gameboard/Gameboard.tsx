@@ -43,7 +43,7 @@ export default function Gameboard() {
       const attackedCard = attackedElement.getBoundingClientRect();
 
       // Calculate the distance to move in the x and y directions
-      const moveX = attackedCard.x - attackingCard.x;
+      const moveX = attackedCard.x - attackingCard.x - 60;
       const moveY = attackedCard.y - attackingCard.y;
 
       // Update the animation for the attacking card
@@ -58,7 +58,10 @@ export default function Gameboard() {
         ],
         config: { tension: 210, friction: 20, clamp: true },
       });
-      triggerTakeDamangeAnimation(attackedElementId);
+
+      setTimeout(() => {
+        triggerTakeDamangeAnimation(attackedElementId);
+      }, 500);
     }
   };
 
@@ -67,7 +70,8 @@ export default function Gameboard() {
     api2.start({
       from: { transform: "translate3d(0px, 0px, 0px)" },
       to: [
-        { transform: "translate3d(0px, 20px, 0px)" }, // go backward
+        { transform: "translate3d(0px, -50px, 0px)" }, // go backward
+        { transform: "translate3d(0px, 0x, 0px)" }, // go to start position
       ],
       reset: true,
       config: { tension: 210, friction: 20, clamp: true }, // possible to add mass here
