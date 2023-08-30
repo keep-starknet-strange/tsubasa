@@ -1,10 +1,9 @@
-import { SpringRef, useSpring } from "@react-spring/web";
-import { usePlayerAnimations } from "./usePlayerAnimations";
+import { AnimationApis } from "./usePlayerAnimations";
 
 export const triggerAttackAnimation = (
   attackingElementId: string,
   attackedElementId: string,
-  animationApis: any
+  animationApis: AnimationApis
 ) => {
   const api = animationApis[attackingElementId];
   const attackingElement = document.getElementById(attackingElementId);
@@ -33,7 +32,7 @@ export const triggerAttackAnimation = (
 
 export const triggerTakeDamageAnimation = (
   attackedElementId: string,
-  animationApis: any
+  animationApis: AnimationApis
 ) => {
   const api = animationApis[attackedElementId];
   api.start({

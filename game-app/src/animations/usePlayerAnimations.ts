@@ -1,10 +1,6 @@
 import { SpringRef, useSpring } from "@react-spring/web";
 
-interface AnimationApis {
-  [key: string]: SpringRef<{
-    transform: string;
-  }>;
-}
+export type AnimationApis = Record<string, SpringRef<{ transform: string }>>;
 
 export const usePlayerAnimations = () => {
   const [springPlayer1Team1, apiPlayer1Team1] = useSpring(() => ({
