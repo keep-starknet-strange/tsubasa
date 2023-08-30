@@ -62,6 +62,13 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
+/// State for deck's cards
+#[derive(Copy, PartialEq, Drop, Serde)]
+enum CardState {
+    Hand,
+    Deck
+}
+
 /// Represents each card of the 8 that exists in a player's deck
 #[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct DeckCard {
@@ -69,7 +76,15 @@ struct DeckCard {
     player: ContractAddress,
     #[key]
     card_index: u8,
-    token_id: u256
+    token_id: u256,
+    card_state: CardState
+}
+
+impl CardStateSerdeLen of dojo::SerdeLen<CardState> {
+    #[inline(always)]
+    fn len() -> usize {
+        1
+    }
 }
 
 #[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
@@ -228,6 +243,16 @@ impl PlacementPrint of debug::PrintTrait<Option<Placement>> {
                 },
             },
             Option::None => 'None'.print(),
+        }
+    }
+}
+
+#[cfg(test)]
+impl CardStatePrint of debug::PrintTrait<CardState> {
+    fn print(self: CardState) {
+        match self {
+            CardState::Hand => 'Hand'.print(),
+            CardState::Deck => 'Deck'.print(),
         }
     }
 }

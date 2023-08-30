@@ -1,4 +1,3 @@
-use core::box::BoxTrait;
 #[system]
 mod create_deck_system {
     use array::ArrayTrait;
@@ -14,6 +13,7 @@ mod create_deck_system {
     use dojo::world::Context;
 
     use tsubasa::components::DeckCard;
+    use tsubasa::components::CardState;
     use tsubasa::events::DeckCreated;
 
     /// Assigns a card to an index in the deck pile
@@ -39,7 +39,8 @@ mod create_deck_system {
                 DeckCard {
                     player,
                     card_index,
-                    token_id
+                    token_id,
+                    card_state: CardState::Deck
                 }
             );
             card_index += 1;
