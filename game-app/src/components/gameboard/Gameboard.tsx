@@ -118,8 +118,8 @@ export default function Gameboard(props: Props) {
           {/* goalkeeper position */}
           <div className="absolute left-1/2 top-2 z-30 hidden -translate-x-1/2 md:left-auto md:right-2 md:top-1/2 md:block md:-translate-y-1/2 md:translate-x-0">
             <CardPlaceholder
-              id="midfielder-2"
-              position="midfielder"
+              id="goalkeeper-2"
+              position="goalkeeper"
               {...props}
             />
           </div>
