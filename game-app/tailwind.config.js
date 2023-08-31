@@ -34,6 +34,7 @@ module.exports = {
       dojoRed: "#ff2f42",
       cartridgeYellow: "#FFC52A",
       starkwareBlue: "#28286e",
+      transparent: "transparent",
       lightBlue: "#B6DAFB",
       red: "#E24A4A",
       black: "#222222",
