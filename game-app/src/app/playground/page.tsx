@@ -27,6 +27,13 @@ export default function Home() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) setCardSize("xs");
+    else {
+      setCardSize("sm");
+    }
+  }, []);
   const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");

@@ -123,30 +123,29 @@ export default function Gameboard(props: Props) {
               {...props}
             />
           </div>
-
-          {/* mobile view */}
-          <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 flex-row gap-2 md:hidden">
-            <CardPlaceholder
-              id="goalkeeper-2-mobile"
-              position="goalkeeper"
-              {...props}
-            />
-            <CardPlaceholder
-              id="defender-2-mobile"
-              position="defender"
-              {...props}
-            />
-            <CardPlaceholder
-              id="midfielder-2-mobile"
-              position="midfielder"
-              {...props}
-            />
-            <CardPlaceholder
-              id="forward-2-mobile"
-              position="forward"
-              {...props}
-            />
-          </div>
+        </div>
+        {/* mobile view */}
+        <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 flex-row gap-2 md:hidden">
+          <CardPlaceholder
+            id="goalkeeper-2-mobile"
+            position="goalkeeper"
+            {...props}
+          />
+          <CardPlaceholder
+            id="defender-2-mobile"
+            position="defender"
+            {...props}
+          />
+          <CardPlaceholder
+            id="midfielder-2-mobile"
+            position="midfielder"
+            {...props}
+          />
+          <CardPlaceholder
+            id="forward-2-mobile"
+            position="forward"
+            {...props}
+          />
         </div>
       </div>
     </div>
