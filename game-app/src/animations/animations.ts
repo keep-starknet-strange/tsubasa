@@ -8,17 +8,18 @@ export const triggerAttackAnimation = (
   const api = animationApis[attackingElementId];
   const attackingElement = document.getElementById(attackingElementId);
   const attackedElement = document.getElementById(attackedElementId);
+  console.log(attackingElement, attackedElement);
   if (attackingElement && attackedElement) {
     const attackingCard = attackingElement.getBoundingClientRect();
     const attackedCard = attackedElement.getBoundingClientRect();
-    const moveX = attackedCard.x - attackingCard.x - 60;
+    const moveX = attackedCard.x - attackingCard.x + 60;
     const moveY = attackedCard.y - attackingCard.y;
 
     api.start({
       from: { transform: "translate3d(0px, 0px, 0px)" },
       to: [
-        { transform: "translate3d(0px, 20px, 0px)" },
-        { transform: `translate3d(${moveY}px, -${moveX}px, 0px)` },
+        { transform: "translate3d(20px, 0px, 0px)" },
+        { transform: `translate3d(${moveX}px, -${moveY}px, 0px)` },
         { transform: "translate3d(0px, 0px, 0px)" },
       ],
       config: { tension: 210, friction: 20, clamp: true },
@@ -38,7 +39,7 @@ export const triggerTakeDamageAnimation = (
   api.start({
     from: { transform: "translate3d(0px, 0px, 0px)" },
     to: [
-      { transform: "translate3d(0px, -50px, 0px)" },
+      { transform: "translate3d(-50px, 0px, 0px)" },
       { transform: "translate3d(0px, 0px, 0px)" },
     ],
     reset: true,

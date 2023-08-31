@@ -20,6 +20,7 @@ export default function Gameboard(props: Props) {
   const { animationApis, animationSprings } = usePlayerAnimations();
 
   const handleAttack = (fromPlayer: string, toPlayer: string) => {
+    console.log("fromPlayer", fromPlayer);
     triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
   };
 
@@ -57,6 +58,20 @@ export default function Gameboard(props: Props) {
         {/* midfielder position */}
         <div className="absolute bottom-20 right-8 z-30 hidden md:bottom-auto md:left-[22%] md:right-auto md:top-1/4 md:block">
           <CardPlaceholder id="midfielder-1" position="midfielder" {...props} />
+          <animated.div style={animationSprings["player4-team2"]}>
+            <div id="player4-team2">
+              <Card
+                kind="card"
+                size={"sm"}
+                color={"blue"}
+                hover={false}
+                captain={false}
+                dribble={0}
+                stamina={0}
+                energy={0}
+              />
+            </div>
+          </animated.div>
         </div>
 
         {/* forward position */}
@@ -89,23 +104,7 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* center line */}
-        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300">
-          {/* <animated.div style={animationSprings["player1-team1"]}>
-            <div>
-              <Card
-                kind="card"
-                size={"sm"}
-                color={"blue"}
-                onClick={() => handleAttack("player1-team1", "player4-team2")}
-                hover={false}
-                captain={false}
-                dribble={0}
-                stamina={0}
-                energy={0}
-              />
-            </div>
-          </animated.div> */}
-        </div>
+        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300"></div>
 
         {/* center circle */}
         <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
@@ -125,6 +124,21 @@ export default function Gameboard(props: Props) {
         {/* defender position */}
         <div className="absolute bottom-12 left-8 z-30 hidden md:bottom-1/4 md:left-auto md:right-[12.5%] md:block">
           <CardPlaceholder id="defender-2" position="defender" {...props} />
+          <animated.div style={animationSprings["player1-team1"]}>
+            <div id="player1-team1">
+              <Card
+                kind="card"
+                size={"sm"}
+                color={"blue"}
+                onClick={() => handleAttack("player1-team1", "player4-team2")}
+                hover={false}
+                captain={false}
+                dribble={0}
+                stamina={0}
+                energy={0}
+              />
+            </div>
+          </animated.div>
         </div>
 
         {/* midfielder position */}
