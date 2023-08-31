@@ -55,7 +55,7 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* mobile view */}
-        <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-row gap-2 md:hidden">
+        <div className="absolute bottom-8 left-1/2 z-30 flex w-full -translate-x-1/2 flex-row justify-center gap-2 md:hidden">
           <CardPlaceholder
             id="goalkeeper-1-mobile"
             position="goalkeeper"
@@ -111,6 +111,22 @@ export default function Gameboard(props: Props) {
           <CardPlaceholder id="forward-2" position="forward" {...props} />
         </div>
 
+        {/* right / top penalty box */}
+        <div className="absolute left-2/4 top-0 -translate-x-2/4 md:left-auto md:right-0 md:top-2/4 md:-translate-y-2/4 md:translate-x-0">
+          {/* goal boxes */}
+          <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-96 md:w-24 md:rounded-b-none md:rounded-l-xl md:border-r-0 md:border-t-[3px]" />
+          {/* goal circle */}
+          <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:-translate-x-1/2 md:translate-y-1/2" />
+          {/* goalkeeper position */}
+          <div className="absolute left-1/2 top-2 z-30 hidden -translate-x-1/2 md:left-auto md:right-2 md:top-1/2 md:block md:-translate-y-1/2 md:translate-x-0">
+            <CardPlaceholder
+              id="goalkeeper-2"
+              position="goalkeeper"
+              {...props}
+            />
+          </div>
+        </div>
+
         {/* mobile view */}
         <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 flex-row gap-2 md:hidden">
           <CardPlaceholder
@@ -137,22 +153,6 @@ export default function Gameboard(props: Props) {
             position="forward"
             playerPositions={playerPositions}
           />
-        </div>
-
-        {/* right / top penalty box */}
-        <div className="absolute left-2/4 top-0 -translate-x-2/4 md:left-auto md:right-0 md:top-2/4 md:-translate-y-2/4 md:translate-x-0">
-          {/* goal boxes */}
-          <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-96 md:w-24 md:rounded-b-none md:rounded-l-xl md:border-r-0 md:border-t-[3px]" />
-          {/* goal circle */}
-          <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:-translate-x-1/2 md:translate-y-1/2" />
-          {/* goalkeeper position */}
-          <div className="absolute left-1/2 top-2 z-30 hidden -translate-x-1/2 md:left-auto md:right-2 md:top-1/2 md:block md:-translate-y-1/2 md:translate-x-0">
-            <CardPlaceholder
-              id="goalkeeper-2"
-              position="goalkeeper"
-              {...props}
-            />
-          </div>
         </div>
       </div>
     </div>
