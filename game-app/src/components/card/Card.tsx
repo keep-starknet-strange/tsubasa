@@ -17,10 +17,6 @@ import CardPending from "./CardPending";
 import CardBackground from "./CardBackground";
 import CardEmpty from "./CardEmpty";
 
-interface CardProps extends CardData {
-  onClick?: (data: CardData) => void;
-}
-
 const Card = (props: CardProps) => {
   const { onClick, ...data } = props;
   const {

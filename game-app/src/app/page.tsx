@@ -13,6 +13,7 @@ import {
 } from "../components/icons";
 
 import RulesModale from "../components/RulesModale";
+import { CardProps } from "@/components/card/types";
 
 export default function Home() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);

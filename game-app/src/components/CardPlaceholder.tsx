@@ -57,7 +57,7 @@ export default function CardPlaceholder(props: Props) {
       setCurrentCardState("pending");
       setTimeout(() => {
         setCurrentCardState("standard");
-      }, 3000);
+      }, 1500);
     } else {
       setCurrentCardState("standard");
     }

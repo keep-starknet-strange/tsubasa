@@ -1,10 +1,9 @@
 "use client";
 
 import { DndContext, pointerWithin } from "@dnd-kit/core";
-
+import CardBench from "@/components/CardBench";
 import ConnectButton from "@/components/ConnectButton";
 import Gameboard from "@/components/gameboard/Gameboard";
-import CardBench from "@/components/CardBench";
 import Scoreboard from "@/components/Scoreboard";
 import { useEffect, useState } from "react";
 import type { CardSize, ExtendedCardProps } from "@/components/card/types";
@@ -205,7 +204,7 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
-      <div className="z-10 flex w-full items-end justify-end bg-black md:fixed">
+      <div className="z-10 flex w-full items-end justify-end md:fixed">
         <div className="p-2">
           <ConnectButton />
         </div>
