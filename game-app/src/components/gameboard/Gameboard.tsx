@@ -10,12 +10,14 @@ import type { ExtendedCardProps } from "../card/types";
 interface Props {
   playerPositions: Record<string, ExtendedCardProps>;
   currentHoveredPlaceholder: string | undefined;
+  currentPickedCard: string;
 }
 
 export default function Gameboard(props: Props) {
   const [isWaiting, setIsWaiting] = useState(false);
 
-  const { playerPositions, currentHoveredPlaceholder } = props;
+  const { playerPositions, currentHoveredPlaceholder, currentPickedCard } =
+    props;
   return (
     <div className="h-screen max-h-96 w-full lg:m-auto lg:h-[645px] lg:max-h-[645px] lg:w-11/12 lg:max-w-[1296px]">
       {/* field */}
@@ -33,43 +35,51 @@ export default function Gameboard(props: Props) {
           {/* goal circle */}
           <div className="absolute bottom-1 left-2/4  z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:translate-x-0 lg:translate-y-1/2" />
           {/* goalkeeper position */}
-          <div className="absolute bottom-2 left-1/2  z-30 -translate-x-1/2 lg:bottom-1/2 lg:left-2 lg:translate-x-0 lg:translate-y-1/2">
+          <div className="absolute bottom-2 left-1/2 z-30  hidden -translate-x-1/2 md:bottom-1/2 md:left-2 md:block md:translate-x-0 md:translate-y-1/2">
             <CardPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-1"
               position="goalkeeper"
-              playerPositions={playerPositions}
+              {...props}
             />
           </div>
         </div>
 
         {/* defender position */}
-        <div className="absolute left-8 top-12 z-30 lg:bottom-1/4 lg:left-[12.5%] lg:top-auto">
-          <CardPlaceholder
-            currentHoveredPlaceholder={currentHoveredPlaceholder}
-            id="defender-1"
-            position="defender"
-            playerPositions={playerPositions}
-          />
+        <div className="z-30 hidden md:absolute md:bottom-1/4 md:left-[12.5%] md:top-auto md:block">
+          <CardPlaceholder id="defender-1" position="defender" {...props} />
         </div>
 
         {/* midfielder position */}
-        <div className="absolute bottom-20 right-8 z-30 lg:bottom-auto lg:left-[22%] lg:right-auto lg:top-1/4">
-          <CardPlaceholder
-            currentHoveredPlaceholder={currentHoveredPlaceholder}
-            id="midfielder-1"
-            position="midfielder"
-            playerPositions={playerPositions}
-          />
+        <div className="absolute bottom-20 right-8 z-30 hidden md:bottom-auto md:left-[22%] md:right-auto md:top-1/4 md:block">
+          <CardPlaceholder id="midfielder-1" position="midfielder" {...props} />
         </div>
 
         {/* forward position */}
-        <div className="absolute bottom-1/4 left-1/2 z-30 -translate-x-1/2 -translate-y-1 lg:bottom-2/4 lg:left-[40%] lg:-translate-x-1/2 lg:translate-y-1/2 ">
+        <div className="absolute bottom-1/4 left-1/2 z-30 hidden -translate-x-1/2 -translate-y-1 md:bottom-2/4 md:left-[40%] md:block md:-translate-x-1/2 md:translate-y-1/2">
+          <CardPlaceholder id="forward-1" position="forward" {...props} />
+        </div>
+
+        {/* mobile view */}
+        <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-row gap-2 md:hidden">
           <CardPlaceholder
-            currentHoveredPlaceholder={currentHoveredPlaceholder}
-            id="forward-1"
+            id="goalkeeper-1-mobile"
+            position="goalkeeper"
+            {...props}
+          />
+          <CardPlaceholder
+            id="defender-1-mobile"
+            position="defender"
+            {...props}
+          />
+          <CardPlaceholder
+            id="midfielder-1-mobile"
+            position="midfielder"
+            {...props}
+          />
+          <CardPlaceholder
+            id="forward-1-mobile"
             position="forward"
-            playerPositions={playerPositions}
+            {...props}
           />
         </div>
 
@@ -91,50 +101,103 @@ export default function Gameboard(props: Props) {
           </div>
 
           {/* defender position */}
-          <div className="absolute bottom-12 left-8 z-30 lg:bottom-1/4 lg:left-auto lg:right-[12.5%] ">
-            <PlayerPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
-              id="defender-2"
-              position="defender"
-              playerPositions={playerPositions}
-            />
+          <div className="absolute bottom-12 left-8 z-30 hidden md:bottom-1/4 md:left-auto md:right-[12.5%] md:block">
+            <CardPlaceholder id="defender-2" position="defender" {...props} />
           </div>
 
           {/* midfielder position */}
-          <div className="absolute right-8 top-20 z-30  lg:left-auto lg:right-[22%] lg:top-1/4 ">
-            <PlayerPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
+          <div className="absolute right-8 top-20 z-30 hidden  md:left-auto md:right-[22%] md:top-1/4 md:block">
+            <CardPlaceholder
               id="midfielder-2"
               position="midfielder"
-              playerPositions={playerPositions}
+              {...props}
             />
           </div>
 
           {/* forward position */}
-          <div className="absolute left-1/2 top-1/4 z-30 -translate-x-1/2 translate-y-1  lg:left-auto lg:right-[40%] lg:top-2/4 lg:-translate-y-1/2 lg:translate-x-1/2">
-            <PlayerPlaceholder
+          <div className="absolute left-1/2 top-1/4 z-30 hidden -translate-x-1/2 translate-y-1  md:left-auto md:right-[40%] md:top-2/4 md:block md:-translate-y-1/2 md:translate-x-1/2">
+            <CardPlaceholder id="forward-2" position="forward" {...props} />
+          </div>
+
+          {/* mobile view */}
+          <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 flex-row gap-2 md:hidden">
+            <CardPlaceholder
               currentHoveredPlaceholder={currentHoveredPlaceholder}
-              id="forward-2"
+              id="goalkeeper-2-mobile"
+              position="goalkeeper"
+              playerPositions={playerPositions}
+            />
+            <CardPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
+              id="defender-2-mobile"
+              position="defender"
+              playerPositions={playerPositions}
+            />
+            <CardPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
+              id="midfielder-2-mobile"
+              position="midfielder"
+              playerPositions={playerPositions}
+            />
+            <CardPlaceholder
+              currentHoveredPlaceholder={currentHoveredPlaceholder}
+              id="forward-2-mobile"
               position="forward"
               playerPositions={playerPositions}
             />
           </div>
 
           {/* right / top penalty box */}
-          <div className="absolute left-2/4 top-0 -translate-x-2/4 lg:left-auto lg:right-0 lg:top-2/4 lg:-translate-y-2/4 lg:translate-x-0">
+          <div className="absolute left-2/4 top-0 -translate-x-2/4 md:left-auto md:right-0 md:top-2/4 md:-translate-y-2/4 md:translate-x-0">
             {/* goal boxes */}
-            <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] lg:h-96 lg:w-24 lg:rounded-b-none lg:rounded-l-xl lg:border-r-0 lg:border-t-[3px]" />
+            <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] md:h-96 md:w-24 md:rounded-b-none md:rounded-l-xl md:border-r-0 md:border-t-[3px]" />
             {/* goal circle */}
-            <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:-translate-x-1/2 lg:translate-y-1/2" />
+            <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] md:bottom-1/2 md:left-0 md:h-48 md:w-48 md:-translate-x-1/2 md:translate-y-1/2" />
             {/* goalkeeper position */}
-            <div className="absolute left-1/2 top-2 z-30 -translate-x-1/2 lg:left-auto lg:right-2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0">
-              <PlayerPlaceholder
+            <div className="absolute left-1/2 top-2 z-30 hidden -translate-x-1/2 md:left-auto md:right-2 md:top-1/2 md:block md:-translate-y-1/2 md:translate-x-0">
+              <CardPlaceholder
                 id="goalkeeper-2"
                 position="goalkeeper"
+                {...props}
+              />
+            </div>
+
+            {/* midfielder position */}
+            <div className="absolute right-8 top-20 z-30  lg:left-auto lg:right-[22%] lg:top-1/4 ">
+              <PlayerPlaceholder
+                currentHoveredPlaceholder={currentHoveredPlaceholder}
+                id="midfielder-2"
+                position="midfielder"
                 playerPositions={playerPositions}
               />
             </div>
-            <EndTurnButton isWaiting={isWaiting} />
+
+            {/* forward position */}
+            <div className="absolute left-1/2 top-1/4 z-30 -translate-x-1/2 translate-y-1  lg:left-auto lg:right-[40%] lg:top-2/4 lg:-translate-y-1/2 lg:translate-x-1/2">
+              <PlayerPlaceholder
+                currentHoveredPlaceholder={currentHoveredPlaceholder}
+                id="forward-2"
+                position="forward"
+                playerPositions={playerPositions}
+              />
+            </div>
+
+            {/* right / top penalty box */}
+            <div className="absolute left-2/4 top-0 -translate-x-2/4 lg:left-auto lg:right-0 lg:top-2/4 lg:-translate-y-2/4 lg:translate-x-0">
+              {/* goal boxes */}
+              <div className="relative z-20 h-12 w-32 rounded-b-xl border-[3px] border-t-0 border-solid border-[#97E8A9] bg-[#8ADD9D] lg:h-96 lg:w-24 lg:rounded-b-none lg:rounded-l-xl lg:border-r-0 lg:border-t-[3px]" />
+              {/* goal circle */}
+              <div className="absolute left-2/4 top-1 z-10 h-20 w-20 -translate-x-2/4 rounded-full border-[3px]  border-solid	border-[#97E8A9] lg:bottom-1/2 lg:left-0 lg:h-48 lg:w-48 lg:-translate-x-1/2 lg:translate-y-1/2" />
+              {/* goalkeeper position */}
+              <div className="absolute left-1/2 top-2 z-30 -translate-x-1/2 lg:left-auto lg:right-2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0">
+                <PlayerPlaceholder
+                  id="goalkeeper-2"
+                  position="goalkeeper"
+                  playerPositions={playerPositions}
+                />
+              </div>
+              <EndTurnButton isWaiting={isWaiting} />
+            </div>
           </div>
         </div>
       </div>

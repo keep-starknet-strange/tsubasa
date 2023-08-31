@@ -2,17 +2,33 @@
 
 import { DndContext, pointerWithin } from "@dnd-kit/core";
 
-import { useState } from "react";
-
-import type { DragEndEvent, DragOverEvent } from "@dnd-kit/core";
-import { ExtendedCardProps } from "@/components/card/types";
 import ConnectButton from "@/components/ConnectButton";
 import Gameboard from "@/components/gameboard/Gameboard";
 import CardBench from "@/components/CardBench";
 import Scoreboard from "@/components/Scoreboard";
+import { useEffect, useState } from "react";
+import type { CardSize, ExtendedCardProps } from "@/components/card/types";
+import type {
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+} from "@dnd-kit/core";
 
 export default function Home() {
-  const cardSize = "sm";
+  const [cardSize, setCardSize] = useState<CardSize>("sm");
+
+  //change state in window width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) setCardSize("xs");
+      else {
+        setCardSize("sm");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");
   const [playersInBench, setPlayersInBench] = useState<ExtendedCardProps[]>([
@@ -65,6 +81,17 @@ export default function Home() {
       hover: false,
     },
   ]);
+
+  useEffect(() => {
+    setPlayersInBench((prev) => {
+      return prev.map((eachItem) => {
+        return {
+          ...eachItem,
+          size: cardSize,
+        };
+      });
+    });
+  }, [cardSize]);
 
   // store map of players on gameboard
   const [playerPositions, setPlayerPositions] = useState<
@@ -173,6 +200,9 @@ export default function Home() {
     }
   };
 
+  const onDragStart = (e: DragStartEvent) => {
+    setCurrentPickedCard(e?.active.id.toString());
+  };
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
       <div className="flex w-full items-end justify-end md:fixed">
@@ -185,12 +215,14 @@ export default function Home() {
           collisionDetection={pointerWithin}
           onDragEnd={onDragEnd}
           onDragOver={onDragOver}
+          onDragStart={onDragStart}
         >
           <div className="my-auto h-full w-full flex-1 md:relative md:flex md:items-center md:justify-center ">
             <div className="z-10 m-2 mx-auto w-max md:absolute md:left-1/2 md:top-0 md:m-0 md:-translate-x-1/2">
               <Scoreboard />
             </div>
             <Gameboard
+              currentPickedCard={currentPickedCard}
               playerPositions={playerPositions}
               currentHoveredPlaceholder={currentHoveredPlaceholder}
             />
