@@ -39,14 +39,15 @@ export default function CardPlaceholder(props: Props) {
 
   useEffect(() => {
     if (playerPositions?.[id]?.id === currentPickedCard) {
+      if (!currentPickedCard) return;
       setPendingStatusMap((prev) => ({
         ...prev,
-        [currentPickedCard as keyof typeof pendingStatusMap]: "pending",
+        [currentPickedCard]: "pending",
       }));
       setTimeout(() => {
         setPendingStatusMap((prev) => ({
           ...prev,
-          [currentPickedCard as keyof typeof pendingStatusMap]: "standard",
+          [currentPickedCard]: "standard",
         }));
       }, 1500);
     }
