@@ -7,12 +7,16 @@ export default function Scoreboard() {
   const [scoreboardType, setScoreBoardTypes] = useState(0);
 
   const {
-    setup: { systemCalls: { create_game } }, account: { account } } = useDojo();
+    setup: {
+      systemCalls: { create_game },
+    },
+    account: { account },
+  } = useDojo();
 
-  const player_2_address = '0x0000000'
+  const player_2_address = "0x0000000";
 
   return (
-    <div className="rounded-b-xl bg-green-500 p-6 font-new-airport font-medium sm:p-8">
+    <div className="rounded-b-xl bg-green-500 p-3 font-new-airport font-medium sm:p-8">
       <button
         className="leading-xl flex h-20 w-[10rem] items-center justify-center overflow-hidden rounded-lg bg-greenBlack px-3 py-2 text-xl text-green-200 shadow-md sm:w-[25rem] sm:max-w-none sm:px-6 sm:py-3"
         onClick={() => setScoreBoardTypes(1)}
@@ -35,7 +39,12 @@ export default function Scoreboard() {
           </span>
         )}
       </button>
-      <button onClick={() => void create_game({ account, player_2_address })} className="p-2 uppercase text-xl">start game</button>
+      <button
+        onClick={() => void create_game({ account, player_2_address })}
+        className="p-2 text-xl uppercase"
+      >
+        start game
+      </button>
     </div>
   );
 }

@@ -20,3 +20,7 @@ export type CardData = {
   player?: string;
   state?: CardState;
 };
+
+export interface ExtendedCardProps extends CardData {
+  id: string;
+}
