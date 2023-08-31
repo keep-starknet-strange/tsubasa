@@ -16,18 +16,6 @@ import type {
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
 
-  //change state in window width
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) setCardSize("xs");
-      else {
-        setCardSize("sm");
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   useEffect(() => {
     if (window.innerWidth < 1024) {
       setCardSize("xs");

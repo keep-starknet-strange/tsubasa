@@ -35,21 +35,9 @@ export default function CardPlaceholder(props: Props) {
   const { setNodeRef } = useDroppable({
     id: id,
   });
-  const [cardSize, setCardSize] = useState<CardSize>("sm");
+  const [cardSize, setCardSize] = useState<CardSize>("xs");
   const [currentCardState, setCurrentCardState] =
     useState<CardState>("standard");
-
-  //change state in window width
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) setCardSize("xs");
-      else {
-        setCardSize("sm");
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     if (playerPositions?.[id]?.id === currentPickedCard) {
