@@ -11,8 +11,6 @@ interface Props {
 }
 
 export default function Gameboard(props: Props) {
-  const { playerPositions, currentHoveredPlaceholder, currentPickedCard } =
-    props;
   return (
     <div className="h-screen max-h-96 w-full md:m-auto md:h-[645px] md:max-h-[645px] md:w-11/12 md:max-w-[1296px]">
       {/* field */}
@@ -129,28 +127,24 @@ export default function Gameboard(props: Props) {
           {/* mobile view */}
           <div className="absolute left-1/2 top-8 z-0 flex -translate-x-1/2 flex-row gap-2 md:hidden">
             <CardPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="goalkeeper-2-mobile"
               position="goalkeeper"
-              playerPositions={playerPositions}
+              {...props}
             />
             <CardPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="defender-2-mobile"
               position="defender"
-              playerPositions={playerPositions}
+              {...props}
             />
             <CardPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="midfielder-2-mobile"
               position="midfielder"
-              playerPositions={playerPositions}
+              {...props}
             />
             <CardPlaceholder
-              currentHoveredPlaceholder={currentHoveredPlaceholder}
               id="forward-2-mobile"
               position="forward"
-              playerPositions={playerPositions}
+              {...props}
             />
           </div>
         </div>

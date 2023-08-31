@@ -4,7 +4,6 @@ import { useDroppable } from "@dnd-kit/core";
 import Card from "./card/Card";
 import classNames from "classnames";
 import { getCardSizeClassnames } from "./card/utils";
-import DraggableCard from "@/components/dragAndDrop/DraggableCard";
 import { useState, type ReactNode, useEffect } from "react";
 import type { CardSize, CardState, ExtendedCardProps } from "./card/types";
 
@@ -42,7 +41,7 @@ export default function CardPlaceholder(props: Props) {
 
   //change state in window width
   useEffect(() => {
-    const handleResize = (e) => {
+    const handleResize = () => {
       if (window.innerWidth < 1024) setCardSize("xs");
       else {
         setCardSize("sm");

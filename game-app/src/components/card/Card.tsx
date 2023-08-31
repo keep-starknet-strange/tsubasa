@@ -1,12 +1,5 @@
 import classNames from "classnames";
 import type { CardData } from "./types";
-import type {
-  CardKind,
-  CardSize,
-  CardColor,
-  CardState,
-  CardProps,
-} from "./types";
 import CardEnergy from "./CardEnergy";
 import CardSticker from "./CardSticker";
 import CardHover from "./CardHover";
@@ -16,6 +9,10 @@ import { getCardSizeClassnames } from "./utils";
 import CardPending from "./CardPending";
 import CardBackground from "./CardBackground";
 import CardEmpty from "./CardEmpty";
+
+interface CardProps extends CardData {
+  onClick?: (data: CardData) => void;
+}
 
 const Card = (props: CardProps) => {
   const { onClick, ...data } = props;

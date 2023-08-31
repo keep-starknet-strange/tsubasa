@@ -225,7 +225,7 @@ export default function Home() {
               playerPositions={playerPositions}
               currentHoveredPlaceholder={currentHoveredPlaceholder}
             />
-            <div className="z-50 m-2 mx-auto w-max md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
+            <div className="z-50 m-2 mx-auto md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">
               <CardBench playersInBench={playersInBench} />
             </div>
           </div>
