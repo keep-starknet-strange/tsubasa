@@ -5,8 +5,8 @@ import Card from "./card/Card";
 import classNames from "classnames";
 import { getCardSizeClassnames } from "./card/utils";
 import DraggableCard from "@/components/dragAndDrop/DraggableCard";
-import type { ReactNode } from "react";
-import type { ExtendedCardProps } from "./card/types";
+import { useState, type ReactNode, useEffect } from "react";
+import type { CardSize, CardState, ExtendedCardProps } from "./card/types";
 
 interface Props {
   id: string;
@@ -14,6 +14,7 @@ interface Props {
   children?: ReactNode;
   playerPositions?: Record<string, ExtendedCardProps>;
   currentHoveredPlaceholder?: string;
+  currentPickedCard?: string;
 }
 
 /*
@@ -24,16 +25,48 @@ three conditions in which card placeholder is used
 */
 
 export default function CardPlaceholder(props: Props) {
-  const { position, children, playerPositions, id, currentHoveredPlaceholder } =
-    props;
+  const {
+    position,
+    children,
+    playerPositions,
+    id,
+    currentHoveredPlaceholder,
+    currentPickedCard,
+  } = props;
   const { setNodeRef } = useDroppable({
     id: id,
   });
+  const [cardSize, setCardSize] = useState<CardSize>("sm");
+  const [currentCardState, setCurrentCardState] =
+    useState<CardState>("standard");
+
+  //change state in window width
+  useEffect(() => {
+    const handleResize = (e) => {
+      if (window.innerWidth < 1024) setCardSize("xs");
+      else {
+        setCardSize("sm");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (playerPositions?.[id]?.id === currentPickedCard) {
+      setCurrentCardState("pending");
+      setTimeout(() => {
+        setCurrentCardState("standard");
+      }, 3000);
+    } else {
+      setCurrentCardState("standard");
+    }
+  }, [playerPositions]);
 
   return (
     <div
       className={classNames(
-        "relative z-50 flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out lg:min-h-[136px] lg:min-w-[100px] lg:p-4",
+        "relative z-50 flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out ",
         {
           "border-white shadow-[0px_0px_10px_rgba(0,0,0)] shadow-white":
             currentHoveredPlaceholder === id,
@@ -43,18 +76,13 @@ export default function CardPlaceholder(props: Props) {
       <div
         ref={setNodeRef}
         className={classNames(
-          getCardSizeClassnames("sm"),
+          getCardSizeClassnames(cardSize),
           "flex items-center justify-center rounded-lg bg-[#71CD87] "
         )}
       >
         {/* 1) placeholder on bench with no position name , only card */}
         {playerPositions?.[id] ? (
-          <DraggableCard
-            id={playerPositions[id]?.id}
-            data={playerPositions[id]}
-          >
-            <Card {...playerPositions[id]} />
-          </DraggableCard>
+          <Card {...playerPositions[id]} state={currentCardState} />
         ) : null}
 
         {/* 2) placeholder with no position name , no card */}
