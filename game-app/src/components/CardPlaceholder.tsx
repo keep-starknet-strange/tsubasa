@@ -62,6 +62,14 @@ export default function CardPlaceholder(props: Props) {
     }
   }, [playerPositions]);
 
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setCardSize("xs");
+    } else {
+      setCardSize("sm");
+    }
+  }, []);
+
   return (
     <div
       className={classNames(

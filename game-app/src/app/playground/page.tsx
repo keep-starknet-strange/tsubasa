@@ -14,7 +14,7 @@ import type {
 } from "@dnd-kit/core";
 
 export default function Home() {
-  const [cardSize, setCardSize] = useState<CardSize>("sm");
+  const [cardSize, setCardSize] = useState<CardSize>("xs");
 
   //change state in window width
   useEffect(() => {
@@ -29,8 +29,9 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth < 1024) setCardSize("xs");
-    else {
+    if (window.innerWidth < 1024) {
+      setCardSize("xs");
+    } else {
       setCardSize("sm");
     }
   }, []);
