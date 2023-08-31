@@ -19,7 +19,7 @@ export default function DraggableCard(props: Props) {
   };
   return (
     <div
-      className="z-90 touch-none"
+      className="z-50 touch-none"
       ref={setNodeRef}
       {...listeners}
       {...attributes}

@@ -12,9 +12,11 @@ import type {
   DragOverEvent,
   DragStartEvent,
 } from "@dnd-kit/core";
+import EndTurnButton from "@/components/EndTurnButton";
 
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
+  const [isWaiting, setIsWaiting] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 1024) {
@@ -104,7 +106,6 @@ export default function Home() {
   // handle drag interactions
   const onDragEnd = (e: DragEndEvent) => {
     // return if no valid droppable position
-
     if (!e.over) return;
 
     const currentSelectedCard = e?.active?.data?.current as ExtendedCardProps;
@@ -121,25 +122,6 @@ export default function Home() {
       });
       if (isPlayerPresent) return;
 
-      //check if player is part of gamefield
-      let prevPosition = "";
-      Object.keys(playerPositions).forEach((eachItem) => {
-        if (playerPositions?.[eachItem]?.id === currentSelectedCard?.id) {
-          prevPosition = eachItem;
-        }
-      });
-
-      // unset the gamefield position if already present
-      if (prevPosition.length > 0) {
-        setPlayerPositions((prev) => {
-          const copy = { ...prev };
-          delete copy[prevPosition];
-          // reset the old position and update the value of new position
-
-          return copy;
-        });
-      }
-
       // include in bench
       setPlayersInBench((prev) => {
         return [...prev, currentSelectedCard];
@@ -149,34 +131,10 @@ export default function Home() {
     }
 
     // if player is placed on gameboard
-
-    // flag to check if valid position chosen by user
-    let isValidPosition = false;
     setPlayerPositions((prev) => {
       // check if any other player already present on position
       if (prev?.[currentDropContainer]) {
         return prev;
-      }
-
-      // valid position check passes since user has not placed card on pre-occupied position
-      isValidPosition = true;
-
-      // check if the card was ocupying a position on the gamefield previously
-      let prevPosition;
-      Object.keys(prev).forEach((eachItem) => {
-        if (prev?.[eachItem]?.id === currentSelectedCard?.id) {
-          prevPosition = eachItem;
-        }
-      });
-      // if card was previously on some other position then reset that position value and update with new position
-      if (prevPosition) {
-        const copy = { ...prev };
-        delete copy[prevPosition];
-
-        return {
-          ...copy,
-          [currentDropContainer]: currentSelectedCard,
-        };
       }
 
       // else add new position with value in map
@@ -186,20 +144,18 @@ export default function Home() {
       };
     });
 
-    // if valid drop container then remove player from bench
-    if (isValidPosition) {
-      setPlayersInBench((prev) =>
-        prev.filter((eachItem) => eachItem.id !== currentSelectedCard?.id)
-      );
-      setCurrentHoveredPlaceholder("");
-    }
+    // update player position and remove player from bench
+    setPlayersInBench((prev) =>
+      prev.filter((eachItem) => eachItem.id !== currentSelectedCard?.id)
+    );
+    setCurrentHoveredPlaceholder("");
   };
 
   const onDragStart = (e: DragStartEvent) => {
     setCurrentPickedCard(e?.active.id.toString());
   };
   return (
-    <main className="flex min-h-screen flex-col items-center gap-4">
+    <main className="flex h-screen flex-col items-center gap-4">
       <div className="z-10 flex w-full items-end justify-end md:fixed">
         <div className="p-2">
           <ConnectButton />
@@ -225,6 +181,7 @@ export default function Home() {
               <CardBench playersInBench={playersInBench} />
             </div>
           </div>
+          <EndTurnButton isWaiting={isWaiting} />
         </DndContext>
       </div>
     </main>

@@ -32,23 +32,30 @@ export default function CardPlaceholder(props: Props) {
     currentHoveredPlaceholder,
     currentPickedCard,
   } = props;
+
+  const [pendingStatusMap, setPendingStatusMap] = useState<
+    Record<string, CardState>
+  >({});
+
+  useEffect(() => {
+    if (playerPositions?.[id]?.id === currentPickedCard) {
+      setPendingStatusMap((prev) => ({
+        ...prev,
+        [currentPickedCard as keyof typeof pendingStatusMap]: "pending",
+      }));
+      setTimeout(() => {
+        setPendingStatusMap((prev) => ({
+          ...prev,
+          [currentPickedCard as keyof typeof pendingStatusMap]: "standard",
+        }));
+      }, 1500);
+    }
+  }, [currentPickedCard, playerPositions]);
+
   const { setNodeRef } = useDroppable({
     id: id,
   });
   const [cardSize, setCardSize] = useState<CardSize>("xs");
-  const [currentCardState, setCurrentCardState] =
-    useState<CardState>("standard");
-
-  useEffect(() => {
-    if (playerPositions?.[id]?.id === currentPickedCard) {
-      setCurrentCardState("pending");
-      setTimeout(() => {
-        setCurrentCardState("standard");
-      }, 1500);
-    } else {
-      setCurrentCardState("standard");
-    }
-  }, [playerPositions]);
 
   useEffect(() => {
     if (window.innerWidth < 1024) {
@@ -61,7 +68,7 @@ export default function CardPlaceholder(props: Props) {
   return (
     <div
       className={classNames(
-        "relative z-50 flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out ",
+        "relative flex min-h-[76px] min-w-[52px] items-center justify-center rounded-lg border-[1px] border-solid border-transparent bg-[#80D794] p-2 transition-all duration-300 ease-in-out ",
         {
           "border-white shadow-[0px_0px_10px_rgba(0,0,0)] shadow-white":
             currentHoveredPlaceholder === id,
@@ -77,7 +84,10 @@ export default function CardPlaceholder(props: Props) {
       >
         {/* 1) placeholder on bench with no position name , only card */}
         {playerPositions?.[id] ? (
-          <Card {...playerPositions[id]} state={currentCardState} />
+          <Card
+            {...playerPositions[id]}
+            state={pendingStatusMap[playerPositions[id].id]}
+          />
         ) : null}
 
         {/* 2) placeholder with no position name , no card */}

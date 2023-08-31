@@ -14,7 +14,7 @@ interface Props {
 export default function CardBench(props: Props) {
   const { playersInBench } = props;
   return (
-    <div className="flex w-11/12 items-start justify-center rounded-xl bg-[#80D794] p-2">
+    <div className="flex items-start justify-center rounded-xl bg-[#80D794] p-2">
       {Array.from({ length: CARDS_ALLOWED_IN_DECK }, (_, index) => (
         <PlayerPlaceholder key={index} id={`bench-${index}`}>
           {playersInBench[index] ? (
