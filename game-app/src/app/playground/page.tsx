@@ -205,7 +205,7 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center gap-4">
-      <div className="flex w-full items-end justify-end md:fixed">
+      <div className="z-10 flex w-full items-end justify-end bg-black md:fixed">
         <div className="p-2">
           <ConnectButton />
         </div>
