@@ -26,8 +26,8 @@ struct CardPlaced {
     position: Roles,
 }
 
-#[derive(Drop, starknet::Event)]
+#[derive(Drop, starknet::Event, Copy)]
 struct DeckCreated {
     player: ContractAddress,
-    token_list: Array<u256>,
+    token_list: Span<u256>,
 }

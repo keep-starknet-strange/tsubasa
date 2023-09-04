@@ -1,9 +1,7 @@
-use core::traits::{Into, Default};
-use array::ArrayTrait;
-use serde::Serde;
-use option::{Option, OptionTrait};
+use traits::Into;
 use debug::PrintTrait;
 use dojo::world::IWorldDispatcherTrait;
+use starknet::ContractAddress;
 
 use starknet::testing::set_contract_address;
 
@@ -20,9 +18,23 @@ fn test_create_deck() {
 
     let game_id = create_game(world, player1, player2);
 
-    let mut create_deck_calldata = array![player1.into()];
+    let mut create_deck_calldata = array![8, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0];
 
-    create_deck_calldata.append(1);
+    // create deck
+
+    world.execute('create_deck_system', create_deck_calldata);
+}
+#[test]
+#[should_panic]
+#[available_gas(30000000)]
+fn test_create_deck_not_enough_cards() {
+    let (player1, player2, _) = get_players();
+
+    let world = spawn_world();
+
+    let game_id = create_game(world, player1, player2);
+
+    let mut create_deck_calldata = array![7, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0];
 
     // create deck
 
