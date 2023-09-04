@@ -22,8 +22,6 @@ struct Card {
     cost: u8,
     /// Assigned role
     role: Roles,
-    /// Card is currently captain of the team
-    is_captain: bool,
 }
 
 /// Available roles for cards
@@ -77,7 +75,8 @@ struct DeckCard {
     #[key]
     card_index: u8,
     token_id: u256,
-    card_state: CardState
+    card_state: CardState,
+    is_captain: bool
 }
 
 impl CardStateSerdeLen of dojo::SerdeLen<CardState> {
