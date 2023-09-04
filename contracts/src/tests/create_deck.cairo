@@ -15,7 +15,7 @@ use tsubasa::systems::create_deck_system;
 #[available_gas(30000000)]
 fn test_create_deck() {
     let (player1, player2, _) = get_players();
-    
+
     let world = spawn_world();
 
     let game_id = create_game(world, player1, player2);
@@ -27,5 +27,4 @@ fn test_create_deck() {
     // create deck
 
     world.execute('create_deck_system', create_deck_calldata);
-
 }
