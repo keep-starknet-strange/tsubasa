@@ -28,13 +28,12 @@ mod create_card_system {
             ctx.world,
             Card {
                 token_id: token_id.into(),
-                dribble: dribble,
+                dribble,
                 current_dribble: dribble,
-                defense: defense,
+                defense,
                 current_defense: defense,
-                cost: cost,
-                role: role,
-                is_captain: is_captain
+                cost,
+                role,
             }
         );
     }

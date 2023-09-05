@@ -1,6 +1,7 @@
 use array::ArrayTrait;
 use starknet::ContractAddress;
 use traits::Into;
+use serde::Serde;
 
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
@@ -10,6 +11,7 @@ use tsubasa::systems::place_card_system;
 use tsubasa::systems::attack_system;
 use tsubasa::systems::create_game_system;
 use tsubasa::systems::create_card_system;
+use tsubasa::systems::create_deck_system;
 
 use tsubasa::systems::end_turn_system;
 
@@ -26,6 +28,7 @@ fn spawn_world() -> IWorldDispatcher {
         attack_system::TEST_CLASS_HASH,
         end_turn_system::TEST_CLASS_HASH,
         create_card_system::TEST_CLASS_HASH,
+        create_deck_system::TEST_CLASS_HASH,
     ];
 
     // deploy executor, world and register components/systems
@@ -52,5 +55,22 @@ fn create_game(
 
     // create game
     world.execute('create_game_system', create_game_calldata);
+
+    let mut create_deck_calldata1 = array![];
+    let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
+    token_ids1.serialize(ref create_deck_calldata1);
+    // Captain index.
+    create_deck_calldata1.append(7);
+    world.execute('create_deck_system', create_deck_calldata1);
+
+    starknet::testing::set_contract_address(player2);
+    let mut create_deck_calldata2 = array![];
+    let token_ids2 = array![1_u256, 3, 5, 7, 9, 11, 13, 15];
+    token_ids2.serialize(ref create_deck_calldata2);
+    // Captain index.
+    create_deck_calldata2.append(7);
+    world.execute('create_deck_system', create_deck_calldata2);
+
+    starknet::testing::set_contract_address(player1);
     pedersen(player1.into(), player2.into())
 }

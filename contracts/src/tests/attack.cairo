@@ -20,8 +20,8 @@ fn test_attack_player1_scores_against_empty_board() {
     let create_card_calldata = array![0, 0, 22, 17, 1, 3, 1];
     world.execute('create_card_system', create_card_calldata);
     // Player 1 plays
-    // 0_u256.low, 0_u256.high, Roles::Defender
-    let place_card_calldata = array![game_id, 0, 0, 1];
+    // Card number in the deck, Roles::Defender
+    let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
@@ -54,14 +54,14 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     world.execute('create_card_system', create_card_calldata);
 
     // Player 1 plays
-    // 0_u256.low, 0_u256.high, Roles::Defender
-    let place_card_calldata = array![game_id, 0, 0, 1];
+    // Card number in the deck, Roles::Defender
+    let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
     // Player 2 plays
     set_contract_address(player2);
-    let place_card_calldata = array![game_id, 1, 0, 2];
+    let place_card_calldata = array![game_id, 0, 2];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
@@ -95,7 +95,6 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     assert(card.current_defense == 3, 'Wrong current defense');
     assert(card.cost == 1, 'Wrong cost');
     assert(card.role == Roles::Attacker, 'Wrong role');
-    assert(!card.is_captain, 'Wrong captain');
 }
 
 #[test]
@@ -115,14 +114,14 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     world.execute('create_card_system', create_card_calldata);
 
     // Player 1 plays
-    // 0_u256.low, 0_u256.high, Roles::Goalkeeper
-    let place_card_calldata = array![game_id, 0, 0, 0];
+    // Card number in the deck, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
     // Player 2 plays
     set_contract_address(player2);
-    let place_card_calldata = array![game_id, 1, 0, 1];
+    let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
@@ -156,7 +155,6 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     assert(card.current_defense == 3, 'Wrong current defense');
     assert(card.cost == 1, 'Wrong cost');
     assert(card.role == Roles::Midfielder, 'Wrong role');
-    assert(!card.is_captain, 'Wrong captain');
 }
 
 #[test]
@@ -176,14 +174,14 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     world.execute('create_card_system', create_card_calldata);
 
     // Player 1 plays
-    // 0_u256.low, 0_u256.high, Roles::Goalkeeper
-    let place_card_calldata = array![game_id, 0, 0, 0];
+    // Card number in the deck, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
     // Player 2 plays
     set_contract_address(player2);
-    let place_card_calldata = array![game_id, 1, 0, 0];
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
@@ -242,44 +240,44 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     // Token_id, Dribble, Defense, Cost, Role, is captain
     let create_card_calldata = array![0, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
-    let create_card_calldata = array![1, 0, 1, 2, 0, 1, 0];
-    world.execute('create_card_system', create_card_calldata);
     let create_card_calldata = array![2, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
-    let create_card_calldata = array![3, 0, 1, 2, 0, 1, 0];
+    let create_card_calldata = array![4, 0, 1, 2, 0, 1, 0];
+    world.execute('create_card_system', create_card_calldata);
+    let create_card_calldata = array![6, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
 
     // Card for player 2
-    let create_card_calldata = array![4, 0, 1, 2, 0, 1, 0];
+    let create_card_calldata = array![1, 0, 1, 2, 0, 1, 0];
+    world.execute('create_card_system', create_card_calldata);
+    let create_card_calldata = array![3, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
     let create_card_calldata = array![5, 0, 1, 2, 0, 1, 0];
-    world.execute('create_card_system', create_card_calldata);
-    let create_card_calldata = array![6, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
     let create_card_calldata = array![7, 0, 1, 2, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
 
     // Player 1 plays
-    // 0_u256.low, 0_u256.high, Roles::Goalkeeper
-    let place_card_calldata = array![game_id, 0, 0, 0];
+    // Card number in the deck, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 1, 0, 3];
+    let place_card_calldata = array![game_id, 1, 3];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 2, 0, 1];
+    let place_card_calldata = array![game_id, 2, 1];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 3, 0, 2];
+    let place_card_calldata = array![game_id, 3, 2];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 
     // Player 2 plays
     set_contract_address(player2);
-    let place_card_calldata = array![game_id, 4, 0, 0];
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 5, 0, 1];
+    let place_card_calldata = array![game_id, 1, 1];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 6, 0, 2];
+    let place_card_calldata = array![game_id, 2, 2];
     world.execute('place_card_system', place_card_calldata);
-    let place_card_calldata = array![game_id, 7, 0, 3];
+    let place_card_calldata = array![game_id, 3, 3];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
 

@@ -37,13 +37,11 @@ fn test_create_card() {
     assert(card_player1.current_defense == 17, 'current defense is wrong');
     assert(card_player1.cost == 10, 'cost is wrong');
     assert(card_player1.role == Roles::Attacker, 'role is wrong');
-    assert(card_player1.is_captain == true, 'is_captain is wrong');
 
     assert(card_player2.dribble == 10, 'p2_dribble is wrong');
     assert(card_player2.defense == 15, 'p2_defense is wrong');
     assert(card_player2.cost == 15, 'p2_cost is wrong');
     assert(card_player2.role == Roles::Defender, 'role is wrong');
-    assert(card_player2.is_captain == false, 'is_captain is wrong');
 
     assert(card_player1.dribble >= card_player2.defense, 'invalid Card create execution');
     assert(card_player2.cost >= card_player1.cost, 'invalid Cost comparison');

@@ -11,13 +11,13 @@ use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place
 use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 
 #[test]
-#[available_gas(30000000)]
+#[available_gas(300000000)]
 fn test_end_turn() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
-    // card_id.low, card_id.high, Roles::Goalkeeper
-    let mut place_card_calldata = array![game_id, 0, 0, 0];
+    // Card number in the deck, Roles::Goalkeeper
+    let mut place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
     let mut attack_calldata = array![game_id];
@@ -57,11 +57,11 @@ fn test_end_game() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     // Token_id, Dribble, Defense, Cost, Role
-    let mut create_card_calldata = array![0, 0, 22, 17, 0, 1, 0];
+    let create_card_calldata = array![0, 0, 22, 17, 0, 1, 0];
     world.execute('create_card_system', create_card_calldata);
 
-    // card_id.low, card_id.high, Roles::Goalkeeper
-    let mut place_card_calldata = array![game_id, 0, 0, 0];
+    // Card number in the deck, Roles::Goalkeeper
+    let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
 
     let end_turn_calldata = array![game_id];
@@ -150,33 +150,32 @@ fn test_end_turn_right_players_twice() {
 }
 
 #[test]
-#[available_gas(30000000)]
+#[available_gas(300000000)]
 fn test_end_turn_with_card_on_side() {
     let world = spawn_world();
     let (player1, player2, executor) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     let card = Card {
-        token_id: 1,
+        token_id: 2,
         dribble: 1,
         current_dribble: 1,
         defense: 2,
         current_defense: 2,
         cost: 1,
         role: Roles::Goalkeeper,
-        is_captain: false
     };
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    // 1_u256.low, 0_u256.high, Roles::Defender
-    let place_card_calldata = array![game_id, 1, 0, 1];
+    // Card number in the deck, Roles::Defender
+    let place_card_calldata = array![game_id, 1, 1];
     world.execute('place_card_system', place_card_calldata);
 
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
         Option::Some(placement) => {
             match placement {
-                Placement::Side(id) => assert(id == 1, 'Card id should be 1'),
+                Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
                 Placement::Field(_) => panic_with_felt252('Wrong Placement'),
             }
         },
@@ -190,7 +189,7 @@ fn test_end_turn_with_card_on_side() {
         Option::Some(placement) => {
             match placement {
                 Placement::Side(_) => panic_with_felt252('Wrong Placement'),
-                Placement::Field(id) => assert(id == 1, 'Card id should be 1'),
+                Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
             }
         },
         Option::None => panic_with_felt252('Should be some'),

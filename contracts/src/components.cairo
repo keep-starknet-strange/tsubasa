@@ -22,8 +22,6 @@ struct Card {
     cost: u8,
     /// Assigned role
     role: Roles,
-    /// Card is currently captain of the team
-    is_captain: bool,
 }
 
 /// Available roles for cards
@@ -62,6 +60,32 @@ struct Game {
     outcome: Option<Outcome>,
 }
 
+/// State for deck's cards
+#[derive(Copy, PartialEq, Drop, Serde)]
+enum CardState {
+    Hand,
+    Deck
+}
+
+/// Represents each card of the 8 that exists in a player's deck
+#[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
+struct DeckCard {
+    #[key]
+    player: ContractAddress,
+    #[key]
+    card_index: u8,
+    token_id: u256,
+    card_state: CardState,
+    is_captain: bool
+}
+
+impl CardStateSerdeLen of dojo::SerdeLen<CardState> {
+    #[inline(always)]
+    fn len() -> usize {
+        1
+    }
+}
+
 #[derive(Component, Copy, Drop, Serde, SerdeLen, PrintTrait)]
 struct Player {
     #[key]
@@ -72,7 +96,7 @@ struct Player {
     defender: Option<Placement>,
     midfielder: Option<Placement>,
     attacker: Option<Placement>,
-    remaining_energy: u128
+    remaining_energy: u128,
 }
 #[generate_trait]
 impl GetSetPlacement of GetSetPlacementTrait {
@@ -141,7 +165,6 @@ impl PlayerSerdeLen of dojo::SerdeLen<Option<Outcome>> {
         3
     }
 }
-
 
 impl OptionPlacementSerdeLen of dojo::SerdeLen<Option<Placement>> {
     #[inline(always)]
@@ -219,6 +242,16 @@ impl PlacementPrint of debug::PrintTrait<Option<Placement>> {
                 },
             },
             Option::None => 'None'.print(),
+        }
+    }
+}
+
+#[cfg(test)]
+impl CardStatePrint of debug::PrintTrait<CardState> {
+    fn print(self: CardState) {
+        match self {
+            CardState::Hand => 'Hand'.print(),
+            CardState::Deck => 'Deck'.print(),
         }
     }
 }
