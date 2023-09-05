@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
+import GenericButton from "../components/buttons/GenericButton";
 import React, { useState } from "react";
 import SocialLinks from "../components/SocialLinks";
 import {
@@ -23,9 +23,14 @@ export default function Home() {
         <div className="fixed left-0 right-0 z-40 md:left-5 md:right-5">
           <div className="mx-auto mt-0 flex max-w-[1024px] justify-between md:mt-6">
             <div>
-              <button className="flex flex-row items-center rounded-br-3xl border border-green-600 bg-neon p-3 px-6 font-bold text-greenBlack  drop-shadow-lg hover:bg-green-200 md:rounded-full ">
+              <GenericButton
+                onClick={() => {}}
+                label="login"
+                customStyles="rounded-br-3xl"
+              />
+              {/* <button className="flex flex-row items-center  border border-green-600 bg-neon p-3 px-6 font-bold text-greenBlack  drop-shadow-lg hover:bg-green-200 md:rounded-full ">
                 LOGIN
-              </button>
+              </button> */}
             </div>
 
             <div>

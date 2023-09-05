@@ -2,6 +2,7 @@
 
 import { useAccount, useConnectors } from "@starknet-react/core";
 import { useMemo } from "react";
+import GenericButton from "./GenericButton";
 
 export default function ConnectButton() {
   const { address } = useAccount();
@@ -13,25 +14,31 @@ export default function ConnectButton() {
   }, [address]);
 
   return address ? (
-    <button
-      className="rounded-md bg-green-500 px-5 py-2.5 text-green-300"
-      onClick={disconnect}
-    >
-      {shortenedAddress}
-    </button>
+    <GenericButton label={shortenedAddress} onClick={() => disconnect()} />
   ) : (
+    // <button
+    //   className="rounded-md bg-green-500 px-5 py-2.5 text-green-300"
+    //   onClick={disconnect}
+    // >
+    //   {shortenedAddress}
+    // </button>
     <div className="flex items-center gap-4">
       <span>Choose a wallet:</span>
       <div className="flex gap-2">
         {connectors.map((connector) => {
           return (
-            <button
+            <GenericButton
               key={connector.id}
+              label={connector.id}
               onClick={() => connect(connector)}
-              className="rounded-md bg-green-500 px-5 py-2.5 text-green-200"
-            >
-              {connector.id}
-            </button>
+            />
+            // <button
+            //   key={connector.id}
+            //   onClick={() => connect(connector)}
+            //   className="rounded-md bg-green-500 px-5 py-2.5 text-green-200"
+            // >
+            //   {connector.id}
+            // </button>
           );
         })}
       </div>

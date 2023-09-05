@@ -1,7 +1,7 @@
 import type { CardColor, CardSize } from "./types";
 import Card from "./Card";
 import { DribbleIcon, StaminaIcon } from "../icons";
-import Button from "../Button";
+import GenericButton from "../buttons/GenericButton";
 
 interface CardModalContentProps {
   team: string;
@@ -81,9 +81,11 @@ const CardModalContent = ({
 
           <div className="mt-10 flex">
             {addToDeck && (
-              <Button className="w-full" onClick={addToDeck} variant="primary">
-                Add to deck
-              </Button>
+              <GenericButton
+                customStyles="w-full"
+                onClick={addToDeck}
+                label="Add to Deck"
+              />
             )}
           </div>
         </div>
