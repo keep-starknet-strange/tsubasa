@@ -16,12 +16,6 @@ export default function ConnectButton() {
   return address ? (
     <GenericButton label={shortenedAddress} onClick={() => disconnect()} />
   ) : (
-    // <button
-    //   className="rounded-md bg-green-500 px-5 py-2.5 text-green-300"
-    //   onClick={disconnect}
-    // >
-    //   {shortenedAddress}
-    // </button>
     <div className="flex items-center gap-4">
       <span>Choose a wallet:</span>
       <div className="flex gap-2">
@@ -32,13 +26,6 @@ export default function ConnectButton() {
               label={connector.id}
               onClick={() => connect(connector)}
             />
-            // <button
-            //   key={connector.id}
-            //   onClick={() => connect(connector)}
-            //   className="rounded-md bg-green-500 px-5 py-2.5 text-green-200"
-            // >
-            //   {connector.id}
-            // </button>
           );
         })}
       </div>

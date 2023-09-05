@@ -28,9 +28,6 @@ export default function Home() {
                 label="login"
                 customStyles="rounded-br-3xl"
               />
-              {/* <button className="flex flex-row items-center  border border-green-600 bg-neon p-3 px-6 font-bold text-greenBlack  drop-shadow-lg hover:bg-green-200 md:rounded-full ">
-                LOGIN
-              </button> */}
             </div>
 
             <div>
