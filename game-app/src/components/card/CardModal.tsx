@@ -11,7 +11,7 @@ export default function CardModal() {
 
   if (!isOpen) return null;
 
-  async function addToDeck() {
+  function addToDeck() {
     // TODO
   }
   return (
