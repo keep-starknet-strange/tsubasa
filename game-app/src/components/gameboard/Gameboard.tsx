@@ -24,29 +24,40 @@ export default function Gameboard(props: Props) {
     toPlayer: string,
     dribbleValue: number
   ) => {
-    const dribbleElement = document.createElement("div");
-    dribbleElement.innerHTML = `- ${dribbleValue}`;
-    dribbleElement.className =
-      "absolute z-50 ml-6 p-1 text-red font-bold text-xl transition-all duration-500 ease-in-out";
+    triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
 
-    const defenderElement = document.getElementById(toPlayer);
-    if (defenderElement) {
-      const defenderRect = defenderElement.getBoundingClientRect();
-      dribbleElement.style.left = `${defenderRect.left}px`;
-      dribbleElement.style.top = `${defenderRect.top - 30}px`;
-    }
+    setTimeout(() => {
+      const dribbleElement = document.createElement("div");
+      dribbleElement.innerHTML = `- ${dribbleValue}`;
+      dribbleElement.className =
+        "absolute z-50 ml-6 p-1 text-red font-bold text-xl transition-all duration-500 ease-in-out opacity-0";
 
-    document.body.appendChild(dribbleElement);
+      const defenderElement = document.getElementById(toPlayer);
+      if (defenderElement) {
+        const defenderRect = defenderElement.getBoundingClientRect();
+        dribbleElement.style.left = `${defenderRect.left}px`;
+        dribbleElement.style.top = `${defenderRect.top - 30}px`;
+      }
 
-    void dribbleElement.offsetWidth;
+      document.body.appendChild(dribbleElement);
+      void dribbleElement.offsetWidth;
 
-    if (defenderElement) {
-      const defenderRect = defenderElement.getBoundingClientRect();
-      dribbleElement.style.top = `${defenderRect.top - 100}px`;
-    }
+      dribbleElement.style.opacity = "1";
+
+      if (defenderElement) {
+        const defenderRect = defenderElement.getBoundingClientRect();
+        dribbleElement.style.top = `${defenderRect.top - 100}px`;
+      }
+
+      setTimeout(() => {
+        dribbleElement.style.opacity = "0";
+        setTimeout(() => {
+          dribbleElement.remove();
+        }, 500);
+      }, 500);
+    }, 500);
 
     console.log("fromPlayer", fromPlayer);
-    triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
   };
 
   return (
