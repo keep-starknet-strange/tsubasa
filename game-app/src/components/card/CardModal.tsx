@@ -67,7 +67,7 @@ export default function CardModal() {
                   team="Cairo"
                   size="xl"
                   color="yellow"
-                  addToDeck={addToDeck}
+                  addToDeck={async () => await addToDeck()}
                 />
               </div>
             </Dialog.Panel>

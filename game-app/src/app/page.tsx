@@ -24,7 +24,9 @@ export default function Home() {
           <div className="mx-auto mt-0 flex max-w-[1024px] justify-between md:mt-6">
             <div>
               <GenericButton
-                onClick={() => {}}
+                onClick={() => {
+                  console.log("login");
+                }}
                 label="login"
                 customStyles="rounded-br-3xl"
               />
