@@ -67,15 +67,7 @@ export default function CardModal() {
                   team="Cairo"
                   size="xl"
                   color="yellow"
-                  addToDeck={async () => {
-                    if (addToDeck) {
-                      try {
-                        await addToDeck();
-                      } catch (error) {
-                        console.error("Error adding to the deck:", error);
-                      }
-                    }
-                  }}
+                  addToDeck={addToDeck}
                 />
               </div>
             </Dialog.Panel>
