@@ -11,7 +11,7 @@ interface CardModalContentProps {
   name: string;
   size: CardSize;
   color: CardColor;
-  addToDeck?: () => Promise<void>;
+  addToDeck?: () => void;
 }
 
 const cardSize = "xl";
