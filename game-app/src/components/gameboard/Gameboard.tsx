@@ -24,31 +24,23 @@ export default function Gameboard(props: Props) {
     toPlayer: string,
     dribbleValue: number
   ) => {
-    // Créer un nouvel élément pour afficher le dribble
     const dribbleElement = document.createElement("div");
     dribbleElement.innerHTML = `- ${dribbleValue}`;
-    dribbleElement.style.position = "absolute";
-    dribbleElement.style.zIndex = "1000"; // Assurez-vous qu'il apparaît au-dessus des autres éléments
-    dribbleElement.style.marginLeft = "25px";
-    dribbleElement.style.padding = "5px";
+    dribbleElement.className =
+      "absolute z-50 ml-6 p-1 text-red font-bold text-xl";
 
-    // Positionner l'élément de dribble au-dessus du défenseur
     const defenderElement = document.getElementById(toPlayer);
     if (defenderElement) {
       const defenderRect = defenderElement.getBoundingClientRect();
       dribbleElement.style.left = `${defenderRect.left}px`;
-      dribbleElement.style.top = `${defenderRect.top - 30}px`; // 30px au-dessus du défenseur
+      dribbleElement.style.top = `${defenderRect.top - 30}px`;
     }
 
-    // Ajouter l'élément de dribble au DOM
     document.body.appendChild(dribbleElement);
 
-    // ... (code existant)
-
-    // Supprimer l'élément de dribble après l'animation
     setTimeout(() => {
       dribbleElement.remove();
-    }, 1000); // supprimer après 1 seconde
+    }, 1000);
 
     console.log("fromPlayer", fromPlayer);
     triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
