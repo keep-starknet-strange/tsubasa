@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import CardAttribute from "../app/components/card/CardAttribute";
+import CardAttribute from "../components/card/CardAttribute";
 
 const meta = {
-  title: "CardAttribute",
+  title: "Card/Attribute",
   component: CardAttribute,
   parameters: {},
 } satisfies Meta<typeof CardAttribute>;

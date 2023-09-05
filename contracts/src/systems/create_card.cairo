@@ -17,7 +17,7 @@ mod create_card_system {
     /// * `is_captain` - Whether the card being created is the captain.
     fn execute(
         ctx: Context,
-        token_id: felt252,
+        token_id: u256,
         dribble: u8,
         defense: u8,
         cost: u8,

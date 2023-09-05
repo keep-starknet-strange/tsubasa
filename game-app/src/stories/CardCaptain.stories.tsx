@@ -1,8 +1,8 @@
-import CardCaptain from "../app/components/card/CardCaptain";
+import CardCaptain from "../components/card/CardCaptain";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "CardCaptain",
+  title: "Icons/Captain",
   component: CardCaptain,
   parameters: {},
 } satisfies Meta<typeof CardCaptain>;

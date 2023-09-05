@@ -1,8 +1,8 @@
-import CardEnergy from "../app/components/card/CardEnergy";
+import CardEnergy from "../components/card/CardEnergy";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "CardEnergy",
+  title: "Card/Energy",
   component: CardEnergy,
   parameters: {},
 } satisfies Meta<typeof CardEnergy>;

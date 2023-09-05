@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Scoreboard from "../app/components/Scoreboard";
+import Scoreboard from "../components/Scoreboard";
 
 const meta = {
   title: "Scoreboard",

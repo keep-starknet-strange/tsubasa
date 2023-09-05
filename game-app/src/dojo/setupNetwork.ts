@@ -2,7 +2,7 @@ import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { RPCProvider } from "@dojoengine/core";
 import type { Query } from "@dojoengine/core";
-import { Account, num } from "starknet";
+import type { Account, num } from "starknet";
 // import { GraphQLClient } from 'graphql-request';
 // import { getSdk } from '../generated/graphql';
 

@@ -1,4 +1,4 @@
-import type { CardSize } from "../card/types";
+import type { CardSize } from "./types";
 import classNames from "classnames";
 import EnergyIcon from "../icons/EnergyIcon";
 

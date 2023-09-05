@@ -1,0 +1,26 @@
+export type CardColor = "red" | "blue" | "yellow";
+
+export type CardSize = "xl" | "lg" | "md" | "sm" | "xs";
+
+export type CardAttributeType = "dribble" | "stamina";
+
+export type CardKind = "card-black" | "card";
+
+export type CardState = "buffed" | "hurt" | "standard" | "pending";
+
+export type CardData = {
+  kind: CardKind;
+  size: CardSize;
+  color: CardColor;
+  hover: boolean;
+  captain: boolean;
+  dribble: number;
+  stamina: number;
+  energy: number;
+  player?: string;
+  state?: CardState;
+};
+
+export interface ExtendedCardProps extends CardData {
+  id: string;
+}
