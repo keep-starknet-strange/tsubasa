@@ -2,7 +2,7 @@
 
 import { DndContext, pointerWithin } from "@dnd-kit/core";
 import CardBench from "@/components/CardBench";
-import ConnectButton from "@/components/ConnectButton";
+import ConnectButton from "@/components/buttons/ConnectButton";
 import Gameboard from "@/components/gameboard/Gameboard";
 import Scoreboard from "@/components/Scoreboard";
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import type {
   DragOverEvent,
   DragStartEvent,
 } from "@dnd-kit/core";
-import EndTurnButton from "@/components/EndTurnButton";
+import EndTurnButton from "@/components/buttons/EndTurnButton";
 
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
