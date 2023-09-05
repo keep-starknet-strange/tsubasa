@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 
 interface GenericButtonProps {
   label: string;
-  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void | Promise<void>;
   customStyles?: string;
 }
 
