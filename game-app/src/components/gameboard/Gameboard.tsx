@@ -27,7 +27,7 @@ export default function Gameboard(props: Props) {
     const dribbleElement = document.createElement("div");
     dribbleElement.innerHTML = `- ${dribbleValue}`;
     dribbleElement.className =
-      "absolute z-50 ml-6 p-1 text-red font-bold text-xl";
+      "absolute z-50 ml-6 p-1 text-red font-bold text-xl transition-all duration-500 ease-in-out";
 
     const defenderElement = document.getElementById(toPlayer);
     if (defenderElement) {
@@ -38,9 +38,12 @@ export default function Gameboard(props: Props) {
 
     document.body.appendChild(dribbleElement);
 
-    setTimeout(() => {
-      dribbleElement.remove();
-    }, 1000);
+    void dribbleElement.offsetWidth;
+
+    if (defenderElement) {
+      const defenderRect = defenderElement.getBoundingClientRect();
+      dribbleElement.style.top = `${defenderRect.top - 100}px`;
+    }
 
     console.log("fromPlayer", fromPlayer);
     triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
