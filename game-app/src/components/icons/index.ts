@@ -1,6 +1,6 @@
 import CaptainIcon from "./CaptainIcon";
 import DribbleIcon from "./DribbleIcon";
-import defenseIcon from "./defenseIcon";
+import DefenseIcon from "./DefenseIcon";
 import CartridgeIcon from "./CartridgeIcon";
 import StarkwareIcon from "./StarkwareIcon";
 import DeckIcon from "./DeckIcon";
@@ -15,7 +15,7 @@ export {
   CloseIcon,
   CaptainIcon,
   DribbleIcon,
-  defenseIcon,
+  DefenseIcon,
   StarkwareIcon,
   CartridgeIcon,
   DeckIcon,

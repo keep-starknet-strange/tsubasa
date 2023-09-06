@@ -1,6 +1,6 @@
 import type { CardColor, CardSize } from "./types";
 import Card from "./Card";
-import { DribbleIcon, defenseIcon } from "../icons";
+import { DribbleIcon, DefenseIcon } from "../icons";
 import GenericButton from "../buttons/GenericButton";
 
 interface CardModalContentProps {
@@ -71,7 +71,7 @@ const CardModalContent = ({
             <div className="text-left font-normal">
               <div className="flex items-center">
                 <div className="h-5 w-5">
-                  <defenseIcon />
+                  <DefenseIcon />
                 </div>
                 <div className="ml-1 leading-5 opacity-75">defense</div>
               </div>

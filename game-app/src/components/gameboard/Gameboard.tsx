@@ -7,7 +7,7 @@ import Card from "../card/Card";
 import { animated } from "@react-spring/web";
 import { triggerAttackAnimation } from "../../animations/animations";
 import { usePlayerAnimations } from "../../animations/usePlayerAnimations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   playerPositions: Record<string, ExtendedCardProps>;
@@ -18,6 +18,25 @@ interface Props {
 export default function Gameboard(props: Props) {
   const [isWaiting, setIsWaiting] = useState(false);
   const { animationApis, animationSprings } = usePlayerAnimations();
+  const [currentDefenses, setCurrentDefenses] = useState<
+    Record<string, number>
+  >({});
+
+  const updateDefense = (cardId: string, value: number, isAttack = false) => {
+    setCurrentDefenses((prevDefenses) => {
+      const currentDefense = prevDefenses[cardId] || 10;
+      const newDefense = isAttack ? currentDefense - value : value;
+      return {
+        ...prevDefenses,
+        [cardId]: newDefense,
+      };
+    });
+  };
+
+  useEffect(() => {
+    updateDefense("player1-team1", 4);
+    updateDefense("player4-team2", 10);
+  }, []);
 
   const handleAttack = (
     fromPlayer: string,
@@ -39,6 +58,7 @@ export default function Gameboard(props: Props) {
         dribbleElement.style.top = `${defenderRect.top - 30}px`;
       }
 
+      updateDefense(toPlayer, dribbleValue, true);
       document.body.appendChild(dribbleElement);
       void dribbleElement.offsetWidth;
 
@@ -102,8 +122,9 @@ export default function Gameboard(props: Props) {
                 color={"blue"}
                 hover={false}
                 captain={false}
-                dribble={0}
-                defense={0}
+                dribble={5}
+                defense={10}
+                currentDefense={currentDefenses["player4-team2"] || 10}
                 energy={0}
               />
             </div>
@@ -167,13 +188,14 @@ export default function Gameboard(props: Props) {
                 size={"sm"}
                 color={"blue"}
                 onClick={() =>
-                  handleAttack("player1-team1", "player4-team2", 5)
+                  handleAttack("player1-team1", "player4-team2", 4)
                 }
                 hover={false}
                 captain={false}
-                dribble={5}
-                defense={0}
-                energy={0}
+                dribble={4}
+                currentDefense={currentDefenses["player1-team1"] || 10}
+                defense={4}
+                energy={5}
               />
             </div>
           </animated.div>

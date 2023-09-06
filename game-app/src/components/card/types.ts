@@ -17,10 +17,12 @@ export type CardData = {
   dribble: number;
   defense: number;
   energy: number;
+  currentDefense?: number;
   player?: string;
   state?: CardState;
 };
 
 export interface ExtendedCardProps extends CardData {
   id: string;
+  currentDefense?: number;
 }
