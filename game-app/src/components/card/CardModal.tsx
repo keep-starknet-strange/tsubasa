@@ -63,7 +63,7 @@ export default function CardModal() {
                   dribble={1}
                   name="Lau Xu"
                   position="Forward"
-                  stamina={2}
+                  defense={2}
                   team="Cairo"
                   size="xl"
                   color="yellow"

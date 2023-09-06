@@ -37,7 +37,7 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 color="yellow"
-                type="stamina"
+                type="defense"
                 value={3}
               />
             </div>
@@ -49,7 +49,7 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 color="yellow"
-                type="stamina"
+                type="defense"
                 value={3}
               />
             </div>
@@ -61,7 +61,7 @@ const CardsPage = () => {
                 pending={false}
                 size={size as CardSize}
                 color="yellow"
-                type="stamina"
+                type="defense"
                 value={3}
               />
             </div>
@@ -79,7 +79,7 @@ const CardsPage = () => {
                 hover={false}
                 player="1"
                 size={size as CardSize}
-                stamina={3}
+                defense={3}
                 color="yellow"
                 kind="card"
               />
@@ -96,7 +96,7 @@ const CardsPage = () => {
                   hover={false}
                   player="1"
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="yellow"
                   kind="card"
                   state="pending"
@@ -114,7 +114,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={true}
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="yellow"
                   player="1"
                   kind="card"
@@ -132,7 +132,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={false}
                   size={size as CardSize}
-                  stamina={1}
+                  defense={1}
                   color="blue"
                   kind="card"
                 />
@@ -149,7 +149,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={false}
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="red"
                   kind="card"
                   state="buffed"
@@ -167,7 +167,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={false}
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="blue"
                   kind="card-black"
                 />
@@ -183,7 +183,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={false}
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="red"
                   kind="card-black"
                 />
@@ -199,7 +199,7 @@ const CardsPage = () => {
                   energy={3}
                   hover={false}
                   size={size as CardSize}
-                  stamina={3}
+                  defense={3}
                   color="yellow"
                   kind="card-black"
                 />

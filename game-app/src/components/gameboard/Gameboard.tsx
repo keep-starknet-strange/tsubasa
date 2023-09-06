@@ -7,7 +7,7 @@ import Card from "../card/Card";
 import { animated } from "@react-spring/web";
 import { triggerAttackAnimation } from "../../animations/animations";
 import { usePlayerAnimations } from "../../animations/usePlayerAnimations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   playerPositions: Record<string, ExtendedCardProps>;
@@ -18,10 +18,78 @@ interface Props {
 export default function Gameboard(props: Props) {
   const [isWaiting, setIsWaiting] = useState(false);
   const { animationApis, animationSprings } = usePlayerAnimations();
+  const [currentDefenses, setCurrentDefenses] = useState<
+    Record<string, number>
+  >({});
+
+  const [currentDribbles, setCurrentDribbles] = useState<
+    Record<string, number>
+  >({});
+
+  const updateDribble = (cardId: string, value: number) => {
+    setCurrentDribbles((prevDribbles) => {
+      return {
+        ...prevDribbles,
+        [cardId]: value,
+      };
+    });
+  };
+
+  const updateDefense = (cardId: string, value: number, isAttack = false) => {
+    setCurrentDefenses((prevDefenses) => {
+      const currentDefense = prevDefenses[cardId] || 10;
+      const newDefense = isAttack ? currentDefense - value : value;
+      return {
+        ...prevDefenses,
+        [cardId]: newDefense,
+      };
+    });
+  };
+
+  useEffect(() => {
+    updateDefense("player1-team1", 4);
+    updateDefense("player4-team2", 10);
+    updateDribble("player1-team1", 5);
+    updateDribble("player4-team2", 6);
+  }, []);
 
   const handleAttack = (fromPlayer: string, toPlayer: string) => {
-    console.log("fromPlayer", fromPlayer);
+    const dribbleValue = currentDribbles[fromPlayer];
     triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
+
+    setTimeout(() => {
+      const dribbleElement = document.createElement("div");
+      dribbleElement.innerHTML = `- ${dribbleValue}`;
+      dribbleElement.className =
+        "absolute z-50 ml-6 p-1 text-red font-bold text-xl transition-all duration-500 ease-in-out opacity-0";
+
+      const defenderElement = document.getElementById(toPlayer);
+      if (defenderElement) {
+        const defenderRect = defenderElement.getBoundingClientRect();
+        dribbleElement.style.left = `${defenderRect.left}px`;
+        dribbleElement.style.top = `${defenderRect.top - 30}px`;
+      }
+
+      updateDefense(toPlayer, dribbleValue, true);
+      document.body.appendChild(dribbleElement);
+      void dribbleElement.offsetWidth;
+
+      dribbleElement.style.opacity = "1";
+
+      if (defenderElement) {
+        const defenderRect = defenderElement.getBoundingClientRect();
+        dribbleElement.style.top = `${defenderRect.top - 100}px`;
+      }
+
+      setTimeout(() => {
+        dribbleElement.style.opacity = "0";
+        setTimeout(() => {
+          dribbleElement.remove();
+        }, 500);
+      }, 500);
+    }, 500);
+
+    console.log("fromPlayer", fromPlayer);
   };
 
   return (
@@ -66,8 +134,9 @@ export default function Gameboard(props: Props) {
                 color={"blue"}
                 hover={false}
                 captain={false}
-                dribble={0}
-                stamina={0}
+                dribble={currentDribbles["player4-team2"] || 10}
+                defense={10}
+                currentDefense={currentDefenses["player4-team2"] || 10}
                 energy={0}
               />
             </div>
@@ -133,9 +202,10 @@ export default function Gameboard(props: Props) {
                 onClick={() => handleAttack("player1-team1", "player4-team2")}
                 hover={false}
                 captain={false}
-                dribble={0}
-                stamina={0}
-                energy={0}
+                dribble={currentDribbles["player1-team1"] || 10}
+                currentDefense={currentDefenses["player1-team1"] || 10}
+                defense={4}
+                energy={5}
               />
             </div>
           </animated.div>
