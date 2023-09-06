@@ -1,4 +1,4 @@
-const StaminaIcon = () => (
+const DefenseIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g>
       <path
@@ -11,4 +11,4 @@ const StaminaIcon = () => (
   </svg>
 );
 
-export default StaminaIcon;
+export default DefenseIcon;

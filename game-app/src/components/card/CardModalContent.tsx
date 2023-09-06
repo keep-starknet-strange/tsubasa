@@ -1,13 +1,13 @@
 import type { CardColor, CardSize } from "./types";
 import Card from "./Card";
-import { DribbleIcon, StaminaIcon } from "../icons";
+import { DribbleIcon, defenseIcon } from "../icons";
 import GenericButton from "../buttons/GenericButton";
 
 interface CardModalContentProps {
   team: string;
   position: string;
   dribble: number;
-  stamina: number;
+  defense: number;
   name: string;
   size: CardSize;
   color: CardColor;
@@ -20,7 +20,7 @@ const CardModalContent = ({
   team,
   position,
   dribble,
-  stamina,
+  defense,
   name,
   color,
   addToDeck,
@@ -35,7 +35,7 @@ const CardModalContent = ({
           energy={2}
           kind="card"
           size={cardSize}
-          stamina={1}
+          defense={1}
           hover={false}
           player="1"
         />
@@ -71,12 +71,12 @@ const CardModalContent = ({
             <div className="text-left font-normal">
               <div className="flex items-center">
                 <div className="h-5 w-5">
-                  <StaminaIcon />
+                  <defenseIcon />
                 </div>
-                <div className="ml-1 leading-5 opacity-75">Stamina</div>
+                <div className="ml-1 leading-5 opacity-75">defense</div>
               </div>
             </div>
-            <div className="text-right font-bold leading-4">{stamina}</div>
+            <div className="text-right font-bold leading-4">{defense}</div>
           </div>
 
           <div className="mt-10 flex">

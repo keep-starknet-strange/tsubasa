@@ -23,7 +23,7 @@ const Card = (props: CardProps) => {
     captain,
     size,
     dribble,
-    stamina,
+    defense,
     energy,
     kind,
     state = "standard",
@@ -77,7 +77,7 @@ const Card = (props: CardProps) => {
               dribble={dribble}
               pending={state === "pending"}
               size={size}
-              stamina={stamina}
+              defense={defense}
               color={color}
               state={state}
             />

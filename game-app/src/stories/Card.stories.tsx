@@ -18,7 +18,7 @@ export const CardStory: Story = {
     captain: false,
     size: "xl",
     dribble: 1,
-    stamina: 3,
+    defense: 3,
     energy: 1,
     kind: "card",
     state: "standard",

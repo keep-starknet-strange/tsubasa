@@ -2,7 +2,7 @@
 
 import type { CardAttributeType, CardColor, CardSize } from "./types";
 import classNames from "classnames";
-import StaminaIcon from "../icons/StaminaIcon";
+import DefenseIcon from "../icons/DefenseIcon";
 import DribbleIcon from "../icons/DribbleIcon";
 
 interface CardAttributeProps {
@@ -75,7 +75,7 @@ const CardAttribute = (props: CardAttributeProps) => {
             })}
           >
             {type === "dribble" && <DribbleIcon />}
-            {type === "stamina" && <StaminaIcon />}
+            {type === "defense" && <DefenseIcon />}
           </div>
         </div>
       </div>

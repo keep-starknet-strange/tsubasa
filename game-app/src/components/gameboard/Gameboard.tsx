@@ -103,7 +103,7 @@ export default function Gameboard(props: Props) {
                 hover={false}
                 captain={false}
                 dribble={0}
-                stamina={0}
+                defense={0}
                 energy={0}
               />
             </div>
@@ -172,7 +172,7 @@ export default function Gameboard(props: Props) {
                 hover={false}
                 captain={false}
                 dribble={5}
-                stamina={0}
+                defense={0}
                 energy={0}
               />
             </div>

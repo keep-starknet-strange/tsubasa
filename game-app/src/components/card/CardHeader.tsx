@@ -7,7 +7,7 @@ interface CardHeaderProps {
   pending: boolean;
   size: CardSize;
   dribble: number;
-  stamina: number;
+  defense: number;
   state: CardState;
 }
 
@@ -16,7 +16,7 @@ const CardHeader = ({
   color,
   pending,
   dribble,
-  stamina,
+  defense,
   state,
 }: CardHeaderProps) => {
   return (
@@ -39,8 +39,8 @@ const CardHeader = ({
           hurt={state === "hurt"}
           pending={pending}
           color={color}
-          type="stamina"
-          value={stamina}
+          type="defense"
+          value={defense}
         />
       </div>
     </div>

@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const CardAttributeStory: Story = {
   args: {
     value: 3,
-    type: "stamina",
+    type: "defense",
     color: "blue",
     pending: false,
     hurt: false,
