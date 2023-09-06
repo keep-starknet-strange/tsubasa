@@ -22,6 +22,19 @@ export default function Gameboard(props: Props) {
     Record<string, number>
   >({});
 
+  const [currentDribbles, setCurrentDribbles] = useState<
+    Record<string, number>
+  >({});
+
+  const updateDribble = (cardId: string, value: number) => {
+    setCurrentDribbles((prevDribbles) => {
+      return {
+        ...prevDribbles,
+        [cardId]: value,
+      };
+    });
+  };
+
   const updateDefense = (cardId: string, value: number, isAttack = false) => {
     setCurrentDefenses((prevDefenses) => {
       const currentDefense = prevDefenses[cardId] || 10;
@@ -36,13 +49,12 @@ export default function Gameboard(props: Props) {
   useEffect(() => {
     updateDefense("player1-team1", 4);
     updateDefense("player4-team2", 10);
+    updateDribble("player1-team1", 5);
+    updateDribble("player4-team2", 6);
   }, []);
 
-  const handleAttack = (
-    fromPlayer: string,
-    toPlayer: string,
-    dribbleValue: number
-  ) => {
+  const handleAttack = (fromPlayer: string, toPlayer: string) => {
+    const dribbleValue = currentDribbles[fromPlayer];
     triggerAttackAnimation(fromPlayer, toPlayer, animationApis);
 
     setTimeout(() => {
@@ -122,7 +134,7 @@ export default function Gameboard(props: Props) {
                 color={"blue"}
                 hover={false}
                 captain={false}
-                dribble={5}
+                dribble={currentDribbles["player4-team2"] || 10}
                 defense={10}
                 currentDefense={currentDefenses["player4-team2"] || 10}
                 energy={0}
@@ -187,12 +199,10 @@ export default function Gameboard(props: Props) {
                 kind="card"
                 size={"sm"}
                 color={"blue"}
-                onClick={() =>
-                  handleAttack("player1-team1", "player4-team2", 4)
-                }
+                onClick={() => handleAttack("player1-team1", "player4-team2")}
                 hover={false}
                 captain={false}
-                dribble={4}
+                dribble={currentDribbles["player1-team1"] || 10}
                 currentDefense={currentDefenses["player1-team1"] || 10}
                 defense={4}
                 energy={5}
