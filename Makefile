@@ -11,7 +11,8 @@ run-app:
 	cd game-app/ && npm run dev
 
 run-contracts:
-	katana --disable-fee && sozo migrate
+	katana --disable-fee & cd contracts/ && sozo build && sozo migrate
+	@echo "run pkill katana to stop the katana instance running in the background"
 
 run: run-contracts run-app
 
