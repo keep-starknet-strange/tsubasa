@@ -32,19 +32,19 @@ const Card = (props: CardProps) => {
     state = "standard",
   } = data;
 
-  if (kind === "card-black") {
-    return <CardEmpty color={color} size={size} />;
-  }
-
   const [cardSpring, api] = useSpring(() => ({
     from: { transform: "rotate(0deg)", opacity: "1" },
   }));
 
   useEffect(() => {
-    if (currentDefense! == 0) {
+    if (currentDefense == 0) {
       api.start({ transform: "rotate(45deg)", opacity: "0" });
     }
   }, [currentDefense]);
+
+  if (kind === "card-black") {
+    return <CardEmpty color={color} size={size} />;
+  }
 
   return (
     <animated.div style={cardSpring}>
