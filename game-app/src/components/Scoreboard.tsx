@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
-// import { useDojo } from "../DojoContext";
+import { useDojo } from "../DojoContext";
 
 export default function Scoreboard() {
   const [scoreboardState, setScoreBoardState] = useState<
     "start" | "score" | "goal"
   >("start");
 
-  // const {
-  //   setup: {
-  //     systemCalls: { create_game },
-  //   },
-  //   account: { account },
-  // } = useDojo();
+  const {
+    setup: {
+      systemCalls: { create_game },
+    },
+    account: { account },
+  } = useDojo();
 
-  // const player_2_address = "0x0000000";
+  const player_2_address = "0x0000000";
 
   return (
     <div className="rounded-b-xl bg-green-500 p-3 font-new-airport font-medium sm:p-8">
@@ -43,12 +43,12 @@ export default function Scoreboard() {
           </span>
         )}
       </button>
-      {/* <button
+      <button
         onClick={() => void create_game({ account, player_2_address })}
         className="p-2 text-xl uppercase"
       >
         start game
-      </button> */}
+      </button>
     </div>
   );
 }
