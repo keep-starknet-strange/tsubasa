@@ -1,212 +1,99 @@
 "use client";
 
+import { useState } from "react";
 import { useCardModal } from "../../components/card/CardModalContext";
-import Card from "../../components/card/Card";
-import CardAttribute from "../../components/card/CardAttribute";
-import type { CardSize } from "../../components/card/types";
+import CardPlaceholder from "../../components/CardPlaceholder";
 
-function randomNumber() {
-  return Math.floor(Math.random() * 9) + 1;
-}
+import PlayerCollection from "@/components/PlayerCollection";
+import { testcards } from "@/helpers/testCards";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+  pointerWithin,
+} from "@dnd-kit/core";
+import { ExtendedCardProps } from "@/components/card/types";
+import PlayerDeck from "@/components/PlayerDeck";
 
 const CardsPage = () => {
-  const { show } = useCardModal();
+  const [playerCollection, setPlayerCollection] =
+    useState<ExtendedCardProps[]>(testcards);
 
+  const [cardDeckPositions, setPlayerInDeckPositions] = useState<
+    Record<string, ExtendedCardProps>
+  >({});
+  const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
+  const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
+    useState<string>("");
+
+  const onDragStart = (e: DragStartEvent) => {
+    setCurrentPickedCard(e?.active.id.toString());
+  };
+
+  const onDragEnd = (e: DragEndEvent) => {
+    // return if no valid droppable position
+    if (!e.over) return;
+    const currentSelectedCard = e?.active?.data?.current as ExtendedCardProps;
+    const currentDropContainer = e?.over?.id;
+    // if player is placed on bench
+    if (currentDropContainer.toString().includes("bench")) {
+      //check if already part of bench
+      let isPlayerPresent = false;
+      playerCollection.map((eachPlayer) => {
+        if (eachPlayer.id === currentSelectedCard?.id) {
+          isPlayerPresent = true;
+        }
+      });
+      if (isPlayerPresent) return;
+      // include in bench
+      setPlayerCollection((prev) => {
+        return [...prev, currentSelectedCard];
+      });
+      return;
+    }
+    // if player is placed on gameboard
+    setPlayerInDeckPositions((prev) => {
+      // check if any other player already present on position
+      if (prev?.[currentDropContainer as any]) {
+        return prev;
+      }
+      // else add new position with value in map
+      return {
+        ...prev,
+        [currentDropContainer]: currentSelectedCard,
+      };
+    });
+    // update player position and remove player from bench
+    setPlayerCollection((prev) =>
+      prev.filter((eachItem) => eachItem.id !== currentSelectedCard?.id)
+    );
+    setCurrentHoveredPlaceholder("");
+  };
+
+  const onDragOver = (e: DragOverEvent) => {
+    if (!e.over) {
+      setCurrentHoveredPlaceholder("");
+      return;
+    }
+    setCurrentHoveredPlaceholder(e.over.id.toString());
+  };
   return (
     <>
-      <div className="p-10">
-        <div className="flex flex-wrap">
-          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="m-1" key={`card-attribute-0-${index}`}>
-              <CardAttribute
-                buffed={false}
-                hurt={false}
-                pending={false}
-                size={size as CardSize}
-                color="blue"
-                type="dribble"
-                value={3}
-              />
-            </div>
-          ))}
-          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="m-1" key={`card-attribute-1-${index}`}>
-              <CardAttribute
-                buffed={false}
-                hurt={false}
-                pending={false}
-                size={size as CardSize}
-                color="yellow"
-                type="defense"
-                value={3}
-              />
-            </div>
-          ))}
-          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="m-1" key={`card-attribute-2-${index}`}>
-              <CardAttribute
-                hurt={true}
-                pending={false}
-                size={size as CardSize}
-                color="yellow"
-                type="defense"
-                value={3}
-              />
-            </div>
-          ))}
-          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="m-1" key={`card-attribute-2-${index}`}>
-              <CardAttribute
-                buffed={true}
-                pending={false}
-                size={size as CardSize}
-                color="yellow"
-                type="defense"
-                value={3}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap">
-          {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-            <div className="mx-2 my-10 cursor-pointer" key={`card-1-${index}`}>
-              <Card
-                onClick={show}
-                captain={true}
-                dribble={1}
-                energy={1}
-                hover={false}
-                player="1"
-                size={size as CardSize}
-                defense={3}
-                color="yellow"
-                kind="card"
-              />
-            </div>
-          ))}
-
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-2-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={1}
-                  energy={1}
-                  hover={false}
-                  player="1"
-                  size={size as CardSize}
-                  defense={3}
-                  color="yellow"
-                  kind="card"
-                  state="pending"
-                />
-              </div>
-            ))}
+      <div className="flex h-screen flex-col items-center justify-center">
+        <DndContext
+          collisionDetection={pointerWithin}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+          onDragStart={onDragStart}
+        >
+          <div className="mt-auto flex flex-wrap">
+            <PlayerDeck numSlots={8} cardPositons={cardDeckPositions} />
           </div>
-
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-3-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={true}
-                  size={size as CardSize}
-                  defense={3}
-                  color="yellow"
-                  player="1"
-                  kind="card"
-                />
-              </div>
-            ))}
+          <div className="mt-auto">
+            <PlayerCollection playerCollection={playerCollection} />
           </div>
-
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-4-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={false}
-                  size={size as CardSize}
-                  defense={1}
-                  color="blue"
-                  kind="card"
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-5-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={false}
-                  size={size as CardSize}
-                  defense={3}
-                  color="red"
-                  kind="card"
-                  state="buffed"
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-6-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={false}
-                  size={size as CardSize}
-                  defense={3}
-                  color="blue"
-                  kind="card-black"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-7-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={false}
-                  size={size as CardSize}
-                  defense={3}
-                  color="red"
-                  kind="card-black"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-wrap">
-            {["xl", "lg", "md", "sm", "xs"].map((size, index) => (
-              <div className="mx-2 my-10" key={`card-8-${index}`}>
-                <Card
-                  captain={true}
-                  dribble={3}
-                  energy={3}
-                  hover={false}
-                  size={size as CardSize}
-                  defense={3}
-                  color="yellow"
-                  kind="card-black"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        </DndContext>
       </div>
     </>
   );
