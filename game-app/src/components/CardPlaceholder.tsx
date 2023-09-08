@@ -37,7 +37,6 @@ export default function CardPlaceholder(props: Props) {
     Record<string, CardState>
   >({});
 
-  console.log("cardPositions", cardPositions);
   // useEffect(() => {
   //   console.log("currentPickedCard");
   //   if (cardPositions?.[id]?.id === currentPickedCard) {

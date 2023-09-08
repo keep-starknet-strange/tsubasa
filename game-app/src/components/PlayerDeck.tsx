@@ -5,8 +5,8 @@ import { ExtendedCardProps } from "./card/types";
 type PlayerDeckProps = {
   numSlots: number;
   cardPositions: Record<string, ExtendedCardProps>;
-  currentHoveredPlaceholder: string | undefined;
-  currentPickedCard: string;
+  // currentHoveredPlaceholder: string | undefined;
+  // currentPickedCard: string;
 };
 
 const PlayerDeck: React.FC<PlayerDeckProps> = (props: PlayerDeckProps) => {

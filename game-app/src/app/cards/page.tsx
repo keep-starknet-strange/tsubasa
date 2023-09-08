@@ -35,8 +35,6 @@ const CardsPage = () => {
     const currentSelectedCard = e?.active?.data?.current as ExtendedCardProps;
     const currentDropContainer = e?.over?.id;
     // if player is placed on bench
-    console.log("DROPContainer");
-    console.log(currentDropContainer);
     if (currentDropContainer.toString().includes("bench")) {
       //TODO METTRE DECK PLUTOT QUE BENCH
       //check if already part of bench
@@ -59,8 +57,6 @@ const CardsPage = () => {
       if (prev?.[currentDropContainer as any]) {
         return prev;
       }
-      console.log({ prev });
-      console.log("ADD NEW POSITION");
       // else add new position with value in map
       return {
         ...prev,
@@ -84,24 +80,17 @@ const CardsPage = () => {
   return (
     <>
       <div className="flex h-screen flex-col items-center justify-center">
-        <DndContext
-          collisionDetection={pointerWithin}
-          onDragEnd={onDragEnd}
-          onDragOver={onDragOver}
-          onDragStart={onDragStart}
-        >
-          <div className="mt-auto flex flex-wrap">
-            <PlayerDeck
-              numSlots={8}
-              cardPositions={cardPositions}
-              currentHoveredPlaceholder="currenthoveredplaceholder"
-              currentPickedCard="currentpickedcard"
-            />
-          </div>
-          <div className="mt-auto">
-            <PlayerCollection playerCollection={playerCollection} />
-          </div>
-        </DndContext>
+        <div className="mt-auto flex flex-wrap">
+          <PlayerDeck
+            numSlots={8}
+            cardPositions={cardPositions}
+            // currentHoveredPlaceholder="currenthoveredplaceholder"
+            // currentPickedCard="currentpickedcard"
+          />
+        </div>
+        <div className="mt-auto">
+          <PlayerCollection playerCollection={playerCollection} />
+        </div>
       </div>
     </>
   );
