@@ -11,7 +11,7 @@ interface Props {
   id: string;
   position?: string;
   children?: ReactNode;
-  playerPositions?: Record<string, ExtendedCardProps>;
+  cardPositions?: Record<string, ExtendedCardProps>;
   currentHoveredPlaceholder?: string;
   currentPickedCard?: string;
 }
@@ -27,7 +27,7 @@ export default function CardPlaceholder(props: Props) {
   const {
     position,
     children,
-    playerPositions,
+    cardPositions,
     id,
     currentHoveredPlaceholder,
     currentPickedCard,
@@ -37,21 +37,24 @@ export default function CardPlaceholder(props: Props) {
     Record<string, CardState>
   >({});
 
-  useEffect(() => {
-    if (playerPositions?.[id]?.id === currentPickedCard) {
-      if (!currentPickedCard) return;
-      setPendingStatusMap((prev) => ({
-        ...prev,
-        [currentPickedCard]: "pending",
-      }));
-      setTimeout(() => {
-        setPendingStatusMap((prev) => ({
-          ...prev,
-          [currentPickedCard]: "standard",
-        }));
-      }, 1500);
-    }
-  }, [currentPickedCard, playerPositions]);
+  console.log("cardPositions", cardPositions);
+  // useEffect(() => {
+  //   console.log("currentPickedCard");
+  //   if (cardPositions?.[id]?.id === currentPickedCard) {
+  //     if (!currentPickedCard) return;
+  //     setPendingStatusMap((prev) => ({
+  //       ...prev,
+  //       [currentPickedCard]: "pending",
+  //     }));
+  //     setTimeout(() => {
+  //       setPendingStatusMap((prev) => ({
+  //         ...prev,
+  //         [currentPickedCard]: "standard",
+  //       }));
+  //     }, 1500);
+  //   }
+  //   console.log("pendingStatusMap", pendingStatusMap);
+  // }, [currentPickedCard, cardPositions]);
 
   const { setNodeRef } = useDroppable({
     id: id,
@@ -84,10 +87,10 @@ export default function CardPlaceholder(props: Props) {
         )}
       >
         {/* 1) placeholder on bench with no position name , only card */}
-        {playerPositions?.[id] ? (
+        {cardPositions?.[id] ? (
           <Card
-            {...playerPositions[id]}
-            state={pendingStatusMap[playerPositions[id].id]}
+            {...cardPositions[id]}
+            state={pendingStatusMap[cardPositions[id].id]}
           />
         ) : null}
 
@@ -95,7 +98,7 @@ export default function CardPlaceholder(props: Props) {
         {children ? children : null}
 
         {/* 3) placeholder on game field with position name when no card is on top */}
-        {!playerPositions?.[id] && position ? (
+        {!cardPositions?.[id] && position ? (
           <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#8ADD9D]">
             <p className="text-xs text-[#71CD87]">
               {position?.toUpperCase().charAt(0)}

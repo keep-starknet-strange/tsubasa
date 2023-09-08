@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useCardModal } from "../../components/card/CardModalContext";
-import CardPlaceholder from "../../components/CardPlaceholder";
 
 import PlayerCollection from "@/components/PlayerCollection";
 import { testcards } from "@/helpers/testCards";
@@ -20,7 +18,7 @@ const CardsPage = () => {
   const [playerCollection, setPlayerCollection] =
     useState<ExtendedCardProps[]>(testcards);
 
-  const [cardDeckPositions, setPlayerInDeckPositions] = useState<
+  const [cardPositions, setCardPositions] = useState<
     Record<string, ExtendedCardProps>
   >({});
   const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
@@ -37,7 +35,10 @@ const CardsPage = () => {
     const currentSelectedCard = e?.active?.data?.current as ExtendedCardProps;
     const currentDropContainer = e?.over?.id;
     // if player is placed on bench
+    console.log("DROPContainer");
+    console.log(currentDropContainer);
     if (currentDropContainer.toString().includes("bench")) {
+      //TODO METTRE DECK PLUTOT QUE BENCH
       //check if already part of bench
       let isPlayerPresent = false;
       playerCollection.map((eachPlayer) => {
@@ -53,11 +54,13 @@ const CardsPage = () => {
       return;
     }
     // if player is placed on gameboard
-    setPlayerInDeckPositions((prev) => {
+    setCardPositions((prev) => {
       // check if any other player already present on position
       if (prev?.[currentDropContainer as any]) {
         return prev;
       }
+      console.log({ prev });
+      console.log("ADD NEW POSITION");
       // else add new position with value in map
       return {
         ...prev,
@@ -88,7 +91,12 @@ const CardsPage = () => {
           onDragStart={onDragStart}
         >
           <div className="mt-auto flex flex-wrap">
-            <PlayerDeck numSlots={8} cardPositons={cardDeckPositions} />
+            <PlayerDeck
+              numSlots={8}
+              cardPositions={cardPositions}
+              currentHoveredPlaceholder="currenthoveredplaceholder"
+              currentPickedCard="currentpickedcard"
+            />
           </div>
           <div className="mt-auto">
             <PlayerCollection playerCollection={playerCollection} />

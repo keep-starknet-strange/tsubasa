@@ -10,7 +10,7 @@ import { usePlayerAnimations } from "../../animations/usePlayerAnimations";
 import { useEffect, useState } from "react";
 
 interface Props {
-  playerPositions: Record<string, ExtendedCardProps>;
+  cardPositions: Record<string, ExtendedCardProps>;
   currentHoveredPlaceholder: string | undefined;
   currentPickedCard: string;
 }
