@@ -43,7 +43,7 @@ const CardHeader = ({
           pending={pending}
           color={color}
           type="defense"
-          value={currentDefense ? currentDefense : defense}
+          value={currentDefense ? currentDefense : 0}
         />
       </div>
     </div>

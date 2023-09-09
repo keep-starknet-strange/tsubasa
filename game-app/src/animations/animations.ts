@@ -8,7 +8,6 @@ export const triggerAttackAnimation = (
   const api = animationApis[attackingElementId];
   const attackingElement = document.getElementById(attackingElementId);
   const attackedElement = document.getElementById(attackedElementId);
-  console.log(attackingElement, attackedElement);
   if (attackingElement && attackedElement) {
     const attackingCard = attackingElement.getBoundingClientRect();
     const attackedCard = attackedElement.getBoundingClientRect();

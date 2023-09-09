@@ -37,11 +37,11 @@ export default function Gameboard(props: Props) {
 
   const updateDefense = (cardId: string, value: number, isAttack = false) => {
     setCurrentDefenses((prevDefenses) => {
-      const currentDefense = prevDefenses[cardId] || 10;
+      const currentDefense = prevDefenses[cardId] || 0;
       const newDefense = isAttack ? currentDefense - value : value;
       return {
         ...prevDefenses,
-        [cardId]: newDefense,
+        [cardId]: Math.max(0, newDefense),
       };
     });
   };
@@ -88,8 +88,6 @@ export default function Gameboard(props: Props) {
         }, 500);
       }, 500);
     }, 500);
-
-    console.log("fromPlayer", fromPlayer);
   };
 
   return (
@@ -134,9 +132,9 @@ export default function Gameboard(props: Props) {
                 color={"blue"}
                 hover={false}
                 captain={false}
-                dribble={currentDribbles["player4-team2"] || 10}
+                dribble={currentDribbles["player4-team2"]}
                 defense={10}
-                currentDefense={currentDefenses["player4-team2"] || 10}
+                currentDefense={currentDefenses["player4-team2"]}
                 energy={0}
               />
             </div>
@@ -202,8 +200,8 @@ export default function Gameboard(props: Props) {
                 onClick={() => handleAttack("player1-team1", "player4-team2")}
                 hover={false}
                 captain={false}
-                dribble={currentDribbles["player1-team1"] || 10}
-                currentDefense={currentDefenses["player1-team1"] || 10}
+                dribble={currentDribbles["player1-team1"]}
+                currentDefense={currentDefenses["player1-team1"]}
                 defense={4}
                 energy={5}
               />
