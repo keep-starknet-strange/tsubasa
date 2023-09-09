@@ -171,7 +171,7 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* center line */}
-        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300"></div>
+        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300 md:bottom-0 md:left-auto md:right-2/4 md:top-0"></div>
 
         {/* center circle */}
         <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
@@ -179,7 +179,7 @@ export default function Gameboard(props: Props) {
             <div className="absolute right-2/4 top-2/4 h-14 w-14 -translate-y-2/4 translate-x-2/4 rounded-full  border-[3px] border-solid border-green-300 bg-green-400 md:h-24 md:w-24">
               <Image
                 src="/images/FieldCenter.svg"
-                className="object-cover md:-rotate-90"
+                className="object-cover"
                 width={120}
                 height={120}
                 alt="Wings center"

@@ -84,7 +84,7 @@ export default function RootLayout({
         <Providers>
           <CardModal />
           {children}
-          <div className="fixed bottom-0 z-20 flex w-full justify-center md:bottom-10 ">
+          <div className="fixed bottom-3 z-20 flex w-full justify-center md:bottom-10 ">
             <Navigation />
           </div>
         </Providers>
