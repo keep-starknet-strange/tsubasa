@@ -1,4 +1,3 @@
-import Card from "@/components/card/Card";
 import CardModal from "../components/card/CardModal";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ExtendedCardProps } from "@/components/card/types";
