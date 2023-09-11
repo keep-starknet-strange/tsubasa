@@ -5,11 +5,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import CardModalContent from "./CardModalContent";
 import Image from "next/image";
 import { useCardModal } from "./CardModalContext";
-import { CardData } from "./types";
+import { ExtendedCardProps } from "./types";
 
 interface CardModalProps {
-  onAddToDeck: (cardDetails: CardData) => void;
-  cardData: CardData;
+  onAddToDeck: (cardDetails: ExtendedCardProps) => void;
+  cardData: ExtendedCardProps;
 }
 
 export default function CardModal({ onAddToDeck, cardData }: CardModalProps) {

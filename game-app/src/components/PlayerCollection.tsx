@@ -6,14 +6,14 @@ import CardModal from "./card/CardModal";
 
 interface PlayerCollectionProps {
   playerCollection: ExtendedCardProps[];
-  handleAddToDeckPage: (cardDetails: CardData) => void;
+  handleAddToDeckPage: (cardDetails: ExtendedCardProps) => void;
 }
 
 export default function PlayerCollection(props: PlayerCollectionProps) {
   const { playerCollection } = props;
   const { show } = useCardModal();
 
-  const handleAddToDeck = (cardDetails: CardData) => {
+  const handleAddToDeck = (cardDetails: ExtendedCardProps) => {
     props.handleAddToDeckPage(cardDetails);
   };
 

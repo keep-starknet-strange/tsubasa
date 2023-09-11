@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MdWarning } from "react-icons/md";
 
 import PlayerCollection from "@/components/PlayerCollection";
 import { testcards } from "@/helpers/testCards";
@@ -21,7 +22,12 @@ const CardsPage = () => {
     Record<string, ExtendedCardProps>
   >({});
 
-  const handleAddToDeck = (cardDetails: CardData) => {
+  const handleAddToDeck = (cardDetails: ExtendedCardProps) => {
+    const updatedCollection = playerCollection.filter(
+      (card) => card.id !== cardDetails.id
+    );
+    setPlayerCollection(updatedCollection);
+
     let slot: string = "";
     for (let i = 1; i <= 8; i++) {
       if (!cardPositions[`slot${i}`]) {
@@ -43,9 +49,16 @@ const CardsPage = () => {
   return (
     <>
       <div className="flex h-screen flex-col items-center justify-center">
-        <div className="mt-2 flex w-5/6 justify-between text-lg">
-          <div className="border border-green-600 p-3 px-6 text-center font-bold text-greenBlack drop-shadow-lg md:rounded-full">
-            {countCardsInDeck()}/8{" "}
+        <div className="mt-14 flex w-5/6 justify-between text-lg">
+          <div
+            className={`${
+              countCardsInDeck() < 8 ? "text-dojoRed" : "text-greenBlack"
+            } border border-green-600 p-3 px-6 text-center font-bold drop-shadow-lg md:rounded-full`}
+          >
+            <div className="flex">
+              {countCardsInDeck() < 8 && <MdWarning className="mx-2 mt-1" />}
+              {countCardsInDeck()}/8{" "}
+            </div>
           </div>
 
           <GenericButton
