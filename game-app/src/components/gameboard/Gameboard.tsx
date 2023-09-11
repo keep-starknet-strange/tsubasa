@@ -37,11 +37,11 @@ export default function Gameboard(props: Props) {
 
   const updateDefense = (cardId: string, value: number, isAttack = false) => {
     setCurrentDefenses((prevDefenses) => {
-      const currentDefense = prevDefenses[cardId] || 10;
+      const currentDefense = prevDefenses[cardId] || 0;
       const newDefense = isAttack ? currentDefense - value : value;
       return {
         ...prevDefenses,
-        [cardId]: newDefense,
+        [cardId]: Math.max(0, newDefense),
       };
     });
   };
@@ -132,9 +132,9 @@ export default function Gameboard(props: Props) {
                 color={"blue"}
                 hover={false}
                 captain={false}
-                dribble={currentDribbles["player4-team2"] || 10}
+                dribble={currentDribbles["player4-team2"]}
                 defense={10}
-                currentDefense={currentDefenses["player4-team2"] || 10}
+                currentDefense={currentDefenses["player4-team2"]}
                 energy={0}
               />
             </div>
@@ -171,7 +171,7 @@ export default function Gameboard(props: Props) {
         </div>
 
         {/* center line */}
-        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300"></div>
+        <div className="absolute left-0 right-0 top-2/4  border-[1.5px] border-solid border-green-300 md:bottom-0 md:left-auto md:right-2/4 md:top-0"></div>
 
         {/* center circle */}
         <div className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 ">
@@ -179,7 +179,7 @@ export default function Gameboard(props: Props) {
             <div className="absolute right-2/4 top-2/4 h-14 w-14 -translate-y-2/4 translate-x-2/4 rounded-full  border-[3px] border-solid border-green-300 bg-green-400 md:h-24 md:w-24">
               <Image
                 src="/images/FieldCenter.svg"
-                className="object-cover md:-rotate-90"
+                className="object-cover"
                 width={120}
                 height={120}
                 alt="Wings center"
@@ -200,8 +200,8 @@ export default function Gameboard(props: Props) {
                 onClick={() => handleAttack("player1-team1", "player4-team2")}
                 hover={false}
                 captain={false}
-                dribble={currentDribbles["player1-team1"] || 10}
-                currentDefense={currentDefenses["player1-team1"] || 10}
+                dribble={currentDribbles["player1-team1"]}
+                currentDefense={currentDefenses["player1-team1"]}
                 defense={4}
                 energy={5}
               />
