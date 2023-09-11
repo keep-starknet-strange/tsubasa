@@ -28,7 +28,7 @@ const CardsPage = () => {
     );
     setPlayerCollection(updatedCollection);
 
-    let slot: string = "";
+    let slot = "";
     for (let i = 1; i <= 8; i++) {
       if (!cardPositions[`slot${i}`]) {
         slot = `slot${i}`;
@@ -39,7 +39,7 @@ const CardsPage = () => {
     if (slot) {
       setCardPositions((prev) => ({
         ...prev,
-        [slot]: cardDetails as ExtendedCardProps,
+        [slot]: cardDetails,
       }));
     } else {
       console.log("Deck is full!");
