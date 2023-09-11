@@ -88,8 +88,6 @@ export default function Gameboard(props: Props) {
         }, 500);
       }, 500);
     }, 500);
-
-    console.log("fromPlayer", fromPlayer);
   };
 
   return (

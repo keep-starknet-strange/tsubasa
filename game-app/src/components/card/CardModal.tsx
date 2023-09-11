@@ -5,15 +5,20 @@ import { Dialog, Transition } from "@headlessui/react";
 import CardModalContent from "./CardModalContent";
 import Image from "next/image";
 import { useCardModal } from "./CardModalContext";
+import { CardData } from "./types";
 
-export default function CardModal() {
+interface CardModalProps {
+  onAddToDeck: (cardDetails: CardData) => void;
+  cardData: CardData;
+}
+
+export default function CardModal({ onAddToDeck, cardData }: CardModalProps) {
   const { isOpen, hide } = useCardModal();
 
-  if (!isOpen) return null;
+  const addToDeck = () => {
+    onAddToDeck(cardData);
+  };
 
-  function addToDeck() {
-    // TODO
-  }
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
@@ -45,7 +50,6 @@ export default function CardModal() {
             enterTo="opacity-100 translate-y-0 sm:scale-100"
             leave="ease-in duration-200"
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <Dialog.Panel className="h-full w-full transform overflow-auto p-10 transition-all">
               <div className="relative h-full w-full">
@@ -67,7 +71,7 @@ export default function CardModal() {
                   team="Cairo"
                   size="xl"
                   color="yellow"
-                  addToDeck={addToDeck}
+                  addToDeckArgument={addToDeck}
                 />
               </div>
             </Dialog.Panel>

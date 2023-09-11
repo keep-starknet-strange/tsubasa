@@ -37,24 +37,6 @@ export default function CardPlaceholder(props: Props) {
     Record<string, CardState>
   >({});
 
-  // useEffect(() => {
-  //   console.log("currentPickedCard");
-  //   if (cardPositions?.[id]?.id === currentPickedCard) {
-  //     if (!currentPickedCard) return;
-  //     setPendingStatusMap((prev) => ({
-  //       ...prev,
-  //       [currentPickedCard]: "pending",
-  //     }));
-  //     setTimeout(() => {
-  //       setPendingStatusMap((prev) => ({
-  //         ...prev,
-  //         [currentPickedCard]: "standard",
-  //       }));
-  //     }, 1500);
-  //   }
-  //   console.log("pendingStatusMap", pendingStatusMap);
-  // }, [currentPickedCard, cardPositions]);
-
   const { setNodeRef } = useDroppable({
     id: id,
   });

@@ -11,7 +11,7 @@ interface CardModalContentProps {
   name: string;
   size: CardSize;
   color: CardColor;
-  addToDeck?: () => void;
+  addToDeckArgument: () => void;
 }
 
 const cardSize = "xl";
@@ -23,8 +23,11 @@ const CardModalContent = ({
   defense,
   name,
   color,
-  addToDeck,
+  addToDeckArgument,
 }: CardModalContentProps) => {
+  const addToDeck = () => {
+    addToDeckArgument();
+  };
   return (
     <div className=" flex h-full w-full items-center justify-center text-white">
       <div>
