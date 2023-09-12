@@ -2,11 +2,13 @@ use array::ArrayTrait;
 use starknet::ContractAddress;
 use traits::Into;
 use serde::Serde;
+use debug::PrintTrait;
+
 
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
 
-use tsubasa::components::{Card, card, Game, game};
+use tsubasa::components::{Card, DeckCard, CardState, card, Game, game};
 use tsubasa::systems::place_card_system;
 use tsubasa::systems::attack_system;
 use tsubasa::systems::create_game_system;
@@ -73,4 +75,20 @@ fn create_game(
 
     starknet::testing::set_contract_address(player1);
     pedersen(player1.into(), player2.into())
+}
+
+fn count_cards_in_hand(world: IWorldDispatcher, player: ContractAddress) -> u8 {
+    let mut i = 0_usize;
+    let mut res = 0_u8;
+    loop {
+        if i == 8 {
+            break;
+        }
+        let cond = get!(world, (player, i), DeckCard).card_state;
+        if cond == CardState::Hand {
+            res += 1;
+        }
+        i += 1;
+    };
+    res
 }

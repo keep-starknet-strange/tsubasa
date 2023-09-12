@@ -4,7 +4,7 @@ use option::OptionTrait;
 use debug::PrintTrait;
 use array::ArrayTrait;
 use tsubasa::components::{Game, Card, Player, Roles, OutcomePrint, Placement};
-use tsubasa::tests::utils::{create_game, get_players, spawn_world};
+use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use serde::Serde;
 use starknet::ContractAddress;
 use traits::Into;
@@ -24,15 +24,21 @@ fn test_attack_player1_scores_against_empty_board() {
     let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 skips his turn
     set_contract_address(player2);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     // Player 1 attacks and should win against empty board
     let attack_calldata = array![game_id];
     set_contract_address(player1);
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     let game = get!(world, game_id, Game);
     assert(game.player1_score == 1, 'Player 1 wins vs empty board');
 }
@@ -58,18 +64,24 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
     let place_card_calldata = array![game_id, 0, 2];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let game = get!(world, game_id, Game);
     assert(game.player1_score == 0, 'Player 1 passes midfielder');
@@ -118,18 +130,24 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
     let place_card_calldata = array![game_id, 0, 1];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let game = get!(world, game_id, Game);
     assert(game.player1_score == 0, 'Player 1 passes midfielder');
@@ -178,18 +196,24 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
     let place_card_calldata = array![game_id, 0, 0];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
     assert(player1_board.goalkeeper.is_some(), 'Goalkeeper 1 shouldnt be empty');
@@ -212,6 +236,8 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
     let player1_board = get!(world, (game_id, player1), Player);
     assert(player1_board.goalkeeper.is_none(), 'Goalkeeper 1 should be empty');
     assert(player1_board.defender.is_none(), 'Defender 1 should be empty');
@@ -268,6 +294,8 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     let place_card_calldata = array![game_id, 3, 2];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
@@ -280,12 +308,16 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     let place_card_calldata = array![game_id, 3, 3];
     world.execute('place_card_system', place_card_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
     assert(player1_board.goalkeeper.is_some(), 'Goalkeeper 1 shouldnt be empty');
@@ -302,6 +334,8 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     let attack_calldata = array![game_id];
     world.execute('attack_system', attack_calldata);
     world.execute('end_turn_system', array![game_id]);
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
     assert(player1_board.goalkeeper.is_none(), 'Goalkeeper 1 should be empty');

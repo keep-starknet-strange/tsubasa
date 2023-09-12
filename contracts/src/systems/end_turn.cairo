@@ -1,10 +1,14 @@
 #[system]
 mod end_turn_system {
     use array::ArrayTrait;
+    use traits::Into;
+    use starknet::ContractAddress;
+    use starknet::info::{get_block_timestamp, get_block_number};
+    use debug::PrintTrait;
 
     use dojo::world::Context;
 
-    use tsubasa::components::{Game, Player, Outcome, PlayerTrait, Placement};
+    use tsubasa::components::{Game, DeckCard, CardState, Player, Outcome, PlayerTrait, Placement};
     use tsubasa::events::EndTurn;
     use tsubasa::systems::check_turn;
 
@@ -21,6 +25,17 @@ mod end_turn_system {
 
         game.turn += 1;
 
+        let mut cards_drawn = game.turn / 2;
+        let drawer = if ctx.origin == game.player2 {
+            cards_drawn += 1;
+            game.player1
+        } else {
+            game.player2
+        };
+        if cards_drawn <= 8 {
+            draw_card(ctx, 8 - cards_drawn, drawer);
+        }
+        // let deck = get!(ctx.world, )
         emit!(ctx.world, EndTurn { game_id, turn: game.turn });
 
         // Increments the energy of the player 
@@ -46,6 +61,26 @@ mod end_turn_system {
                 };
 
         set!(ctx.world, (game));
+    }
+
+    fn draw_card(ctx: Context, remaining_cards: u128, player: ContractAddress) {
+        let card_id: u256 = pedersen(get_block_timestamp().into(), get_block_number().into())
+            .into() % remaining_cards
+            .into();
+        let mut cards_in_deck_seen = 0_u128;
+        let mut i = 0_u128;
+        loop {
+            let mut deck_card = get!(ctx.world, (player, i), DeckCard);
+            if cards_in_deck_seen == card_id.low {
+                deck_card.card_state = CardState::Hand;
+                set!(ctx.world, (deck_card));
+                break;
+            }
+            if deck_card.card_state == CardState::Deck {
+                cards_in_deck_seen += 1;
+            }
+            i += 1;
+        }
     }
 }
 
