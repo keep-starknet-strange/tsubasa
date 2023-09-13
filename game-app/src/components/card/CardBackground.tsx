@@ -22,6 +22,8 @@ const CardBackground = (props: CardBackgroundProps) => {
   return (
     <div
       style={{
+        maxWidth: "100%",
+        maxHeight: "100%",
         backgroundImage: player
           ? `url('/images/players/${player}.png')`
           : undefined,

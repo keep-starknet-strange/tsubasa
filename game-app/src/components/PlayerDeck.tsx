@@ -12,12 +12,14 @@ const PlayerDeck: React.FC<PlayerDeckProps> = (props: PlayerDeckProps) => {
   const placeholders = Array.from({ length: props.numSlots }, (_, i) => {
     const position = i === 0 ? "★" : `${i}`;
     return (
-      <CardPlaceholder
-        key={i}
-        id={`slot${i + 1}`}
-        position={position}
-        cardPositions={props.cardPositions}
-      />
+      <div key={i} className="h-28 w-20 flex-grow md:h-32 md:w-24">
+        <CardPlaceholder
+          key={i}
+          id={`slot${i + 1}`}
+          position={position}
+          cardPositions={props.cardPositions}
+        />
+      </div>
     );
   });
 
