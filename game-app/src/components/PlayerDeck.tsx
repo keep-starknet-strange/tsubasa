@@ -8,7 +8,7 @@ type PlayerDeckProps = {
 };
 
 const PlayerDeck: React.FC<PlayerDeckProps> = (props: PlayerDeckProps) => {
-  const isMobile = window.innerWidth < 768;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const placeholders = Array.from({ length: props.numSlots }, (_, i) => {
     const position = i === 0 ? "★" : `${i}`;
     return (
