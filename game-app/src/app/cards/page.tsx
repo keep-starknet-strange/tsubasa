@@ -57,14 +57,14 @@ const CardsPage = () => {
   return (
     <>
       <div className="flex h-screen flex-col items-center justify-center">
-        <div className="mt-14 flex w-5/6 justify-between text-lg">
+        <div className="flex w-full justify-between md:mt-14 md:w-5/6 md:text-lg">
           <div
             className={`${
               countCardsInDeck() < 8 ? "text-dojoRed" : "text-greenBlack"
-            } border border-green-600 p-3 px-6 text-center font-bold drop-shadow-lg md:rounded-full`}
+            } rounded-full border border-green-600 p-3 text-center font-bold drop-shadow-lg md:px-6`}
           >
             <div className="flex">
-              {countCardsInDeck() < 8 && <MdWarning className="mx-2 mt-1" />}
+              {countCardsInDeck() < 8 && <MdWarning className="mt-1 md:mx-2" />}
               {countCardsInDeck()}/8{" "}
             </div>
           </div>
@@ -74,10 +74,10 @@ const CardsPage = () => {
               console.log("login");
             }}
             label="Play"
-            customStyles="rounded-br-3xl"
+            customStyles="rounded-bl-3xl"
           />
         </div>
-        <div className="mt-auto flex flex-wrap">
+        <div className="mt-auto flex w-full flex-wrap md:m-auto md:w-5/6">
           <PlayerDeck numSlots={8} cardPositions={cardPositions} />
         </div>
         <div className="mt-auto">
