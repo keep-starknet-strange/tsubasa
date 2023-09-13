@@ -12,6 +12,8 @@ interface CardModalContentProps {
   size: CardSize;
   color: CardColor;
   addToDeckArgument: () => void;
+  toggleStar: () => void;
+  starSelected: boolean;
 }
 
 const cardSize = "xl";
@@ -24,6 +26,8 @@ const CardModalContent = ({
   name,
   color,
   addToDeckArgument,
+  toggleStar,
+  starSelected,
 }: CardModalContentProps) => {
   const addToDeck = () => {
     addToDeckArgument();
@@ -84,11 +88,21 @@ const CardModalContent = ({
 
           <div className="mt-10 flex">
             {addToDeck && (
-              <GenericButton
-                customStyles="w-full"
-                onClick={addToDeck}
-                label="Add to Deck"
-              />
+              <div className="flex">
+                <GenericButton
+                  customStyles="w-full mr-2"
+                  onClick={addToDeck}
+                  label="Add to Deck"
+                />
+                <button
+                  onClick={toggleStar}
+                  className={`star-button ${
+                    starSelected ? "selected" : ""
+                  } mt-1 flex h-11 w-14  items-center justify-center rounded-full border-2 border-grey bg-transparent text-xl transition-colors duration-300 focus:outline-none`}
+                >
+                  ★
+                </button>
+              </div>
             )}
           </div>
         </div>
