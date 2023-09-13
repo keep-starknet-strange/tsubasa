@@ -30,7 +30,6 @@ export default function CardModal({ onAddToDeck, cardData }: CardModalProps) {
   };
 
   return (
-    // <Transition.Root show={isOpen} as={Fragment}>
     <Dialog as="div" className="relative z-50" open={isOpen} onClose={() => {}}>
       <div className="fixed inset-0 bg-black bg-opacity-80 transition-opacity" />
       <div className="fixed inset-0 flex text-black">
