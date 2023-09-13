@@ -21,7 +21,11 @@ export default function CardModal({ onAddToDeck, cardData }: CardModalProps) {
   };
 
   const addToDeck = () => {
-    onAddToDeck(cardData);
+    const updatedCardData = {
+      ...cardData,
+      captain: starSelected,
+    };
+    onAddToDeck(updatedCardData);
     hide();
   };
 

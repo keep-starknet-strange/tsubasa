@@ -29,14 +29,22 @@ const CardsPage = () => {
     setPlayerCollection(updatedCollection);
 
     let slot = "";
-    for (let i = 1; i <= 8; i++) {
-      if (!cardPositions[`slot${i}`]) {
-        slot = `slot${i}`;
-        break;
+    if (cardDetails.captain) {
+      slot = "slot1";
+    } else {
+      for (let i = 2; i <= 8; i++) {
+        if (!cardPositions[`slot${i}`]) {
+          slot = `slot${i}`;
+          break;
+        }
       }
     }
 
     if (slot) {
+      if (cardPositions[slot]) {
+        const oldCard = cardPositions[slot];
+        setPlayerCollection((prev) => [...prev, oldCard]);
+      }
       setCardPositions((prev) => ({
         ...prev,
         [slot]: cardDetails,

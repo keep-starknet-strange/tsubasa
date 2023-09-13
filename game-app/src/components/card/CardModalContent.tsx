@@ -97,7 +97,9 @@ const CardModalContent = ({
                 <button
                   onClick={toggleStar}
                   className={`star-button ${
-                    starSelected ? "selected" : ""
+                    starSelected
+                      ? "border-yellow-500 text-yellow-500"
+                      : "text-gray-400 border-gray-400"
                   } mt-1 flex h-11 w-14  items-center justify-center rounded-full border-2 border-grey bg-transparent text-xl transition-colors duration-300 focus:outline-none`}
                 >
                   ★
