@@ -38,7 +38,7 @@ const PlayerDeck: React.FC<PlayerDeckProps> = (props: PlayerDeckProps) => {
     );
   }
 
-  return <div className="flex flex-wrap">{placeholders}</div>;
+  return <div className="m-auto flex flex-wrap">{placeholders}</div>;
 };
 
 export default PlayerDeck;
