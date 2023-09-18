@@ -12,7 +12,7 @@ use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_i
 
 #[test]
 #[available_gas(300000000)]
-fn test_end_turn_unique() {
+fn test_end_turn() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);

@@ -2,21 +2,15 @@ use array::ArrayTrait;
 use starknet::ContractAddress;
 use traits::Into;
 use serde::Serde;
-use debug::PrintTrait;
-
 
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
 
 use tsubasa::components::{Card, DeckCard, CardState, card, Game, game};
-use tsubasa::systems::place_card_system;
-use tsubasa::systems::attack_system;
-use tsubasa::systems::create_game_system;
-use tsubasa::systems::create_card_system;
-use tsubasa::systems::create_deck_system;
-
-use tsubasa::systems::end_turn_system;
-
+use tsubasa::systems::{
+    place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
+    end_turn_system
+};
 
 /// Spawns a mock dojo world.
 fn spawn_world() -> IWorldDispatcher {

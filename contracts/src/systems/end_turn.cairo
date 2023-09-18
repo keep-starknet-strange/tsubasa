@@ -4,7 +4,6 @@ mod end_turn_system {
     use traits::Into;
     use starknet::ContractAddress;
     use starknet::info::{get_block_timestamp, get_block_number};
-    use debug::PrintTrait;
 
     use dojo::world::Context;
 
@@ -35,7 +34,6 @@ mod end_turn_system {
         if cards_drawn <= 8 {
             draw_card(ctx, 8 - cards_drawn, drawer);
         }
-        // let deck = get!(ctx.world, )
         emit!(ctx.world, EndTurn { game_id, turn: game.turn });
 
         // Increments the energy of the player 
@@ -63,6 +61,13 @@ mod end_turn_system {
         set!(ctx.world, (game));
     }
 
+    /// Draw a card from the deck.
+    ///
+    /// # Arguments
+    ///
+    /// * `ctx` - Dojo context.
+    /// * `remaining_cards` - Number of cards remaining in the deck.
+    /// * `player` - Player drawing the card.
     fn draw_card(ctx: Context, remaining_cards: u128, player: ContractAddress) {
         let card_id: u256 = pedersen(get_block_timestamp().into(), get_block_number().into())
             .into() % remaining_cards
