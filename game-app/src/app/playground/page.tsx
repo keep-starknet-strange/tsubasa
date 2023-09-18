@@ -13,6 +13,7 @@ import type {
   DragStartEvent,
 } from "@dnd-kit/core";
 import EndTurnButton from "@/components/buttons/EndTurnButton";
+import { testcards } from "@/helpers/testCards";
 
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
@@ -28,56 +29,8 @@ export default function Home() {
   const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");
-  const [playersInBench, setPlayersInBench] = useState<ExtendedCardProps[]>([
-    {
-      id: "player-1",
-      kind: "card",
-      player: "1",
-      captain: true,
-      dribble: 1,
-      energy: 1,
-      size: cardSize,
-      defense: 7,
-      color: "yellow",
-      hover: false,
-    },
-    {
-      id: "player-2",
-      kind: "card",
-      player: "1",
-      captain: true,
-      dribble: 1,
-      energy: 1,
-      size: cardSize,
-      defense: 7,
-      color: "yellow",
-      hover: false,
-    },
-    {
-      id: "player-3",
-      kind: "card",
-      player: "1",
-      captain: true,
-      dribble: 1,
-      energy: 1,
-      size: cardSize,
-      defense: 7,
-      color: "yellow",
-      hover: false,
-    },
-    {
-      id: "player-4",
-      kind: "card",
-      player: "1",
-      captain: true,
-      dribble: 1,
-      energy: 1,
-      size: cardSize,
-      defense: 7,
-      color: "yellow",
-      hover: false,
-    },
-  ]);
+  const [playersInBench, setPlayersInBench] =
+    useState<ExtendedCardProps[]>(testcards);
 
   useEffect(() => {
     setPlayersInBench((prev) => {
@@ -91,7 +44,7 @@ export default function Home() {
   }, [cardSize]);
 
   // store map of players on gameboard
-  const [playerPositions, setPlayerPositions] = useState<
+  const [cardPositions, setcardPositions] = useState<
     Record<string, ExtendedCardProps>
   >({});
 
@@ -131,7 +84,7 @@ export default function Home() {
     }
 
     // if player is placed on gameboard
-    setPlayerPositions((prev) => {
+    setcardPositions((prev) => {
       // check if any other player already present on position
       if (prev?.[currentDropContainer]) {
         return prev;
@@ -174,7 +127,7 @@ export default function Home() {
             </div>
             <Gameboard
               currentPickedCard={currentPickedCard}
-              playerPositions={playerPositions}
+              cardPositions={cardPositions}
               currentHoveredPlaceholder={currentHoveredPlaceholder}
             />
             <div className="z-50 m-2 mx-auto flex justify-center md:absolute md:bottom-0 md:left-1/2 md:m-0 md:-translate-x-1/2">

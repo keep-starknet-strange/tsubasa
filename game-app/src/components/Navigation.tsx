@@ -31,7 +31,7 @@ export default function Navigation() {
       className={classNames(
         "flex w-auto flex-row items-center overflow-hidden rounded-t-2xl border border-solid border-green-600  bg-green-400 text-greenBlack drop-shadow-lg md:rounded-full",
         {
-          hidden: pathname === "/playground",
+          hidden: pathname === "/cards",
         }
       )}
     >

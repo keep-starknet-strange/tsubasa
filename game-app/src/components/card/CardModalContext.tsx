@@ -7,6 +7,7 @@ interface ModalContextType {
   isOpen: boolean;
   show: (data: CardData) => void;
   hide: () => void;
+  cardDetail: CardData;
 }
 
 const CardModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -24,6 +25,7 @@ const CardModalProvider: FC<ModalProviderProps> = ({ children }) => {
         isOpen: !!selectedCard,
         show: (data) => setSelectedCard(data),
         hide: () => setSelectedCard(undefined),
+        cardDetail: selectedCard!,
       }}
     >
       {children}

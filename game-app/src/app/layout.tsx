@@ -82,7 +82,6 @@ export default function RootLayout({
         className={`overflow-x-hidden bg-green-400 text-white ${newAirportDotFont.variable} ${agrandirFont.variable} ${ericaoneFont.variable}`}
       >
         <Providers>
-          <CardModal />
           {children}
           <div className="fixed bottom-3 z-20 flex w-full justify-center md:bottom-10 ">
             <Navigation />
