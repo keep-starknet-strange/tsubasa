@@ -6,15 +6,11 @@ use serde::Serde;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
 
-use tsubasa::components::{Card, card, Game, game};
-use tsubasa::systems::place_card_system;
-use tsubasa::systems::attack_system;
-use tsubasa::systems::create_game_system;
-use tsubasa::systems::create_card_system;
-use tsubasa::systems::create_deck_system;
-
-use tsubasa::systems::end_turn_system;
-
+use tsubasa::components::{Card, DeckCard, CardState, card, Game, game};
+use tsubasa::systems::{
+    place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
+    end_turn_system
+};
 
 /// Spawns a mock dojo world.
 fn spawn_world() -> IWorldDispatcher {
@@ -73,4 +69,19 @@ fn create_game(
 
     starknet::testing::set_contract_address(player1);
     pedersen(player1.into(), player2.into())
+}
+
+fn count_cards_in_hand(world: IWorldDispatcher, player: ContractAddress) -> u8 {
+    let mut i = 0_usize;
+    let mut res = 0_u8;
+    loop {
+        if i == 8 {
+            break res;
+        }
+        let cond = get!(world, (player, i), DeckCard).card_state;
+        if cond == CardState::Hand {
+            res += 1;
+        }
+        i += 1;
+    }
 }

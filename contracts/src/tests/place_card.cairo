@@ -6,7 +6,7 @@ use debug::PrintTrait;
 use dojo::world::IWorldDispatcherTrait;
 
 use tsubasa::systems::place_card_system;
-use tsubasa::tests::utils::{create_game, get_players, spawn_world};
+use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use tsubasa::components::{Card, Roles, Player, Placement};
 
 #[test]
@@ -238,6 +238,8 @@ fn test_place_card_right_player() {
     set_contract_address(player1);
     let end_turn_calldata = array![game_id];
     world.execute('end_turn_system', end_turn_calldata);
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     set_contract_address(player2);
     // Card number in the deck, Roles::Goalkeeper
     let place_card_calldata = array![game_id, 1, 0];
