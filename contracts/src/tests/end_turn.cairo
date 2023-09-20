@@ -216,3 +216,110 @@ fn test_end_turn_with_card_on_side() {
         Option::None => panic_with_felt252('Should be some'),
     }
 }
+#[test]
+#[available_gas(3000000000)]
+fn test_end_turn_draw_card_capped_at_max() {
+    let world = spawn_world();
+    let (player1, player2, executor) = get_players();
+    let game_id = create_game(:world, :player1, :player2);
+
+    let end_turn_calldata: Array = array![game_id];
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong cards nb player2 turn 1');
+    assert(count_cards_in_hand(world, player1) == 0, 'Wrong cards nb player1 turn 1');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 1, 'Wrong cards nb player2 turn 2');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong cards nb player1 turn 2');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong cards nb player2 turn 3');
+    assert(count_cards_in_hand(world, player1) == 1, 'Wrong cards nb player1 turn 3');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 2, 'Wrong cards nb player2 turn 4');
+    assert(count_cards_in_hand(world, player1) == 2, 'Wrong cards nb player1 turn 4');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 3, 'Wrong cards nb player2 turn 5');
+    assert(count_cards_in_hand(world, player1) == 2, 'Wrong cards nb player1 turn 5');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 3, 'Wrong cards nb player2 turn 6');
+    assert(count_cards_in_hand(world, player1) == 3, 'Wrong cards nb player1 turn 6');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 4, 'Wrong cards nb player2 turn 7');
+    assert(count_cards_in_hand(world, player1) == 3, 'Wrong cards nb player1 turn 7');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 4, 'Wrong cards nb player2 turn 8');
+    assert(count_cards_in_hand(world, player1) == 4, 'Wrong cards nb player1 turn 8');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 5, 'Wrong cards nb player2 turn 9');
+    assert(count_cards_in_hand(world, player1) == 4, 'Wrong cards nb player1 turn 9');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 5, 'Wrong cards nb player2 turn 10');
+    assert(count_cards_in_hand(world, player1) == 5, 'Wrong cards nb player1 turn 10');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 6, 'Wrong cards nb player2 turn 11');
+    assert(count_cards_in_hand(world, player1) == 5, 'Wrong cards nb player1 turn 11');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 6, 'Wrong cards nb player2 turn 12');
+    assert(count_cards_in_hand(world, player1) == 6, 'Wrong cards nb player1 turn 12');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 7, 'Wrong cards nb player2 turn 13');
+    assert(count_cards_in_hand(world, player1) == 6, 'Wrong cards nb player1 turn 13');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 7, 'Wrong cards nb player2 turn 14');
+    assert(count_cards_in_hand(world, player1) == 7, 'Wrong cards nb player1 turn 14');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 15');
+    assert(count_cards_in_hand(world, player1) == 7, 'Wrong cards nb player1 turn 15');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 16');
+    assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 16');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 17');
+    assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 17');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 18');
+    assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 18');
+
+    set_contract_address(player1);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 19');
+    assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 19');
+
+    set_contract_address(player2);
+    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 20');
+    assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 20');
+}

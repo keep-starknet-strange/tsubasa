@@ -22,20 +22,18 @@ mod end_turn_system {
 
         check_turn(@game, @ctx.origin);
 
-        game.turn += 1;
-
         let mut cards_drawn = game.turn / 2;
         let drawer = if ctx.origin == game.player2 {
-            cards_drawn += 1;
             game.player1
         } else {
             game.player2
         };
-        if cards_drawn <= 8 {
+        if cards_drawn < 8 {
             draw_card(ctx, 8 - cards_drawn, drawer);
         }
         emit!(ctx.world, EndTurn { game_id, turn: game.turn });
 
+        game.turn += 1;
         // Increments the energy of the player 
         let mut player = get!(ctx.world, (game_id, ctx.origin), Player);
         player.remaining_energy = game.turn / 2 + 2;
@@ -69,14 +67,22 @@ mod end_turn_system {
     /// * `remaining_cards` - Number of cards remaining in the deck.
     /// * `player` - Player drawing the card.
     fn draw_card(ctx: Context, remaining_cards: u128, player: ContractAddress) {
-        let card_id: u256 = pedersen(get_block_timestamp().into(), get_block_number().into())
-            .into() % remaining_cards
-            .into();
+        let card_id: u256 = if remaining_cards > 0 {
+            pedersen(get_block_timestamp().into(), get_block_number().into())
+                .into() % remaining_cards
+                .into()
+        } else {
+            0
+        };
         let mut cards_in_deck_seen = 0_u128;
         let mut i = 0_u128;
         loop {
             let mut deck_card = get!(ctx.world, (player, i), DeckCard);
             if cards_in_deck_seen == card_id.low {
+                if deck_card.card_state == CardState::Hand {
+                    i += 1;
+                    continue;
+                }
                 deck_card.card_state = CardState::Hand;
                 set!(ctx.world, (deck_card));
                 break;

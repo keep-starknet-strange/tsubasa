@@ -76,13 +76,12 @@ fn count_cards_in_hand(world: IWorldDispatcher, player: ContractAddress) -> u8 {
     let mut res = 0_u8;
     loop {
         if i == 8 {
-            break;
+            break res;
         }
         let cond = get!(world, (player, i), DeckCard).card_state;
         if cond == CardState::Hand {
             res += 1;
         }
         i += 1;
-    };
-    res
+    }
 }
