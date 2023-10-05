@@ -25,7 +25,7 @@ fn test_end_turn() {
     let attack_system_1 = IAttackDispatcher { contract_address: player1 };
     // Card number in the deck, Roles::Goalkeeper
 
-    place_card_system_1.place_card(world, game_id, 0, 0);
+    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
     attack_system_1.attack(world, game_id);
 
     end_turn_system_1.end_turn(world, game_id);
@@ -71,7 +71,7 @@ fn test_end_game() {
     let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
     // Token_id, Dribble, Defense, Cost, Role
-    create_card_system_1.create_card(world, 0, 0, 22, 17, 0, 1);
+    create_card_system_1.create_card(world, 0, 0, 22, 17, Roles::Goalkeeper, 1);
     // Card number in the deck, Roles::Goalkeeper
     place_card_system_1.place_card(world, game_id, 0, 0);
 
@@ -101,7 +101,7 @@ fn test_end_game() {
         player1_score: 2,
         player2_score: 0,
         turn: 3,
-        outcome: Option::Some(Outcome::Player2(player2)),
+        outcome: Option::Some(Outcome::Player2),
     };
 
     assert(game.game_id == expected_game.game_id, 'invalid game_id');
@@ -112,7 +112,7 @@ fn test_end_game() {
     // Check that option is Some
     assert(game.outcome.is_some(), 'Wrong outcome value');
     let outcome = game.outcome.unwrap();
-    assert(outcome == Outcome::Player1(player1), 'Wrong winner');
+    assert(outcome == Outcome::Player1, 'Wrong winner');
 
     let player = get!(world, (game_id, player1), Player);
     // Check that player energy is correclty incremented at the end of each turn.
@@ -203,10 +203,13 @@ fn test_end_turn_with_card_on_side() {
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
         Option::Some(placement) => {
-            match placement {
-                Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
-                Placement::Field(_) => panic_with_felt252('Wrong Placement'),
-            }
+            let (id, place) = placement;
+            assert (id == 2, 'Wrong token id');
+            assert (place == Placement::Side, 'Wrong placement');
+            // match placement {
+            //     Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
+            //     Placement::Field(_) => panic_with_felt252('Wrong Placement'),
+            // }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
@@ -217,10 +220,13 @@ fn test_end_turn_with_card_on_side() {
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
         Option::Some(placement) => {
-            match placement {
-                Placement::Side(_) => panic_with_felt252('Wrong Placement'),
-                Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
-            }
+            let (id, place) = placement;
+            assert (id == 2, 'Wrong token id');
+            assert (place == Placement::Side, 'Wrong placement');
+            // match placement {
+            //     Placement::Side(_) => panic_with_felt252('Wrong Placement'),
+            //     Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
+            // }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
