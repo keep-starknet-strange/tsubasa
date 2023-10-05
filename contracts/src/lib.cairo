@@ -1,5 +1,4 @@
 mod models;
-mod events;
 mod systems;
 
 #[cfg(test)]
