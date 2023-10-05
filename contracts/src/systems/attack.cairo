@@ -1,24 +1,18 @@
-
 use tsubasa::models::Player;
 use dojo::world::IWorldDispatcher;
 
-trait IAttack <TContractState> {
-    fn execute_attack(
-        self: @TContractState,
-        world: IWorldDispatcher,
-        game_id: felt252
-    ) -> ();
+trait IAttack<TContractState> {
+    fn execute_attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 }
 
 #[system]
 mod attack_system {
-   use super::IAttack;
-   use tsubasa::models::{Game, Placement, Player, Card, GetSetPlacementTrait};
+    use super::IAttack;
+    use tsubasa::models::{Game, Placement, Player, Card, GetSetPlacementTrait};
     use tsubasa::systems::check_turn;
     use option::OptionTrait;
     use debug::PrintTrait;
     // use dojo::world::IWorldDispatcher;
-
 
     fn attack(
         world: IWorldDispatcher,
@@ -65,10 +59,11 @@ mod attack_system {
     }
 
     impl AttackImpl of IAttack<ContractState> {
-       fn execute_attack(self: @ContractState,world: IWorldDispatcher, game_id: felt252) {
+        fn execute_attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
             // check_turn(@game, @starknet::get_caller_address());
-            let (attacker_address, defender_address) = if starknet::get_caller_address() == game.player1 {
+            let (attacker_address, defender_address) = if starknet::get_caller_address() == game
+                .player1 {
                 (game.player1, game.player2)
             } else {
                 (game.player2, game.player1)

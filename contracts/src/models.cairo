@@ -253,7 +253,6 @@ struct Game {
 //     }
 // }
 
-
 /// State for deck's cards
 #[derive(Copy, PartialEq, Drop, Serde)]
 enum CardState {
@@ -347,7 +346,7 @@ impl CardStateSchemaIntrospectionImpl of SchemaIntrospection<CardState> {
         1
     }
 
-     #[inline(always)]
+    #[inline(always)]
     fn layout(ref layout: Array<u8>) {
         layout.append(8);
     }
@@ -360,7 +359,8 @@ impl CardStateSchemaIntrospectionImpl of SchemaIntrospection<CardState> {
                 attrs: array![].span(),
                 children: array![
                     ('Hand', serialize_member_type(@Ty::Tuple(array![].span()))),
-                    ('Deck', serialize_member_type(@Ty::Tuple(array![].span()))),]
+                    ('Deck', serialize_member_type(@Ty::Tuple(array![].span()))),
+                ]
                     .span()
             }
         )
@@ -466,29 +466,31 @@ struct Player {
 impl GetSetPlacement of GetSetPlacementTrait {
     #[inline(always)]
     fn get_token_id(self: Player, i: usize) -> Option<u256> {
-       if i == 0 {
+        if i == 0 {
             match self.goalkeeper {
                 Option::Some((id, _)) => Option::Some(id),
                 Option::None => Option::None,
-            }}
-         else if i == 1 {
+            }
+        } else if i == 1 {
             match self.defender {
                 Option::Some((id, _)) => Option::Some(id),
                 Option::None => Option::None,
-         }}
-           else if i ==2
-           { match self.midfielder {
+            }
+        } else if i == 2 {
+            match self.midfielder {
                 Option::Some((id, _)) => Option::Some(id),
                 Option::None => Option::None,
-            }}
-            else if i == 3
-             { match self.attacker {
+            }
+        } else if i == 3 {
+            match self.attacker {
                 Option::Some((id, _)) => Option::Some(id),
                 Option::None => Option::None,
-            }}
-            else {Option::None}
+            }
+        } else {
+            Option::None
+        }
     }
-    
+
 
     #[inline(always)]
     fn set_placement(ref self: Player, i: usize, val: Option<(u256, Placement)>) {
@@ -540,7 +542,7 @@ impl OptionOutcomeIntrospection of SchemaIntrospection<Option<Outcome>> {
         3
     }
 
-     #[inline(always)]
+    #[inline(always)]
     fn layout(ref layout: Array<u8>) {
         layout.append(8);
     }
@@ -554,7 +556,8 @@ impl OptionOutcomeIntrospection of SchemaIntrospection<Option<Outcome>> {
                 children: array![
                     ('Player1', serialize_member_type(@Ty::Tuple(array![].span()))),
                     ('Player2', serialize_member_type(@Ty::Tuple(array![].span()))),
-                    ('Draw', serialize_member_type(@Ty::Tuple(array![].span()))),]
+                    ('Draw', serialize_member_type(@Ty::Tuple(array![].span()))),
+                ]
                     .span()
             }
         )
@@ -568,7 +571,7 @@ impl OptionPlacementSchemaIntrospectionImpl of SchemaIntrospection<Option<(u256,
         6
     }
 
-     #[inline(always)]
+    #[inline(always)]
     fn layout(ref layout: Array<u8>) {
         layout.append(128);
         layout.append(8);
@@ -576,21 +579,17 @@ impl OptionPlacementSchemaIntrospectionImpl of SchemaIntrospection<Option<(u256,
 
     #[inline(always)]
     fn ty() -> Ty {
-    Ty::Tuple(
-        array![
-            array![].span()
-        ].span()
-    )
-        // Ty::Enum(
-        //     Enum {
-        //         name: 'Outcome',
-        //         attrs: array![].span(),
-        //         children: array![
-        //             ('Side', serialize_member_type(@Ty::Tuple(array![].span()))),
-        //             ('Field', serialize_member_type(@Ty::Tuple(array![].span()))),]
-        //             .span()
-        //     }
-        // )
+        Ty::Tuple(array![array![].span()].span())
+    // Ty::Enum(
+    //     Enum {
+    //         name: 'Outcome',
+    //         attrs: array![].span(),
+    //         children: array![
+    //             ('Side', serialize_member_type(@Ty::Tuple(array![].span()))),
+    //             ('Field', serialize_member_type(@Ty::Tuple(array![].span()))),]
+    //             .span()
+    //     }
+    // )
     }
 }
 // #[generate_trait]
@@ -615,7 +614,7 @@ impl PlayerImpl of PlayerTrait {
     /// Moves a card on the field if necessary.
     #[inline(always)]
     fn update_card_placement(ref self: Option<(u256, Placement)>) {
-           self = match self {
+        self = match self {
             Option::Some(placement) => {
                 let (id, placement) = placement;
                 Option::Some((id, Placement::Field))
@@ -634,11 +633,11 @@ impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
                 match Outcome {
                     Outcome::Player1(address) => {
                         'Player1 :'.print();
-                        // address.print();
+                    // address.print();
                     },
                     Outcome::Player2(address) => {
                         'Player2 :'.print();
-                        // address.print();
+                    // address.print();
                     },
                     Outcome::Draw => {
                         'Is Draw:'.print();

@@ -3,7 +3,9 @@ use tsubasa::models::{DeckCard, CardState};
 use array::SpanTrait;
 
 trait ICreateDeck<TContractState> {
-    fn execute(self: @TContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8) -> ();
+    fn execute(
+        self: @TContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
+    ) -> ();
 }
 
 #[system]
@@ -26,10 +28,12 @@ mod create_deck_system {
     }
 
     impl CreateDeckImpl of ICreateDeck<ContractState> {
-        fn execute(self: @ContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8) {
+        fn execute(
+            self: @ContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
+        ) {
             assert(token_list.len() == 8, 'deck must have 8 cards');
             assert(captain_index < 8, 'Invalid captain index');
-            
+
             let mut card_index: u8 = 0;
             loop {
                 if card_index > 7 {

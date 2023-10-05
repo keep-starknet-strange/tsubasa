@@ -3,7 +3,13 @@ use starknet::ContractAddress;
 use tsubasa::models::Roles;
 
 trait IPlaceCard<TContractState> {
-    fn place_card(self: @TContractState, world: IWorldDispatcher, game_id: felt252, card_id: u8, position: Roles) -> ();
+    fn place_card(
+        self: @TContractState,
+        world: IWorldDispatcher,
+        game_id: felt252,
+        card_id: u8,
+        position: Roles
+    ) -> ();
 }
 
 #[system]
@@ -33,13 +39,23 @@ mod place_card_system {
     }
 
     impl PlaceCardImpl of IPlaceCard<ContractState> {
-        fn place_card(self: @ContractState, world: IWorldDispatcher, game_id: felt252, card_id: u8, position: Roles) {
+        fn place_card(
+            self: @ContractState,
+            world: IWorldDispatcher,
+            game_id: felt252,
+            card_id: u8,
+            position: Roles
+        ) {
             let game = get!(world, game_id, Game);
             check_turn(@game, @starknet::get_caller_address());
-            let game_player_key: (felt252, felt252) = (game_id, starknet::get_caller_address().into());
+            let game_player_key: (felt252, felt252) = (
+                game_id, starknet::get_caller_address().into()
+            );
             let mut player = get!(world, (starknet::get_caller_address(), game_player_key), Player);
             let deck_card = get!(
-                world, (Into::<ContractAddress, felt252>::into(starknet::get_caller_address()), card_id), DeckCard
+                world,
+                (Into::<ContractAddress, felt252>::into(starknet::get_caller_address()), card_id),
+                DeckCard
             );
             let mut card = get!(world, (deck_card.token_id), Card);
             assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
@@ -81,7 +97,12 @@ mod place_card_system {
             set!(world, (player));
             emit!(
                 world,
-                CardPlaced { game_id, player: starknet::get_caller_address(), card_id: deck_card.card_index, position }
+                CardPlaced {
+                    game_id,
+                    player: starknet::get_caller_address(),
+                    card_id: deck_card.card_index,
+                    position
+                }
             )
         }
     }

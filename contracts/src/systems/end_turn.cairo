@@ -2,9 +2,9 @@ use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
 
 
-trait IEndTurn <TContractState> {
-    fn end_turn(self: @TContractState,  world: IWorldDispatcher, game_id: felt252) -> ();
-    // fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
+trait IEndTurn<TContractState> {
+    fn end_turn(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
+// fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
 }
 
 #[system]
@@ -23,14 +23,19 @@ mod end_turn_system {
     enum Event {
         EndTurn: EndTurn
     }
-  
+
     #[derive(Copy, Drop, starknet::Event)]
     struct EndTurn {
         game_id: felt252,
         turn: u128,
     }
 
-    fn draw_card(self: @ContractState,world: IWorldDispatcher, remaining_cards: u128, player: ContractAddress) {
+    fn draw_card(
+        self: @ContractState,
+        world: IWorldDispatcher,
+        remaining_cards: u128,
+        player: ContractAddress
+    ) {
         let card_id: u256 = if remaining_cards > 0 {
             pedersen::pedersen(get_block_timestamp().into(), get_block_number().into())
                 .into() % remaining_cards
@@ -58,59 +63,56 @@ mod end_turn_system {
         }
     }
 
-    
 
     impl EndTurnImpl of IEndTurn<ContractState> {
+        /// Ends a turn and increments the energy of the player who ended the turn.
+        ///
+        /// # Arguemnt
+        ///
+        /// * world: IWorldDispatcher
+        /// * `game_id` - The current game id.
+        fn end_turn(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
+            let mut game = get!(world, game_id, Game);
 
-    /// Ends a turn and increments the energy of the player who ended the turn.
-    ///
-    /// # Arguemnt
-    ///
-    /// * world: IWorldDispatcher
-    /// * `game_id` - The current game id.
-    fn end_turn(self: @ContractState,world: IWorldDispatcher, game_id: felt252) {
-        let mut game = get!(world, game_id, Game);
+            check_turn(@game, @starknet::get_caller_address());
 
-        check_turn(@game, @starknet::get_caller_address());
+            let mut cards_drawn = game.turn / 2;
+            let drawer = if starknet::get_caller_address() == game.player2 {
+                game.player1
+            } else {
+                game.player2
+            };
+            if cards_drawn < 8 {
+                draw_card(self, world, 8 - cards_drawn, drawer);
+            }
 
-        let mut cards_drawn = game.turn / 2;
-        let drawer = if starknet::get_caller_address() == game.player2 {
-            game.player1
-        } else {
-            game.player2
-        };
-        if cards_drawn < 8 {
-            draw_card(self,world, 8 - cards_drawn, drawer);
+            emit!(world, EndTurn { game_id, turn: game.turn });
+
+            game.turn += 1;
+            // Increments the energy of the player 
+            let mut player = get!(world, (game_id, starknet::get_caller_address()), Player);
+            player.remaining_energy = game.turn / 2 + 2;
+            player.goalkeeper.update_card_placement();
+            player.defender.update_card_placement();
+            player.midfielder.update_card_placement();
+            player.attacker.update_card_placement();
+
+            set!(world, (player));
+
+            // End the Game
+            // If one reached score 2, set winner 
+            game
+                .outcome =
+                    if (game.player1_score == 2) {
+                        Option::Some(Outcome::Player1)
+                    } else if (game.player2_score == 2) {
+                        Option::Some(Outcome::Player2)
+                    } else {
+                        Option::None
+                    };
+
+            set!(world, (game));
         }
-
-        emit!(world, EndTurn{ game_id, turn: game.turn });
-
-        game.turn += 1;
-        // Increments the energy of the player 
-        let mut player = get!(world, (game_id, starknet::get_caller_address()), Player);
-        player.remaining_energy = game.turn / 2 + 2;
-        player.goalkeeper.update_card_placement();
-        player.defender.update_card_placement();
-        player.midfielder.update_card_placement();
-        player.attacker.update_card_placement();
-
-        set!(world, (player));
-
-        // End the Game
-        // If one reached score 2, set winner 
-        game
-            .outcome =
-                if (game.player1_score == 2) {
-                    Option::Some(Outcome::Player1)
-                } else if (game.player2_score == 2) {
-                    Option::Some(Outcome::Player2)
-                } else {
-                    Option::None
-                };
-
-        set!(world, (game));
-    }
-
     /// Draw a card from the deck.
     ///
     /// # Arguments
@@ -118,7 +120,7 @@ mod end_turn_system {
     /// * world: IWorldDispatcher
     /// * `remaining_cards` - Number of cards remaining in the deck.
     /// * `player` - Player drawing the card.
-    
-}
+
+    }
 }
 
