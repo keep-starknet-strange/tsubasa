@@ -52,7 +52,6 @@ fn test_place_card() {
             match placement {
                 Placement::Side => panic_with_felt252('Wrong placement'),
                 Placement::Field => (),
-                _ => panic_with_felt252('Wrong placement'),
             }
         },
         Option::None => panic_with_felt252('Should be some'),

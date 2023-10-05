@@ -208,7 +208,6 @@ fn test_end_turn_with_card_on_side() {
             match placement {
                 Placement::Side => panic_with_felt252('Wrong placement'),
                 Placement::Field => {},
-                _ => panic_with_felt252('Wrong placement'),
             }
         },
         Option::None => panic_with_felt252('Should be some'),
