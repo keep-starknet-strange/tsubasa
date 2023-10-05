@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Install dojo
         run: |-
-          wget https://github.com/dojoengine/dojo/releases/download/v0.2.1/dojo_v0.2.1_linux_amd64.tar.gz
-          tar -xzf dojo_v0.2.1_linux_amd64.tar.gz
+          wget https://github.com/dojoengine/dojo/releases/download/v0.3.0-rc2/dojo_v0.3.0-rc2_linux_amd64.tar.gz
+          tar -xzf dojo_v0.3.0-rc2_linux_amd64.tar.gz
           sudo mv sozo /usr/local/bin/
           sudo mv katana /usr/local/bin/
 
