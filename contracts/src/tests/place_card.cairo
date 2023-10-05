@@ -50,6 +50,7 @@ fn test_place_card() {
             let (id, placement): (u256, Placement) = tuple;
             assert(id == 2, 'Card id should be 2');
             match placement {
+                Placement::Side => panic_with_felt252('Wrong placement'),
                 Placement::Field => (),
                 _ => panic_with_felt252('Wrong placement'),
             }

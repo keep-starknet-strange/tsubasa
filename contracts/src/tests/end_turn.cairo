@@ -206,6 +206,7 @@ fn test_end_turn_with_card_on_side() {
             let (id, placement): (u256, Placement) = tuple;
             assert(id == 2, 'Token id should be 2');
             match placement {
+                Placement::Side => panic_with_felt252('Wrong placement'),
                 Placement::Field => {},
                 _ => panic_with_felt252('Wrong placement'),
             }
