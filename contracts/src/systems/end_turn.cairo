@@ -1,13 +1,66 @@
+use dojo::world::IWorldDispatcher;
+use starknet::ContractAddress;
+
+
+trait IEndTurn <TContractState> {
+    fn end_turn(self: @TContractState,  world: IWorldDispatcher, game_id: felt252) -> ();
+    // fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
+}
+
 #[system]
 mod end_turn_system {
+    use super::IEndTurn;
     use array::ArrayTrait;
     use traits::Into;
-    use starknet::ContractAddress;
     use starknet::info::{get_block_timestamp, get_block_number};
+    use starknet::ContractAddress;
 
     use tsubasa::models::{Game, DeckCard, CardState, Player, Outcome, PlayerTrait, Placement};
-    use tsubasa::events::EndTurn;
     use tsubasa::systems::check_turn;
+
+    #[event]
+    #[derive(Copy, Drop, starknet::Event)]
+    enum Event {
+        EndTurn: EndTurn
+    }
+  
+    #[derive(Copy, Drop, starknet::Event)]
+    struct EndTurn {
+        game_id: felt252,
+        turn: u128,
+    }
+
+    fn draw_card(self: @ContractState,world: IWorldDispatcher, remaining_cards: u128, player: ContractAddress) {
+        let card_id: u256 = if remaining_cards > 0 {
+            pedersen::pedersen(get_block_timestamp().into(), get_block_number().into())
+                .into() % remaining_cards
+                .into()
+        } else {
+            0
+        };
+        let mut cards_in_deck_seen = 0_u128;
+        let mut i = 0_u128;
+        loop {
+            let mut deck_card = get!(world, (player, i), DeckCard);
+            if cards_in_deck_seen == card_id.low {
+                if deck_card.card_state == CardState::Hand {
+                    i += 1;
+                    continue;
+                }
+                deck_card.card_state = CardState::Hand;
+                set!(world, (deck_card));
+                break;
+            }
+            if deck_card.card_state == CardState::Deck {
+                cards_in_deck_seen += 1;
+            }
+            i += 1;
+        }
+    }
+
+    
+
+    impl EndTurnImpl of IEndTurn<ContractState> {
 
     /// Ends a turn and increments the energy of the player who ended the turn.
     ///
@@ -15,7 +68,7 @@ mod end_turn_system {
     ///
     /// * world: IWorldDispatcher
     /// * `game_id` - The current game id.
-    fn execute(world: IWorldDispatcher, game_id: felt252) {
+    fn end_turn(self: @ContractState,world: IWorldDispatcher, game_id: felt252) {
         let mut game = get!(world, game_id, Game);
 
         check_turn(@game, @starknet::get_caller_address());
@@ -27,9 +80,10 @@ mod end_turn_system {
             game.player2
         };
         if cards_drawn < 8 {
-            draw_card(world, 8 - cards_drawn, drawer);
+            draw_card(self,world, 8 - cards_drawn, drawer);
         }
-        emit!(world, EndTurn { game_id, turn: game.turn });
+
+        emit!(world, EndTurn{ game_id, turn: game.turn });
 
         game.turn += 1;
         // Increments the energy of the player 
@@ -64,32 +118,7 @@ mod end_turn_system {
     /// * world: IWorldDispatcher
     /// * `remaining_cards` - Number of cards remaining in the deck.
     /// * `player` - Player drawing the card.
-    fn draw_card(world: IWorldDispatcher, remaining_cards: u128, player: ContractAddress) {
-        let card_id: u256 = if remaining_cards > 0 {
-            pedersen::pedersen(get_block_timestamp().into(), get_block_number().into())
-                .into() % remaining_cards
-                .into()
-        } else {
-            0
-        };
-        let mut cards_in_deck_seen = 0_u128;
-        let mut i = 0_u128;
-        loop {
-            let mut deck_card = get!(world, (player, i), DeckCard);
-            if cards_in_deck_seen == card_id.low {
-                if deck_card.card_state == CardState::Hand {
-                    i += 1;
-                    continue;
-                }
-                deck_card.card_state = CardState::Hand;
-                set!(world, (deck_card));
-                break;
-            }
-            if deck_card.card_state == CardState::Deck {
-                cards_in_deck_seen += 1;
-            }
-            i += 1;
-        }
-    }
+    
+}
 }
 

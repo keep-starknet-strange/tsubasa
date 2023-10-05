@@ -1,59 +1,76 @@
+use dojo::world::IWorldDispatcher;
+use starknet::ContractAddress;
+use tsubasa::models::{Game, Player};
+
+trait ICreateGame<TContractState> {
+    fn create_game(self: @TContractState, world: IWorldDispatcher, player2: ContractAddress) -> ();
+}
+
 #[system]
 mod create_game_system {
+    use super::ICreateGame;
     use traits::Into;
     use starknet::ContractAddress;
-    use array::ArrayTrait;
-    use tsubasa::events::GameCreated;
     use tsubasa::models::{Game, Player};
-  
-    /// Creates a new game and initializes the 2 players with 1 energy.
-    ///
-    /// # Arguments
-    ///
-    /// * world: IWorldDispatcher
-    /// * `player2` - The second player of the game.
-    fn execute(world: IWorldDispatcher, player2: ContractAddress) {
-        let player1 = starknet::get_caller_address();
+    use debug::PrintTrait;
 
-        let game_id = pedersen::pedersen(player1.into(), player2.into());
+    #[event]
+    #[derive(Copy, Drop, starknet::Event)]
+    enum Event {
+        GameCreated: GameCreated
+    }
 
-        set!(
-            world,
-            Game {
-                game_id,
-                player1,
-                player2,
-                player1_score: 0,
-                player2_score: 0,
-                turn: 0,
-                outcome: Option::None
-            }
-        );
+    #[derive(Copy, Drop, starknet::Event)]
+    struct GameCreated {
+        game_id: felt252,
+        player1: ContractAddress,
+        player2: ContractAddress
+    }
 
-        set!(
-            world,
-            (
-                Player {
+    impl CreateGameImpl of ICreateGame<ContractState> {
+        fn create_game(self: @ContractState, world: IWorldDispatcher, player2: ContractAddress) {
+            let player1 = starknet::get_caller_address();
+
+            let game_id = pedersen::pedersen(player1.into(), player2.into());
+
+            set!(
+                world,
+                Game {
                     game_id,
-                    player: player1,
-                    goalkeeper: Option::None,
-                    defender: Option::None,
-                    midfielder: Option::None,
-                    attacker: Option::None,
-                    remaining_energy: 1,
-                },
-                Player {
-                    game_id,
-                    player: player2,
-                    goalkeeper: Option::None,
-                    defender: Option::None,
-                    midfielder: Option::None,
-                    attacker: Option::None,
-                    remaining_energy: 1,
+                    player1,
+                    player2,
+                    player1_score: 0,
+                    player2_score: 0,
+                    turn: 0,
+                    outcome: Option::None
                 }
-            )
-        );
+            );
 
-        emit!(world, GameCreated { game_id, player1, player2 })
+            set!(
+                world,
+                (
+                    Player {
+                        game_id,
+                        player: player1,
+                        goalkeeper: Option::None,
+                        defender: Option::None,
+                        midfielder: Option::None,
+                        attacker: Option::None,
+                        remaining_energy: 1,
+                    },
+                    Player {
+                        game_id,
+                        player: player2,
+                        goalkeeper: Option::None,
+                        defender: Option::None,
+                        midfielder: Option::None,
+                        attacker: Option::None,
+                        remaining_energy: 1,
+                    }
+                )
+            );
+
+            emit!(world, GameCreated { game_id, player1, player2 })
+        }
     }
 }
