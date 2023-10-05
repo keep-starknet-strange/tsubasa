@@ -9,7 +9,7 @@ use dojo::test_utils::spawn_test_world;
 use tsubasa::models::{Card, DeckCard, CardState, card, Game, game};
 use tsubasa::systems::{
     place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
-    end_turn_system
+    end_turn_system,ICreateGameDispatcher,ICreateGameDispatcherTrait, ICreateDeckDispatcher, ICreateDeckDispatcherTrait
 };
 
 /// Spawns a mock dojo world.
@@ -46,26 +46,23 @@ fn create_game(
 ) -> felt252 {
     // use player1 address
     starknet::testing::set_contract_address(player1);
-
-    let create_game_calldata = array![player2.into()];
+    let create_game_system = ICreateGameDispatcher { contract_address: player1 };
 
     // create game
-    world.execute('create_game_system', create_game_calldata);
+    create_game_system.create_game(world, player2);
 
-    let mut create_deck_calldata1 = array![];
+
     let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
-    token_ids1.serialize(ref create_deck_calldata1);
-    // Captain index.
-    create_deck_calldata1.append(7);
-    world.execute('create_deck_system', create_deck_calldata1);
+    let create_deck_system = ICreateDeckDispatcher { contract_address: player1 };
+    create_deck_system.create_deck(world, token_ids1.span(), 7);
+    
 
     starknet::testing::set_contract_address(player2);
-    let mut create_deck_calldata2 = array![];
+    let create_deck_system2 = ICreateDeckDispatcher { contract_address: player2 };
     let token_ids2 = array![1_u256, 3, 5, 7, 9, 11, 13, 15];
-    token_ids2.serialize(ref create_deck_calldata2);
     // Captain index.
-    create_deck_calldata2.append(7);
-    world.execute('create_deck_system', create_deck_calldata2);
+
+    create_deck_system2.create_deck(world, token_ids2.span(), 7);
 
     starknet::testing::set_contract_address(player1);
     pedersen::pedersen(player1.into(), player2.into())

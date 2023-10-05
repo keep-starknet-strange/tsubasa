@@ -2,6 +2,7 @@ use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
 use tsubasa::models::{Game, Player};
 
+#[starknet::interface]
 trait ICreateGame<TContractState> {
     fn create_game(self: @TContractState, world: IWorldDispatcher, player2: ContractAddress) -> ();
 }

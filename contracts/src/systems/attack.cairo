@@ -1,8 +1,9 @@
 use tsubasa::models::Player;
 use dojo::world::IWorldDispatcher;
 
+#[starknet::interface]
 trait IAttack<TContractState> {
-    fn execute_attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
+    fn attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 }
 
 #[system]
@@ -14,7 +15,7 @@ mod attack_system {
     use debug::PrintTrait;
     // use dojo::world::IWorldDispatcher;
 
-    fn attack(
+    fn internal_attack(
         world: IWorldDispatcher,
         ref i: usize,
         ref j: usize,
@@ -59,7 +60,7 @@ mod attack_system {
     }
 
     impl AttackImpl of IAttack<ContractState> {
-        fn execute_attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
+        fn attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
             // check_turn(@game, @starknet::get_caller_address());
             let (attacker_address, defender_address) = if starknet::get_caller_address() == game
@@ -74,7 +75,7 @@ mod attack_system {
             let mut i: usize = 3;
             let mut j: usize = 3;
             let has_scored = loop {
-                let has_scored = attack(world, ref i, ref j, ref attacker, ref defender);
+                let has_scored = internal_attack(world, ref i, ref j, ref attacker, ref defender);
                 if has_scored {
                     break true;
                 }

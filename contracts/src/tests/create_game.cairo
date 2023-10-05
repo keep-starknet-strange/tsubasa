@@ -9,6 +9,7 @@ use dojo::world::IWorldDispatcherTrait;
 use tsubasa::models::{Game, Player};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 use tsubasa::systems::create_game_system;
+use tsubasa::systems::{ICreateGameDispatcher, ICreateGameDispatcherTrait};
 
 #[test]
 #[available_gas(30000000)]
@@ -20,10 +21,9 @@ fn test_create_game() {
     // use player1 address
     set_contract_address(player1);
 
-    let mut create_game_calldata = array![player2.into()];
-
+    let create_game_system =ICreateGameDispatcher { contract_address:player1};
     // create game
-    world.execute('create_game_system', create_game_calldata);
+    create_game_system.create_game(world, player2);
     let expected_game_id = pedersen::pedersen(player1.into(), player2.into());
     let game = get!(world, expected_game_id, Game);
 

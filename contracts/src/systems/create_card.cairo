@@ -1,8 +1,9 @@
 use dojo::world::IWorldDispatcher;
 use tsubasa::models::{Card, Roles};
 
+#[starknet::interface]
 trait ICreateCard<TContractState> {
-    fn execute(
+    fn create_card(
         self: @TContractState,
         world: IWorldDispatcher,
         token_id: u256,
@@ -20,7 +21,7 @@ mod create_card_system {
     use tsubasa::models::{Card, Roles};
 
     impl CreateCardImpl of ICreateCard<ContractState> {
-        fn execute(
+        fn create_card(
             self: @ContractState,
             world: IWorldDispatcher,
             token_id: u256,

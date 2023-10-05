@@ -2,8 +2,9 @@ use dojo::world::IWorldDispatcher;
 use tsubasa::models::{DeckCard, CardState};
 use array::SpanTrait;
 
+#[starknet::interface]
 trait ICreateDeck<TContractState> {
-    fn execute(
+    fn create_deck(
         self: @TContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
     ) -> ();
 }
@@ -28,7 +29,7 @@ mod create_deck_system {
     }
 
     impl CreateDeckImpl of ICreateDeck<ContractState> {
-        fn execute(
+        fn create_deck(
             self: @ContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
         ) {
             assert(token_list.len() == 8, 'deck must have 8 cards');

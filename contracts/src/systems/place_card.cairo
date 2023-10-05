@@ -2,6 +2,7 @@ use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
 use tsubasa::models::Roles;
 
+#[starknet::interface]
 trait IPlaceCard<TContractState> {
     fn place_card(
         self: @TContractState,

@@ -1,7 +1,7 @@
 use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
 
-
+#[starknet::interface]
 trait IEndTurn<TContractState> {
     fn end_turn(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 // fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
