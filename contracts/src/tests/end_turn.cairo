@@ -71,7 +71,7 @@ fn test_end_game() {
     let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
     // Token_id, Dribble, Defense, Cost, Role
-    create_card_system_1.create_card(world, 0, 0, 22, 17, Roles::Goalkeeper, 1);
+    create_card_system_1.create_card(world, 0, 0, 22, 17, Roles::Goalkeeper, true);
     // Card number in the deck, Roles::Goalkeeper
     place_card_system_1.place_card(world, game_id, 0, 0);
 
@@ -202,16 +202,27 @@ fn test_end_turn_with_card_on_side() {
     place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
-        Option::Some(placement) => {
-            let (id, place) = placement;
-            assert(id == 2, 'Wrong token id');
-            assert(place == Placement::Side, 'Wrong placement');
+        Option::Some(tuple) => {
+            let (id, placement): (u256, Placement) = tuple;
+            assert(id == 2, 'Token id should be 2');
+            if (placement == Placement::Field, '') {
+                panic_with_felt252('Wrong Placement');
+            }
         // match placement {
-        //     Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
-        //     Placement::Field(_) => panic_with_felt252('Wrong Placement'),
+        // Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
+        // Placement::Field(_) => panic_with_felt252('Wrong Placement'),
         // }
         },
         Option::None => panic_with_felt252('Should be some'),
+    // Option::Some(placement) => {
+    //     let (id, place) = placement;
+    //     assert(id == 2, 'Wrong token id');
+    //     assert(place == Placement::Side, 'Wrong placement');
+    // match placement {
+    //     Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
+    //     Placement::Field(_) => panic_with_felt252('Wrong Placement'),
+    // }
+
     }
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
