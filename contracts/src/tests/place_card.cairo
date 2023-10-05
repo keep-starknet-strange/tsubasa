@@ -8,7 +8,9 @@ use dojo::world::IWorldDispatcherTrait;
 use tsubasa::systems::place_card_system;
 use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use tsubasa::models::{Card, Roles, Player, Placement};
-use tsubasa::systems::{IPlaceCardDispatcher, IEndTurnDispatcher, IPlaceCardDispatcherTrait, IEndTurnDispatcherTrait};
+use tsubasa::systems::{
+    IPlaceCardDispatcher, IEndTurnDispatcher, IPlaceCardDispatcherTrait, IEndTurnDispatcherTrait
+};
 #[test]
 #[available_gas(300000000)]
 fn test_place_card() {
@@ -24,20 +26,20 @@ fn test_place_card() {
         cost: 1,
         role: Roles::Goalkeeper,
     };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
 
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     // Card number in the deck, Roles::Defender
     let place_card_calldata = array![game_id, 1, 1];
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 1, 'energy should be 1');
-  
+
     place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
 
@@ -69,7 +71,7 @@ fn test_place_card_overflow() {
         cost: 2,
         role: Roles::Goalkeeper,
     };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     set_contract_address(executor);
     set!(world, (card));
@@ -97,7 +99,7 @@ fn test_place_card_on_its_role() {
         cost: 1,
         role: Roles::Attacker,
     };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     set_contract_address(executor);
     set!(world, (card));
@@ -129,7 +131,7 @@ fn test_place_card_not_on_its_role() {
         role: Roles::Attacker,
     };
     set_contract_address(executor);
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     set!(world, (card));
     set_contract_address(player1);
@@ -137,7 +139,6 @@ fn test_place_card_not_on_its_role() {
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
-
 
     place_card_system_1.place_card(world, game_id, 1, Roles::Goalkeeper);
     let card = get!(world, (2, 0), Card);
@@ -163,7 +164,7 @@ fn test_place_card_is_not_captain() {
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -193,8 +194,7 @@ fn test_place_card_is_captain() {
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     // Card number in the deck, Roles::Goalkeeper
     place_card_system_1.place_card(world, game_id, 7, Roles::Goalkeeper);
@@ -222,7 +222,7 @@ fn test_place_card_wrong_player() {
     };
     set_contract_address(executor);
     set!(world, (card));
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
 
     set_contract_address(player2);
 
@@ -244,8 +244,8 @@ fn test_place_card_right_player() {
         role: Roles::Attacker,
     };
     set_contract_address(executor);
-    let place_card_system_2 = IPlaceCardDispatcher { contract_address:player2};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
+    let place_card_system_2 = IPlaceCardDispatcher { contract_address: player2 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
 
     set!(world, (card));
     set_contract_address(player1);

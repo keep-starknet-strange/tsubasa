@@ -9,7 +9,10 @@ use debug::PrintTrait;
 use tsubasa::models::{Game, Player, Outcome, Card, Roles, Placement};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_in_hand};
-use tsubasa::systems::{IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait, IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait};
+use tsubasa::systems::{
+    IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait,
+    IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait
+};
 
 #[test]
 #[available_gas(300000000)]
@@ -17,12 +20,12 @@ fn test_end_turn() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
     // Card number in the deck, Roles::Goalkeeper
 
-    place_card_system_1.place_card(world,game_id, 0, 0);
+    place_card_system_1.place_card(world, game_id, 0, 0);
     attack_system_1.attack(world, game_id);
 
     end_turn_system_1.end_turn(world, game_id);
@@ -61,16 +64,16 @@ fn test_end_game() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
     // Token_id, Dribble, Defense, Cost, Role
     create_card_system_1.create_card(world, 0, 0, 22, 17, 0, 1);
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world,game_id, 0, 0);
+    place_card_system_1.place_card(world, game_id, 0, 0);
 
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
@@ -124,7 +127,7 @@ fn test_end_turn_wrong_player() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player2);
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
 
     end_turn_system_2.end_turn(world, game_id);
 }
@@ -137,7 +140,7 @@ fn test_end_turn_right_player_then_wrong_player() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player1);
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
 
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
@@ -152,9 +155,9 @@ fn test_end_turn_right_players_twice() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player1);
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
 
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
 
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
@@ -191,12 +194,12 @@ fn test_end_turn_with_card_on_side() {
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
+
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
 
     // Card number in the deck, Roles::Defender
-    place_card_system_1.place_card(world,game_id, 1, Roles::Defender);
+    place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
     match player.defender {
         Option::Some(placement) => {
@@ -228,8 +231,8 @@ fn test_end_turn_draw_card_capped_at_max() {
     let world = spawn_world();
     let (player1, player2, executor) = get_players();
     let game_id = create_game(:world, :player1, :player2);
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
 
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong cards nb player2 turn 1');

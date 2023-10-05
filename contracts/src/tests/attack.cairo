@@ -8,7 +8,10 @@ use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_i
 use serde::Serde;
 use starknet::ContractAddress;
 use traits::Into;
-use tsubasa::systems::{IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait, IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait};
+use tsubasa::systems::{
+    IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait,
+    IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait
+};
 
 #[test]
 #[available_gas(3000000000)]
@@ -18,15 +21,15 @@ fn test_attack_player1_scores_against_empty_board() {
     let game_id = create_game(world, player1, player2);
     set_contract_address(player1);
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    
-    create_card_system_1.create_card(world, 0,0,22,17,Roles::Attacker,true);
-  
+
+    create_card_system_1.create_card(world, 0, 0, 22, 17, Roles::Attacker, true);
+
     // Player 1 plays
     // Card number in the deck, Roles::Defender
     place_card_system_1.place_card(world, game_id, 0, Roles::Defender);
@@ -40,9 +43,9 @@ fn test_attack_player1_scores_against_empty_board() {
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     // Player 1 attacks and should win against empty board
-  
+
     set_contract_address(player1);
-    
+
     attack_system_1.attack(world, game_id);
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
@@ -58,21 +61,21 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(world, player1, player2);
     set_contract_address(player1);
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
-    let place_card_system_2 = IPlaceCardDispatcher { contract_address:player2};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
-    let attack_system_2 = IAttackDispatcher { contract_address:player2};
+    let place_card_system_2 = IPlaceCardDispatcher { contract_address: player2 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
+    let attack_system_2 = IAttackDispatcher { contract_address: player2 };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 0,0,45,5,Roles::Defender,false);
+    create_card_system_1.create_card(world, 0, 0, 45, 5, Roles::Defender, false);
 
     // Card for player 2
-    create_card_system_1.create_card(world, 1,0,1,2,Roles::Midfielder,false);
+    create_card_system_1.create_card(world, 1, 0, 1, 2, Roles::Midfielder, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Defender
@@ -128,19 +131,19 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(world, player1, player2);
     set_contract_address(player1);
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
-    let place_card_system_2 = IPlaceCardDispatcher { contract_address:player2};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
+    let place_card_system_2 = IPlaceCardDispatcher { contract_address: player2 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 0,0,2,1,Roles::Defender,false);
+    create_card_system_1.create_card(world, 0, 0, 2, 1, Roles::Defender, false);
     // Card for player 2
-    create_card_system_1.create_card(world, 1,0,1,2,Roles::Goalkeeper,false);
+    create_card_system_1.create_card(world, 1, 0, 1, 2, Roles::Goalkeeper, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper
@@ -196,19 +199,19 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     let (player1, player2, _) = get_players();
     let game_id = create_game(world, player1, player2);
     set_contract_address(player1);
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
-    let place_card_system_2 = IPlaceCardDispatcher { contract_address:player2};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
-    let attack_system_2 = IAttackDispatcher { contract_address:player2};
+    let place_card_system_2 = IPlaceCardDispatcher { contract_address: player2 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
+    let attack_system_2 = IAttackDispatcher { contract_address: player2 };
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 1,0,1,2,Roles::Goalkeeper,false);
+    create_card_system_1.create_card(world, 1, 0, 1, 2, Roles::Goalkeeper, false);
     // Card for player 2
-    create_card_system_1.create_card(world, 0,0,1,2,Roles::Goalkeeper,false);
+    create_card_system_1.create_card(world, 0, 0, 1, 2, Roles::Goalkeeper, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper
@@ -278,26 +281,26 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(world, player1, player2);
     set_contract_address(player1);
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address:player1};
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address:player1};
-    let attack_system_1 = IAttackDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
+    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
 
-    let place_card_system_2 = IPlaceCardDispatcher { contract_address:player2};
-    let end_turn_system_2 = IEndTurnDispatcher { contract_address:player2};
-    let attack_system_2 = IAttackDispatcher { contract_address:player2};
+    let place_card_system_2 = IPlaceCardDispatcher { contract_address: player2 };
+    let end_turn_system_2 = IEndTurnDispatcher { contract_address: player2 };
+    let attack_system_2 = IAttackDispatcher { contract_address: player2 };
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 1,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 3,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 5,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 7,0,1,2,Roles::Goalkeeper,false);
+    create_card_system_1.create_card(world, 1, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 3, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 5, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 7, 0, 1, 2, Roles::Goalkeeper, false);
 
     // Card for player 2
-    create_card_system_1.create_card(world, 0,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 2,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 4,0,1,2,Roles::Goalkeeper,false);
-    create_card_system_1.create_card(world, 6,0,1,2,Roles::Goalkeeper,false);
+    create_card_system_1.create_card(world, 0, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 2, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 4, 0, 1, 2, Roles::Goalkeeper, false);
+    create_card_system_1.create_card(world, 6, 0, 1, 2, Roles::Goalkeeper, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper

@@ -21,7 +21,7 @@ fn test_create_game() {
     // use player1 address
     set_contract_address(player1);
 
-    let create_game_system =ICreateGameDispatcher { contract_address:player1};
+    let create_game_system = ICreateGameDispatcher { contract_address: player1 };
     // create game
     create_game_system.create_game(world, player2);
     let expected_game_id = pedersen::pedersen(player1.into(), player2.into());

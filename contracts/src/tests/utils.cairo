@@ -9,7 +9,8 @@ use dojo::test_utils::spawn_test_world;
 use tsubasa::models::{Card, DeckCard, CardState, card, Game, game};
 use tsubasa::systems::{
     place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
-    end_turn_system,ICreateGameDispatcher,ICreateGameDispatcherTrait, ICreateDeckDispatcher, ICreateDeckDispatcherTrait
+    end_turn_system, ICreateGameDispatcher, ICreateGameDispatcherTrait, ICreateDeckDispatcher,
+    ICreateDeckDispatcherTrait
 };
 
 /// Spawns a mock dojo world.
@@ -51,11 +52,9 @@ fn create_game(
     // create game
     create_game_system.create_game(world, player2);
 
-
     let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
     let create_deck_system = ICreateDeckDispatcher { contract_address: player1 };
     create_deck_system.create_deck(world, token_ids1.span(), 7);
-    
 
     starknet::testing::set_contract_address(player2);
     let create_deck_system2 = ICreateDeckDispatcher { contract_address: player2 };

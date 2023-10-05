@@ -17,11 +17,11 @@ fn test_create_card() {
     let player2 = starknet::contract_address_const::<0x2>();
 
     let world = spawn_world();
-    let create_card_system_1 = ICreateCardDispatcher { contract_address:player1};
+    let create_card_system_1 = ICreateCardDispatcher { contract_address: player1 };
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world,1, 0, 22, 17, Roles::Attacker, true);
-    create_card_system_1.create_card(world,2, 0, 10, 15, Roles::Defender, false);
-    
+    create_card_system_1.create_card(world, 1, 0, 22, 17, Roles::Attacker, true);
+    create_card_system_1.create_card(world, 2, 0, 10, 15, Roles::Defender, false);
+
     let mut token_id_player1: u256 = 1;
     let mut token_id_player2: u256 = 2;
 
