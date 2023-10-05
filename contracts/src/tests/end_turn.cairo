@@ -204,12 +204,12 @@ fn test_end_turn_with_card_on_side() {
     match player.defender {
         Option::Some(placement) => {
             let (id, place) = placement;
-            assert (id == 2, 'Wrong token id');
-            assert (place == Placement::Side, 'Wrong placement');
-            // match placement {
-            //     Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
-            //     Placement::Field(_) => panic_with_felt252('Wrong Placement'),
-            // }
+            assert(id == 2, 'Wrong token id');
+            assert(place == Placement::Side, 'Wrong placement');
+        // match placement {
+        //     Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
+        //     Placement::Field(_) => panic_with_felt252('Wrong Placement'),
+        // }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
@@ -221,12 +221,12 @@ fn test_end_turn_with_card_on_side() {
     match player.defender {
         Option::Some(placement) => {
             let (id, place) = placement;
-            assert (id == 2, 'Wrong token id');
-            assert (place == Placement::Side, 'Wrong placement');
-            // match placement {
-            //     Placement::Side(_) => panic_with_felt252('Wrong Placement'),
-            //     Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
-            // }
+            assert(id == 2, 'Wrong token id');
+            assert(place == Placement::Side, 'Wrong placement');
+        // match placement {
+        //     Placement::Side(_) => panic_with_felt252('Wrong Placement'),
+        //     Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
+        // }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
