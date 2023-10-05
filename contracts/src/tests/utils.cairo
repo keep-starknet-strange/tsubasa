@@ -18,18 +18,8 @@ fn spawn_world() -> IWorldDispatcher {
     // components
     let mut components = array![game::TEST_CLASS_HASH, card::TEST_CLASS_HASH];
 
-    // systems
-    let mut systems = array![
-        create_game_system::TEST_CLASS_HASH,
-        place_card_system::TEST_CLASS_HASH,
-        attack_system::TEST_CLASS_HASH,
-        end_turn_system::TEST_CLASS_HASH,
-        create_card_system::TEST_CLASS_HASH,
-        create_deck_system::TEST_CLASS_HASH,
-    ];
-
     // deploy executor, world and register components/systems
-    spawn_test_world(components, systems)
+    spawn_test_world(components)
 }
 
 /// Returns 1_ContractAddress, 2_ContractAddress
