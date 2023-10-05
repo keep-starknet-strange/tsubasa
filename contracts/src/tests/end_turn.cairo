@@ -205,7 +205,10 @@ fn test_end_turn_with_card_on_side() {
         Option::Some(tuple) => {
             let (id, placement): (u256, Placement) = tuple;
             assert(id == 2, 'Token id should be 2');
-            assert(placement == Placement::Field, 'Wrong placement');
+            match placement {
+                Placement::Field => {},
+                _ => panic_with_felt252('Wrong placement'),
+            }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
@@ -218,7 +221,10 @@ fn test_end_turn_with_card_on_side() {
         Option::Some(placement) => {
             let (id, place): (u256, Placement) = placement;
             assert(id == 2, 'Wrong token id');
-            assert(place == Placement::Side, 'Wrong placement');
+            match place {
+                Placement::Side => {},
+                _ => panic_with_felt252('Wrong placement'),
+            }
         },
         Option::None => panic_with_felt252('Should be some'),
     }

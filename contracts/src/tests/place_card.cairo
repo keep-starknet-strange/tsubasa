@@ -49,7 +49,10 @@ fn test_place_card() {
         Option::Some(tuple) => {
             let (id, placement): (u256, Placement) = tuple;
             assert(id == 2, 'Card id should be 2');
-            assert(placement == Placement::Field, 'Wrong placement');
+            match placement {
+                Placement::Field => (),
+                _ => panic_with_felt252('Wrong placement'),
+            }
         },
         Option::None => panic_with_felt252('Should be some'),
     }
