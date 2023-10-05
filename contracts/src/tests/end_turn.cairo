@@ -223,7 +223,7 @@ fn test_end_turn_with_card_on_side() {
             assert(id == 2, 'Wrong token id');
             match place {
                 Placement::Side => {},
-                _ => panic_with_felt252('Wrong placement'),
+                Placement::Field => panic_with_felt252('Wrong placement'),
             }
         },
         Option::None => panic_with_felt252('Should be some'),
