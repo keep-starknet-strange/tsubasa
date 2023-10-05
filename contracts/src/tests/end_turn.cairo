@@ -6,7 +6,7 @@ use starknet::testing::set_contract_address;
 use dojo::world::IWorldDispatcherTrait;
 use clone::Clone;
 use debug::PrintTrait;
-use tsubasa::components::{Game, Player, Outcome, Card, Roles, Placement};
+use tsubasa::models::{Game, Player, Outcome, Card, Roles, Placement};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_in_hand};
 

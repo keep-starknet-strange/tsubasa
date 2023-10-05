@@ -6,7 +6,7 @@ use serde::Serde;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
 
-use tsubasa::components::{Card, DeckCard, CardState, card, Game, game};
+use tsubasa::models::{Card, DeckCard, CardState, card, Game, game};
 use tsubasa::systems::{
     place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
     end_turn_system
@@ -68,7 +68,7 @@ fn create_game(
     world.execute('create_deck_system', create_deck_calldata2);
 
     starknet::testing::set_contract_address(player1);
-    pedersen(player1.into(), player2.into())
+    pedersen::pedersen(player1.into(), player2.into())
 }
 
 fn count_cards_in_hand(world: IWorldDispatcher, player: ContractAddress) -> u8 {

@@ -6,7 +6,7 @@ use traits::Into;
 
 use dojo::world::IWorldDispatcherTrait;
 
-use tsubasa::components::{Game, Player};
+use tsubasa::models::{Game, Player};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world};
 use tsubasa::systems::create_game_system;
 
@@ -24,7 +24,7 @@ fn test_create_game() {
 
     // create game
     world.execute('create_game_system', create_game_calldata);
-    let expected_game_id = pedersen(player1.into(), player2.into());
+    let expected_game_id = pedersen::pedersen(player1.into(), player2.into());
     let game = get!(world, expected_game_id, Game);
 
     assert(expected_game_id == game_id, 'invalid game_id');

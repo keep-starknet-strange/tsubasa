@@ -3,25 +3,22 @@ mod create_game_system {
     use traits::Into;
     use starknet::ContractAddress;
     use array::ArrayTrait;
-
-    use dojo::world::Context;
-
     use tsubasa::events::GameCreated;
-    use tsubasa::components::{Game, Player};
-
+    use tsubasa::models::{Game, Player};
+  
     /// Creates a new game and initializes the 2 players with 1 energy.
     ///
     /// # Arguments
     ///
-    /// * `ctx` - Dojo context.
+    /// * world: IWorldDispatcher
     /// * `player2` - The second player of the game.
-    fn execute(ctx: Context, player2: ContractAddress) {
-        let player1 = ctx.origin;
+    fn execute(world: IWorldDispatcher, player2: ContractAddress) {
+        let player1 = starknet::get_caller_address();
 
-        let game_id = pedersen(player1.into(), player2.into());
+        let game_id = pedersen::pedersen(player1.into(), player2.into());
 
         set!(
-            ctx.world,
+            world,
             Game {
                 game_id,
                 player1,
@@ -34,7 +31,7 @@ mod create_game_system {
         );
 
         set!(
-            ctx.world,
+            world,
             (
                 Player {
                     game_id,
@@ -57,6 +54,6 @@ mod create_game_system {
             )
         );
 
-        emit!(ctx.world, GameCreated { game_id, player1, player2 })
+        emit!(world, GameCreated { game_id, player1, player2 })
     }
 }

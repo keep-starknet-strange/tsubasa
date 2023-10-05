@@ -4,19 +4,17 @@ mod create_deck_system {
     use starknet::ContractAddress;
     use traits::{Into, IndexView};
 
-    use dojo::world::Context;
-
-    use tsubasa::components::DeckCard;
-    use tsubasa::components::CardState;
+    use tsubasa::models::DeckCard;
+    use tsubasa::models::CardState;
     use tsubasa::events::DeckCreated;
 
     /// Assigns a card to an index in the deck pile
     ///
     /// # Arguments
     ///
-    /// * `ctx` - Dojo context.
+    /// * world: IWorldDispatcher
     /// * `token_list` - a list Card NFT token_id 
-    fn execute(ctx: Context, token_list: Span<u256>, captain_index: u8) {
+    fn execute(world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8) {
         assert(token_list.len() == 8, 'deck must have 8 cards');
         assert(captain_index < 8, 'Invalid captain index');
         let mut card_index: u8 = 0;
@@ -26,9 +24,9 @@ mod create_deck_system {
             }
             let token_id: u256 = *token_list[card_index.into()];
             set!(
-                ctx.world,
+                world,
                 DeckCard {
-                    player: ctx.origin,
+                    player: starknet::get_caller_address(),
                     card_index,
                     token_id,
                     card_state: CardState::Deck,
@@ -38,6 +36,6 @@ mod create_deck_system {
             card_index += 1;
         };
 
-        emit!(ctx.world, DeckCreated { player: ctx.origin, token_list });
+        emit!(world, DeckCreated { player: starknet::get_caller_address(), token_list });
     }
 }

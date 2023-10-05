@@ -1,14 +1,13 @@
 #[system]
 mod create_card_system {
     use traits::Into;
-    use dojo::world::Context;
-    use tsubasa::components::{Game, Roles, Card};
+    use tsubasa::models::{Game, Roles, Card};
 
     /// Creates a card.
     ///
     /// # Arguments
     ///
-    /// * `ctx` - Dojo context.
+    /// * world: IWorldDispatcher
     /// * `token_id` - The NFT token ID of the card being created.
     /// * `dribble` - The dribble stat of the card being created.
     /// * `defense` - The defense stat of the card being created.
@@ -16,7 +15,7 @@ mod create_card_system {
     /// * `role` - The role of the card being created.
     /// * `is_captain` - Whether the card being created is the captain.
     fn execute(
-        ctx: Context,
+        world: IWorldDispatcher,
         token_id: u256,
         dribble: u8,
         defense: u8,
@@ -25,7 +24,7 @@ mod create_card_system {
         is_captain: bool
     ) {
         set!(
-            ctx.world,
+            world,
             Card {
                 token_id: token_id.into(),
                 dribble,

@@ -3,7 +3,7 @@ use starknet::testing::set_contract_address;
 use option::OptionTrait;
 use debug::PrintTrait;
 use array::ArrayTrait;
-use tsubasa::components::{Game, Card, Player, Roles, OutcomePrint, Placement};
+use tsubasa::models::{Game, Card, Player, Roles, OutcomePrint, Placement};
 use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use serde::Serde;
 use starknet::ContractAddress;

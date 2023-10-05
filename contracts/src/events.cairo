@@ -1,9 +1,9 @@
 use starknet::ContractAddress;
 
-use dojo::world::{Context, IWorldDispatcherTrait};
+use dojo::world::{IWorldDispatcherTrait};
 use serde::Serde;
 use array::{ArrayTrait, SpanTrait};
-use tsubasa::components::Roles;
+use tsubasa::models::Roles;
 
 #[derive(Drop, starknet::Event)]
 struct GameCreated {

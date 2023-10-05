@@ -7,7 +7,7 @@ use dojo::world::IWorldDispatcherTrait;
 
 use tsubasa::systems::place_card_system;
 use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
-use tsubasa::components::{Card, Roles, Player, Placement};
+use tsubasa::models::{Card, Roles, Player, Placement};
 
 #[test]
 #[available_gas(300000000)]

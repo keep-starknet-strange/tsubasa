@@ -5,7 +5,7 @@ use starknet::ContractAddress;
 
 use starknet::testing::set_contract_address;
 
-use tsubasa::components::{Game, Roles, DeckCard};
+use tsubasa::models::{Game, Roles, DeckCard};
 use tsubasa::tests::utils::{spawn_world, get_players, create_game};
 use tsubasa::systems::create_deck_system;
 
