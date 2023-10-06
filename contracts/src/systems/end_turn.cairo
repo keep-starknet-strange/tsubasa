@@ -92,10 +92,10 @@ mod end_turn_system {
             // Increments the energy of the player 
             let mut player = get!(world, (game_id, starknet::get_caller_address()), Player);
             player.remaining_energy = game.turn / 2 + 2;
-            player.goalkeeper.update_card_placement();
-            player.defender.update_card_placement();
-            player.midfielder.update_card_placement();
-            player.attacker.update_card_placement();
+            player.goalkeeper_placement.update_card_placement();
+            player.defender_placement.update_card_placement();
+            player.midfielder_placement.update_card_placement();
+            player.attacker_placement.update_card_placement();
 
             set!(world, (player));
 

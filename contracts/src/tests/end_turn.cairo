@@ -18,17 +18,22 @@ use tsubasa::systems::{
 #[test]
 #[available_gas(300000000)]
 fn test_end_turn() {
-   
     let world = spawn_world();
-   
+
     let (player1, player2, _) = get_players();
-    
+
     let game_id = create_game(:world, :player1, :player2);
     'create_game'.print();
-    let contract_address_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_address_place_card };
+    let contract_address_place_card = deploy_contract(
+        place_card_system::TEST_CLASS_HASH, array![].span()
+    );
+    let place_card_system_1 = IPlaceCardDispatcher {
+        contract_address: contract_address_place_card
+    };
 
-    let contract_address_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+    let contract_address_end_turn = deploy_contract(
+        end_turn_system::TEST_CLASS_HASH, array![].span()
+    );
     let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_address_end_turn };
 
     let contract_address_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
@@ -212,34 +217,18 @@ fn test_end_turn_with_card_on_side() {
     // Card number in the deck, Roles::Defender
     place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
-    match player.defender {
-        Option::Some(tuple) => {
-            let (id, placement): (u256, Placement) = tuple;
-            assert(id == 2, 'Token id should be 2');
-            match placement {
-                Placement::Side => panic_with_felt252('Wrong placement'),
-                Placement::Field => {},
-            }
-        },
-        Option::None => panic_with_felt252('Should be some'),
-    }
+    assert(player.defender_placement == Placement::Side, 'Def should be on the side');
+    assert(player.defender_id == 2, 'Token id should be 2');
+
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     let player = get!(world, (game_id, player1), Player);
-    match player.defender {
-        Option::Some(placement) => {
-            let (id, place): (u256, Placement) = placement;
-            assert(id == 2, 'Wrong token id');
-            match place {
-                Placement::Side => {},
-                Placement::Field => panic_with_felt252('Wrong placement'),
-            }
-        },
-        Option::None => panic_with_felt252('Should be some'),
-    }
+    assert(player.defender_placement == Placement::Field, 'Def should be on the Field');
+    assert(player.defender_id == 2, 'Token id should be 2');
 }
+
 #[test]
 #[available_gas(3000000000)]
 fn test_end_turn_draw_card_capped_at_max() {

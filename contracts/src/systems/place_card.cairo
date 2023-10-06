@@ -64,23 +64,37 @@ mod place_card_system {
 
             let is_on_its_role = match position {
                 Roles::Goalkeeper => {
-                    assert(player.goalkeeper.is_none(), 'Goalkeeper already placed');
-                    player.goalkeeper = Option::Some((deck_card.token_id, Placement::Side));
+                    assert(
+                        player.goalkeeper_placement == Placement::Outside,
+                        'Goalkeeper already placed'
+                    );
+                    player.goalkeeper_placement = Placement::Side;
+                    player.goalkeeper_id = deck_card.token_id;
                     card.role == Roles::Goalkeeper
                 },
                 Roles::Defender => {
-                    assert(player.defender.is_none(), 'Defender already placed');
-                    player.defender = Option::Some((deck_card.token_id, Placement::Side));
+                    assert(
+                        player.defender_placement == Placement::Outside, 'Defender already placed'
+                    );
+                    player.defender_placement = Placement::Side;
+                    player.defender_id = deck_card.token_id;
                     card.role == Roles::Defender
                 },
                 Roles::Midfielder => {
-                    assert(player.midfielder.is_none(), 'Midfielder already placed');
-                    player.midfielder = Option::Some((deck_card.token_id, Placement::Side));
+                    assert(
+                        player.midfielder_placement == Placement::Outside,
+                        'Midfielder already placed'
+                    );
+                    player.midfielder_placement = Placement::Side;
+                    player.midfielder_id = deck_card.token_id;
                     card.role == Roles::Midfielder
                 },
                 Roles::Attacker => {
-                    assert(player.attacker.is_none(), 'Attacker already placed');
-                    player.attacker = Option::Some((deck_card.token_id, Placement::Side));
+                    assert(
+                        player.attacker_placement == Placement::Outside, 'Attacker already placed'
+                    );
+                    player.attacker_placement = Placement::Side;
+                    player.attacker_id = deck_card.token_id;
                     card.role == Roles::Attacker
                 }
             };

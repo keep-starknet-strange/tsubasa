@@ -103,16 +103,18 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     assert(game.player2_score == 0, 'Player 2 never attacked');
 
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_none(), 'Goalkeeper should be empty');
-    assert(player1_board.defender.is_some(), 'Defender should not be empty');
-    assert(player1_board.midfielder.is_none(), 'Midfielder 1 should be empty');
-    assert(player1_board.attacker.is_none(), 'Attacker should be empty');
+    assert(player1_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper should be empty');
+    assert(player1_board.defender_placement == Placement::Field, 'Defender should not be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Outside, 'Midfielder 1 should be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Outside, 'Attacker should be empty');
 
     let player2_board = get!(world, (game_id, player2), Player);
-    assert(player2_board.goalkeeper.is_none(), 'Goalkeeper should be empty');
-    assert(player2_board.defender.is_none(), 'Defender should be empty');
-    assert(player2_board.midfielder.is_none(), 'Midfielder should be empty');
-    assert(player2_board.attacker.is_none(), 'Attacker should be empty');
+    assert(player2_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper should be empty');
+    assert(player2_board.defender_placement == Placement::Outside, 'Defender should be empty');
+    assert(player2_board.midfielder_placement == Placement::Outside, 'Midfielder should be empty');
+    assert(player2_board.attacker_placement == Placement::Outside, 'Attacker should be empty');
 
     let card = get!(world, (0, 0), Card);
     assert(card.token_id == 0, 'Wrong token id');
@@ -171,16 +173,24 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     assert(game.player2_score == 0, 'Player 2 never attacked');
 
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_none(), 'Goalkeeper 1 should be empty');
-    assert(player1_board.defender.is_none(), 'Defender 1 should be empty');
-    assert(player1_board.midfielder.is_none(), 'Midfielder 1 should be empty');
-    assert(player1_board.attacker.is_none(), 'Attacker 1 should be empty');
+    assert(
+        player1_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 1 should be empty'
+    );
+    assert(player1_board.defender_placement == Placement::Outside, 'Defender 1 should be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Outside, 'Midfielder 1 should be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Outside, 'Attacker 1 should be empty');
 
     let player2_board = get!(world, (game_id, player2), Player);
-    assert(player2_board.goalkeeper.is_none(), 'Goalkeeper 2 should be empty');
-    assert(player2_board.defender.is_some(), 'Defender 2 should be empty');
-    assert(player2_board.midfielder.is_none(), 'Midfielder 2 should be empty');
-    assert(player2_board.attacker.is_none(), 'Attacker 2 should be empty');
+    assert(
+        player2_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 2 should be empty'
+    );
+    assert(player2_board.defender_placement == Placement::Field, 'Defender 2 shouldnt be empty');
+    assert(
+        player2_board.midfielder_placement == Placement::Outside, 'Midfielder 2 should be empty'
+    );
+    assert(player2_board.attacker_placement == Placement::Outside, 'Attacker 2 should be empty');
 
     let card = get!(world, (1, 0), Card);
     assert(card.token_id == 1, 'Wrong token id');
@@ -235,15 +245,23 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_some(), 'Goalkeeper 1 shouldnt be empty');
-    assert(player1_board.defender.is_none(), 'Defender 1 should be empty');
-    assert(player1_board.midfielder.is_none(), 'Midfielder 1 should be empty');
-    assert(player1_board.attacker.is_none(), 'Attacker 1 should be empty');
+    assert(
+        player1_board.goalkeeper_placement == Placement::Field, 'Goalkeeper 1 shouldnt be empty'
+    );
+    assert(player1_board.defender_placement == Placement::Outside, 'Defender 1 should be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Outside, 'Midfielder 1 should be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Outside, 'Attacker 1 should be empty');
     let player2_board = get!(world, (game_id, player2), Player);
-    assert(player2_board.goalkeeper.is_some(), 'Goalkeeper 2 shouldnt be empty');
-    assert(player2_board.defender.is_none(), 'Defender 2 should be empty');
-    assert(player2_board.midfielder.is_none(), 'Midfielder 2 should be empty');
-    assert(player2_board.attacker.is_none(), 'Attacker 2 should be empty');
+    assert(
+        player2_board.goalkeeper_placement == Placement::Field, 'Goalkeeper 2 shouldnt be empty'
+    );
+    assert(player2_board.defender_placement == Placement::Outside, 'Defender 2 should be empty');
+    assert(
+        player2_board.midfielder_placement == Placement::Outside, 'Midfielder 2 should be empty'
+    );
+    assert(player2_board.attacker_placement == Placement::Outside, 'Attacker 2 should be empty');
     let card = get!(world, (0, 0), Card);
     assert(card.current_dribble == 1, 'Wrong current dribble 1');
     assert(card.current_defense == 1, 'Wrong current defense 1');
@@ -258,16 +276,24 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_none(), 'Goalkeeper 1 should be empty');
-    assert(player1_board.defender.is_none(), 'Defender 1 should be empty');
-    assert(player1_board.midfielder.is_none(), 'Midfielder 1 should be empty');
-    assert(player1_board.attacker.is_none(), 'Attacker 1 should be empty');
+    assert(
+        player1_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 1 should be empty'
+    );
+    assert(player1_board.defender_placement == Placement::Outside, 'Defender 1 should be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Outside, 'Midfielder 1 should be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Outside, 'Attacker 1 should be empty');
 
     let player2_board = get!(world, (game_id, player2), Player);
-    assert(player2_board.goalkeeper.is_none(), 'Goalkeeper 2 should be empty');
-    assert(player2_board.defender.is_none(), 'Defender 2 should be empty');
-    assert(player2_board.midfielder.is_none(), 'Midfielder 2 should be empty');
-    assert(player2_board.attacker.is_none(), 'Attacker 2 should be empty');
+    assert(
+        player2_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 2 should be empty'
+    );
+    assert(player2_board.defender_placement == Placement::Outside, 'Defender 2 should be empty');
+    assert(
+        player2_board.midfielder_placement == Placement::Outside, 'Midfielder 2 should be empty'
+    );
+    assert(player2_board.attacker_placement == Placement::Outside, 'Attacker 2 should be empty');
 
     let game = get!(world, game_id, Game);
     assert(game.player1_score == 0, 'Player 1 passes midfielder');
@@ -331,15 +357,23 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_some(), 'Goalkeeper 1 shouldnt be empty');
-    assert(player1_board.defender.is_some(), 'Defender 1 shouldnt be empty');
-    assert(player1_board.midfielder.is_some(), 'Midfielder 1 shouldnt be empty');
-    assert(player1_board.attacker.is_some(), 'Attacker 1 shouldnt be empty');
+    assert(
+        player1_board.goalkeeper_placement == Placement::Field, 'Goalkeeper 1 shouldnt be empty'
+    );
+    assert(player1_board.defender_placement == Placement::Field, 'Defender 1 shouldnt be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Field, 'Midfielder 1 shouldnt be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Field, 'Attacker 1 shouldnt be empty');
     let player2_board = get!(world, (game_id, player2), Player);
-    assert(player2_board.goalkeeper.is_some(), 'Goalkeeper 2 shouldnt be empty');
-    assert(player2_board.defender.is_some(), 'Defender 2 shouldnt be empty');
-    assert(player2_board.midfielder.is_some(), 'Midfielder 2 shouldnt be empty');
-    assert(player2_board.attacker.is_some(), 'Attacker 2 shouldnt be empty');
+    assert(
+        player2_board.goalkeeper_placement == Placement::Field, 'Goalkeeper 2 shouldnt be empty'
+    );
+    assert(player2_board.defender_placement == Placement::Field, 'Defender 2 shouldnt be empty');
+    assert(
+        player2_board.midfielder_placement == Placement::Field, 'Midfielder 2 shouldnt be empty'
+    );
+    assert(player2_board.attacker_placement == Placement::Field, 'Attacker 2 shouldnt be empty');
     // Player 2 attacks
     set_contract_address(player2);
     attack_system_2.attack(world, game_id);
@@ -348,17 +382,25 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
 
     let player1_board = get!(world, (game_id, player1), Player);
-    assert(player1_board.goalkeeper.is_none(), 'Goalkeeper 1 should be empty');
-    assert(player1_board.defender.is_none(), 'Defender 1 should be empty');
-    assert(player1_board.midfielder.is_none(), 'Midfielder 1 should be empty');
-    assert(player1_board.attacker.is_none(), 'Attacker 1 should be empty');
+    assert(
+        player1_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 1 should be empty'
+    );
+    assert(player1_board.defender_placement == Placement::Outside, 'Defender 1 should be empty');
+    assert(
+        player1_board.midfielder_placement == Placement::Outside, 'Midfielder 1 should be empty'
+    );
+    assert(player1_board.attacker_placement == Placement::Outside, 'Attacker 1 should be empty');
 
     let player2_board = get!(world, (game_id, player2), Player);
 
-    assert(player2_board.goalkeeper.is_none(), 'Goalkeeper 2 should be empty');
-    assert(player2_board.defender.is_none(), 'Defender 2 should be empty');
-    assert(player2_board.midfielder.is_none(), 'Midfielder 2 should be empty');
-    assert(player2_board.attacker.is_none(), 'Attacker 2 should be empty');
+    assert(
+        player2_board.goalkeeper_placement == Placement::Outside, 'Goalkeeper 2 should be empty'
+    );
+    assert(player2_board.defender_placement == Placement::Outside, 'Defender 2 should be empty');
+    assert(
+        player2_board.midfielder_placement == Placement::Outside, 'Midfielder 2 should be empty'
+    );
+    assert(player2_board.attacker_placement == Placement::Outside, 'Attacker 2 should be empty');
 
     let game = get!(world, game_id, Game);
     assert(game.player1_score == 0, 'Player 1 passes midfielder');

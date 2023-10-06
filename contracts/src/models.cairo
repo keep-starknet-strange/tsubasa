@@ -373,10 +373,14 @@ struct Player {
     game_id: felt252,
     #[key]
     player: ContractAddress,
-    goalkeeper: Option<(u256, Placement)>,
-    defender: Option<(u256, Placement)>,
-    midfielder: Option<(u256, Placement)>,
-    attacker: Option<(u256, Placement)>,
+    goalkeeper_placement: Placement,
+    goalkeeper_id: u256,
+    defender_placement: Placement,
+    defender_id: u256,
+    midfielder_placement: Placement,
+    midfielder_id: u256,
+    attacker_placement: Placement,
+    attacker_id: u256,
     remaining_energy: u128,
 }
 
@@ -462,56 +466,41 @@ struct Player {
 //         )
 //     }
 // }
-#[generate_trait]
-impl GetSetPlacement of GetSetPlacementTrait {
-    #[inline(always)]
-    fn get_token_id(self: Player, i: usize) -> Option<u256> {
-        if i == 0 {
-            match self.goalkeeper {
-                Option::Some((id, _)) => Option::Some(id),
-                Option::None => Option::None,
-            }
-        } else if i == 1 {
-            match self.defender {
-                Option::Some((id, _)) => Option::Some(id),
-                Option::None => Option::None,
-            }
-        } else if i == 2 {
-            match self.midfielder {
-                Option::Some((id, _)) => Option::Some(id),
-                Option::None => Option::None,
-            }
-        } else if i == 3 {
-            match self.attacker {
-                Option::Some((id, _)) => Option::Some(id),
-                Option::None => Option::None,
-            }
-        } else {
-            Option::None
-        }
-    }
 
-
-    #[inline(always)]
-    fn set_placement(ref self: Player, i: usize, val: Option<(u256, Placement)>) {
-        if i == 0 {
-            self.goalkeeper = val;
-        } else if i == 1 {
-            self.defender = val;
-        } else if i == 2 {
-            self.midfielder = val;
-        } else if i == 3 {
-            self.attacker = val;
-        }
-    }
-}
-
-#[derive(Drop, Copy, Serde)]
+#[derive(Drop, Copy, Serde, PartialEq, SchemaIntrospection)]
 enum Placement {
     Side,
-    Field
+    Field,
+    Outside
 }
 
+impl PlacementSchemaIntrospectionImpl of SchemaIntrospection<Placement> {
+    #[inline(always)]
+    fn size() -> usize {
+        1
+    }
+
+    #[inline(always)]
+    fn layout(ref layout: Array<u8>) {
+        layout.append(8);
+    }
+
+    #[inline(always)]
+    fn ty() -> Ty {
+        Ty::Enum(
+            Enum {
+                name: 'Placement',
+                attrs: array![].span(),
+                children: array![
+                    ('Side', serialize_member_type(@Ty::Tuple(array![].span()))),
+                    ('Field', serialize_member_type(@Ty::Tuple(array![].span()))),
+                    ('Outside', serialize_member_type(@Ty::Tuple(array![].span()))),
+                ]
+                    .span()
+            }
+        )
+    }
+}
 // #[generate_trait]
 // impl GetTokenId of GetTokenIdTrait {
 //     #[inline(always)]
@@ -528,7 +517,7 @@ enum Placement {
 //     }
 // }
 
-#[derive(Model, Copy, Drop, Serde, PartialEq)]
+#[derive(Model, Copy, Drop, Serde, PartialEq, SchemaIntrospection)]
 enum Outcome {
     Player1,
     Player2,
@@ -563,35 +552,6 @@ impl OptionOutcomeIntrospection of SchemaIntrospection<Option<Outcome>> {
         )
     }
 }
-
-impl OptionPlacementSchemaIntrospectionImpl of SchemaIntrospection<Option<(u256, Placement)>> {
-    #[inline(always)]
-    fn size() -> usize {
-        // 1 (option variant) +  1 (variant id size) + 2 (value contained by the variant)
-        6
-    }
-
-    #[inline(always)]
-    fn layout(ref layout: Array<u8>) {
-        layout.append(128);
-        layout.append(8);
-    }
-
-    #[inline(always)]
-    fn ty() -> Ty {
-        Ty::Tuple(array![array![].span()].span())
-    // Ty::Enum(
-    //     Enum {
-    //         name: 'Outcome',
-    //         attrs: array![].span(),
-    //         children: array![
-    //             ('Side', serialize_member_type(@Ty::Tuple(array![].span()))),
-    //             ('Field', serialize_member_type(@Ty::Tuple(array![].span()))),]
-    //             .span()
-    //     }
-    // )
-    }
-}
 // #[generate_trait]
 // impl PlayerImpl of PlayerTrait {
 //     /// Moves a card on the field if necessary.
@@ -613,13 +573,55 @@ impl OptionPlacementSchemaIntrospectionImpl of SchemaIntrospection<Option<(u256,
 impl PlayerImpl of PlayerTrait {
     /// Moves a card on the field if necessary.
     #[inline(always)]
-    fn update_card_placement(ref self: Option<(u256, Placement)>) {
+    fn update_card_placement(ref self: Placement) {
         self = match self {
-            Option::Some(placement) => {
-                let (id, placement) = placement;
-                Option::Some((id, Placement::Field))
-            },
-            Option::None => Option::None
+            Placement::Side => Placement::Field,
+            Placement::Field => Placement::Field,
+            Placement::Outside => Placement::Outside,
+        }
+    }
+
+    #[inline(always)]
+    fn get_card_placement(self: Player, card_nb: usize) -> Placement {
+        if card_nb == 0 {
+            self.goalkeeper_placement
+        } else if card_nb == 1 {
+            self.defender_placement
+        } else if card_nb == 2 {
+            self.midfielder_placement
+        } else if card_nb == 3 {
+            self.attacker_placement
+        } else {
+            panic_with_felt252('Out of bound card nb')
+        }
+    }
+    #[inline(always)]
+    fn get_card_token_id(self: Player, card_nb: usize) -> u256 {
+        if card_nb == 0 {
+            self.goalkeeper_id
+        } else if card_nb == 1 {
+            self.defender_id
+        } else if card_nb == 2 {
+            self.midfielder_id
+        } else if card_nb == 3 {
+            self.attacker_id
+        } else {
+            panic_with_felt252('Out of bound card nb')
+        }
+    }
+
+    #[inline(always)]
+    fn reset_card_placement(ref self: Player, card_nb: usize) {
+        if card_nb == 0 {
+            self.goalkeeper_placement = Placement::Outside;
+        } else if card_nb == 1 {
+            self.defender_placement = Placement::Outside;
+        } else if card_nb == 2 {
+            self.midfielder_placement = Placement::Outside;
+        } else if card_nb == 3 {
+            self.attacker_placement = Placement::Outside;
+        } else {
+            panic_with_felt252('Out of bound card nb');
         }
     }
 }
@@ -664,18 +666,18 @@ impl RolesPrint of debug::PrintTrait<Roles> {
 }
 
 #[cfg(test)]
-impl PlacementPrint of debug::PrintTrait<Option<Placement>> {
-    fn print(self: Option<Placement>) {
+impl PlacementPrint of debug::PrintTrait<Placement> {
+    fn print(self: Placement) {
         match self {
-            Option::Some(val) => match val {
-                Placement::Side(card_id) => {
-                    ('Side '.print());
-                },
-                Placement::Field(card_id) => {
-                    ('Field '.print());
-                },
+            Placement::Side => {
+                ('Side '.print());
             },
-            Option::None => 'None'.print(),
+            Placement::Field => {
+                ('Field '.print());
+            },
+            Placement::Outside => {
+                ('Outside '.print());
+            },
         }
     }
 }

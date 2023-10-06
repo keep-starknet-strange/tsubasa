@@ -8,8 +8,9 @@ trait IAttack<TContractState> {
 
 #[system]
 mod attack_system {
+    use tsubasa::models::PlayerTrait;
     use super::IAttack;
-    use tsubasa::models::{Game, Placement, Player, Card, GetSetPlacementTrait};
+    use tsubasa::models::{Game, Placement, Player, Card};
     use tsubasa::systems::check_turn;
     use option::OptionTrait;
     use debug::PrintTrait;
@@ -22,31 +23,31 @@ mod attack_system {
         ref attacker: Player,
         ref defender: Player
     ) -> bool {
-        let attacker_card_token_id_opt = attacker.get_token_id(i);
-        let defender_card_token_id_opt = defender.get_token_id(j);
-        if attacker_card_token_id_opt.is_none() {
+        let attacker_card_placement = attacker.get_card_placement(i);
+        let defender_card_placement = defender.get_card_placement(j);
+        if attacker_card_placement != Placement::Field {
             return false;
         }
-        if defender_card_token_id_opt.is_none() && j == 0 {
+        if defender_card_placement != Placement::Field && j == 0 {
             return true;
         }
-        if defender_card_token_id_opt.is_none() {
+        if defender_card_placement != Placement::Field {
             return false;
         }
-        let attacker_card_token_id = attacker_card_token_id_opt.unwrap();
-        let defender_card_token_id = defender_card_token_id_opt.unwrap();
+        let attacker_card_token_id = attacker.get_card_token_id(i);
+        let defender_card_token_id = defender.get_card_token_id(j);
 
         let mut attacker_card = get!(world, (attacker_card_token_id), Card);
         let mut defender_card = get!(world, (defender_card_token_id), Card);
         if attacker_card.current_dribble >= defender_card.current_defense {
             // Remove the passed defender from the board.
-            defender.set_placement(j, Option::None);
+            defender.reset_card_placement(j);
         } else {
             defender_card.current_defense -= attacker_card.current_dribble;
         }
         if defender_card.current_dribble >= attacker_card.current_defense {
             // Remove the passed attacker from the board.
-            attacker.set_placement(i, Option::None);
+            attacker.reset_card_placement(i);
         } else {
             attacker_card.current_defense -= defender_card.current_dribble;
         }

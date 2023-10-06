@@ -45,17 +45,8 @@ fn test_place_card() {
 
     assert(player.remaining_energy == 0, 'energy should be 0');
 
-    match player.defender {
-        Option::Some(tuple) => {
-            let (id, placement): (u256, Placement) = tuple;
-            assert(id == 2, 'Card id should be 2');
-            match placement {
-                Placement::Side => panic_with_felt252('Wrong placement'),
-                Placement::Field => (),
-            }
-        },
-        Option::None => panic_with_felt252('Should be some'),
-    }
+    assert(player.defender_placement == Placement::Field, 'Defender should be on the field');
+    assert(player.defender_id == 2, 'Token id should be 2')
 }
 #[test]
 #[should_panic]
