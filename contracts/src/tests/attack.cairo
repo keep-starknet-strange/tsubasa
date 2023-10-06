@@ -31,31 +31,31 @@ fn test_attack_player1_scores_against_empty_board() {
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
-    let attack_system_1 = IAttackDispatcher { contract_address: contract_attack };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
     // Token_id, Dribble, Defense, Cost, Role, is captain
 
-    create_card_system_1.create_card(world, 0, 22, 17, 0, Roles::Attacker, true);
+    create_card_system.create_card(world, 0, 22, 17, 0, Roles::Attacker, true);
     // Player 1 plays
     // Card number in the deck, Roles::Defender
-    place_card_system_1.place_card(world, game_id, 0, Roles::Defender);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Defender);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 skips his turn
     set_contract_address(player2);
-    end_turn_system_1.end_turn(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     // Player 1 attacks and should win against empty board
 
     set_contract_address(player1);
 
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     let game = get!(world, game_id, Game);
@@ -77,36 +77,36 @@ fn test_attack_player1_defender_passes_enemy_midfielder() {
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
-    let attack_system_1 = IAttackDispatcher { contract_address: contract_attack };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 0, 45, 5, 1, Roles::Defender, false);
+    create_card_system.create_card(world, 0, 45, 5, 1, Roles::Defender, false);
 
     // Card for player 2
-    create_card_system_1.create_card(world, 1, 1, 2, 0, Roles::Midfielder, false);
+    create_card_system.create_card(world, 1, 1, 2, 0, Roles::Midfielder, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Defender
-    place_card_system_1.place_card(world, game_id, 0, Roles::Defender);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Defender);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
-    place_card_system_1.place_card(world, game_id, 0, Roles::Midfielder);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Midfielder);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
@@ -154,35 +154,35 @@ fn test_attack_player1_goalkeeper_gets_passed_enemy_defender() {
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
-    let attack_system_1 = IAttackDispatcher { contract_address: contract_attack };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 0, 2, 1, 1, Roles::Defender, false);
+    create_card_system.create_card(world, 0, 2, 1, 1, Roles::Defender, false);
     // Card for player 2
-    create_card_system_1.create_card(world, 1, 45, 5, 1, Roles::Midfielder, false);
+    create_card_system.create_card(world, 1, 45, 5, 1, Roles::Midfielder, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
-    place_card_system_1.place_card(world, game_id, 0, Roles::Defender);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Defender);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
@@ -238,35 +238,35 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
-    let attack_system_1 = IAttackDispatcher { contract_address: contract_attack };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 1, 0, 1, 1, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 1, 0, 1, 1, Roles::Goalkeeper, false);
     // Card for player 2
-    create_card_system_1.create_card(world, 0, 0, 1, 1, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 0, 0, 1, 1, Roles::Goalkeeper, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
@@ -297,8 +297,8 @@ fn test_attack_player1_goalkeeper_vs_goalkeeper_both_survive_then_both_get_passe
     // Player 2 attacks
     set_contract_address(player2);
     let attack_calldata = array![game_id];
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
     let player1_board = get!(world, (game_id, player1), Player);
@@ -341,49 +341,49 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
 
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
-    let attack_system_1 = IAttackDispatcher { contract_address: contract_attack };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
 
     // Card for player 1
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 1, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 3, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 5, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 7, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 1, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 3, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 5, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 7, 1, 2, 0, Roles::Goalkeeper, false);
 
     // Card for player 2
-    create_card_system_1.create_card(world, 0, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 2, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 4, 1, 2, 0, Roles::Goalkeeper, false);
-    create_card_system_1.create_card(world, 6, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 0, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 2, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 4, 1, 2, 0, Roles::Goalkeeper, false);
+    create_card_system.create_card(world, 6, 1, 2, 0, Roles::Goalkeeper, false);
 
     // Player 1 plays
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
-    place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
-    place_card_system_1.place_card(world, game_id, 2, Roles::Midfielder);
-    place_card_system_1.place_card(world, game_id, 3, Roles::Attacker);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 1, Roles::Defender);
+    place_card_system.place_card(world, game_id, 2, Roles::Midfielder);
+    place_card_system.place_card(world, game_id, 3, Roles::Attacker);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     // Player 2 plays
     set_contract_address(player2);
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
-    place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
-    place_card_system_1.place_card(world, game_id, 2, Roles::Midfielder);
-    place_card_system_1.place_card(world, game_id, 3, Roles::Attacker);
-    end_turn_system_1.end_turn(world, game_id);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 1, Roles::Defender);
+    place_card_system.place_card(world, game_id, 2, Roles::Midfielder);
+    place_card_system.place_card(world, game_id, 3, Roles::Attacker);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     // Player 1 attacks
     set_contract_address(player1);
     let attack_calldata = array![game_id];
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
@@ -407,8 +407,8 @@ fn test_attack_player2_full_board_all_die_in_2_turns() {
     assert(player2_board.attacker_placement == Placement::Field, 'Attacker 2 shouldnt be empty');
     // Player 2 attacks
     set_contract_address(player2);
-    attack_system_1.attack(world, game_id);
-    end_turn_system_1.end_turn(world, game_id);
+    attack_system.attack(world, game_id);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
 

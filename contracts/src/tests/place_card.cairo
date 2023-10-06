@@ -29,8 +29,8 @@ fn test_place_card() {
 
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
 
     set_contract_address(executor);
     set!(world, (card));
@@ -43,12 +43,12 @@ fn test_place_card() {
 
     assert(player.remaining_energy == 1, 'energy should be 1');
 
-    place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
+    place_card_system.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 0, 'energy should be 0');
 
-    end_turn_system_1.end_turn(world, game_id);
+    end_turn_system.end_turn(world, game_id);
 
     let player = get!(world, (game_id, player1), Player);
 
@@ -73,7 +73,7 @@ fn test_place_card_overflow() {
     };
 
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     set_contract_address(executor);
     set!(world, (card));
@@ -83,7 +83,7 @@ fn test_place_card_overflow() {
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 1, 'energy should be 1');
-    place_card_system_1.place_card(world, game_id, 1, Roles::Defender);
+    place_card_system.place_card(world, game_id, 1, Roles::Defender);
 }
 
 #[test]
@@ -104,7 +104,7 @@ fn test_place_card_on_its_role() {
 
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
 
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     set_contract_address(executor);
     set!(world, (card));
@@ -114,7 +114,7 @@ fn test_place_card_on_its_role() {
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
 
-    place_card_system_1.place_card(world, game_id, 1, Roles::Attacker);
+    place_card_system.place_card(world, game_id, 1, Roles::Attacker);
     let card = get!(world, (2, 0), Card);
     assert(card.current_dribble == 2, 'current_dribble should be 2');
     assert(card.current_defense == 3, 'current_defense should be 3');
@@ -138,7 +138,7 @@ fn test_place_card_not_on_its_role() {
     set_contract_address(executor);
 
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     set!(world, (card));
     set_contract_address(player1);
@@ -147,7 +147,7 @@ fn test_place_card_not_on_its_role() {
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
 
-    place_card_system_1.place_card(world, game_id, 1, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 1, Roles::Goalkeeper);
     let card = get!(world, (2, 0), Card);
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -173,13 +173,13 @@ fn test_place_card_is_not_captain() {
     set_contract_address(player1);
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
 
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
 
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world, game_id, 1, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 1, Roles::Goalkeeper);
     let card = get!(world, (2, 0), Card);
     assert(card.current_dribble == 1, 'current_dribble should be 1');
     assert(card.current_defense == 2, 'current_defense should be 2');
@@ -205,10 +205,10 @@ fn test_place_card_is_captain() {
     set_contract_address(player1);
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
     
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     // Card number in the deck, Roles::Goalkeeper
-    place_card_system_1.place_card(world, game_id, 7, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 7, Roles::Goalkeeper);
 
     let card = get!(world, (14, 0), Card);
     assert(card.current_dribble == 2, 'current_dribble should be 2');
@@ -235,11 +235,11 @@ fn test_place_card_wrong_player() {
     set!(world, (card));
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
 
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     set_contract_address(player2);
 
-    place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
 }
 #[test]
 #[available_gas(300000000)]

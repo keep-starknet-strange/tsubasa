@@ -19,10 +19,10 @@ fn test_create_card() {
     let world = spawn_world();
 
     let contract_create_card = deploy_contract(create_card_system::TEST_CLASS_HASH, array![].span());
-    let create_card_system_1 = ICreateCardDispatcher { contract_address: contract_create_card };
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    create_card_system_1.create_card(world, 1, 22, 17, 10, Roles::Attacker, true);
-    create_card_system_1.create_card(world, 2, 10, 15, 15, Roles::Defender, false);
+    create_card_system.create_card(world, 1, 22, 17, 10, Roles::Attacker, true);
+    create_card_system.create_card(world, 2, 10, 15, 15, Roles::Defender, false);
 
     let mut token_id_player1: u256 = 1;
     let mut token_id_player2: u256 = 2;
