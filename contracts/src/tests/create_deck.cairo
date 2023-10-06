@@ -2,6 +2,7 @@ use traits::Into;
 use debug::PrintTrait;
 use dojo::world::IWorldDispatcherTrait;
 use starknet::ContractAddress;
+use dojo::test_utils::{deploy_contract};
 
 use starknet::testing::set_contract_address;
 
@@ -19,9 +20,9 @@ fn test_create_deck() {
     let world = spawn_world();
 
     let game_id = create_game(world, player1, player2);
-
-    let mut create_deck_calldata = array![8, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 3];
-    let create_deck_system = ICreateDeckDispatcher { contract_address: player1 };
+    let contract_ceate_deck = deploy_contract(create_deck_system::TEST_CLASS_HASH, array![].span());
+    let mut create_deck_calldata = array![8, 0, 0, 1, 0, 2, 0, 3];
+    let create_deck_system = ICreateDeckDispatcher { contract_address: contract_ceate_deck };
 
     // create deck
     create_deck_system.create_deck(world, create_deck_calldata.span(), 2);
