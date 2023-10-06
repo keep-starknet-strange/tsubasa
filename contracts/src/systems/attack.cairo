@@ -38,6 +38,7 @@ mod attack_system {
         let defender_card_token_id = defender.get_card_token_id(j);
 
         let mut attacker_card = get!(world, (attacker_card_token_id), Card);
+
         let mut defender_card = get!(world, (defender_card_token_id), Card);
         if attacker_card.current_dribble >= defender_card.current_defense {
             // Remove the passed defender from the board.
@@ -73,7 +74,7 @@ mod attack_system {
             };
             let mut attacker = get!(world, (game_id, attacker_address), Player);
             let mut defender = get!(world, (game_id, defender_address), Player);
-
+            
             let mut i: usize = 3;
             let mut j: usize = 3;
             let has_scored = loop {
