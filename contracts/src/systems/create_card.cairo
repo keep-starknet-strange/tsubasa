@@ -20,6 +20,7 @@ mod create_card_system {
     use super::ICreateCard;
     use tsubasa::models::{Card, Roles};
 
+    #[external(v0)]
     impl CreateCardImpl of ICreateCard<ContractState> {
         fn create_card(
             self: @ContractState,

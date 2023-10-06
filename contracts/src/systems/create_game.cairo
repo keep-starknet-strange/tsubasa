@@ -12,7 +12,7 @@ mod create_game_system {
     use super::ICreateGame;
     use traits::Into;
     use starknet::ContractAddress;
-    use tsubasa::models::{Game, Player};
+    use tsubasa::models::{Game, Player, OptionPlacementSchemaIntrospectionImpl};
     use debug::PrintTrait;
 
     #[event]
@@ -27,7 +27,8 @@ mod create_game_system {
         player1: ContractAddress,
         player2: ContractAddress
     }
-
+    
+    #[external(v0)]
     impl CreateGameImpl of ICreateGame<ContractState> {
         fn create_game(self: @ContractState, world: IWorldDispatcher, player2: ContractAddress) {
             let player1 = starknet::get_caller_address();
@@ -46,7 +47,7 @@ mod create_game_system {
                     outcome: Option::None
                 }
             );
-
+            'setDone'.print();
             set!(
                 world,
                 (
@@ -70,8 +71,9 @@ mod create_game_system {
                     }
                 )
             );
-
+            'SetPlayerDOne'.print();
             emit!(world, GameCreated { game_id, player1, player2 })
+            // 'emitDone'.print();
         }
     }
 }

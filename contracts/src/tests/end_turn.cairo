@@ -3,6 +3,7 @@ use option::{Option, OptionTrait};
 use serde::Serde;
 use starknet::ContractAddress;
 use starknet::testing::set_contract_address;
+use dojo::test_utils::{deploy_contract};
 use dojo::world::IWorldDispatcherTrait;
 use clone::Clone;
 use debug::PrintTrait;
@@ -17,17 +18,27 @@ use tsubasa::systems::{
 #[test]
 #[available_gas(300000000)]
 fn test_end_turn() {
+   
     let world = spawn_world();
+   
     let (player1, player2, _) = get_players();
+    
     let game_id = create_game(:world, :player1, :player2);
-    let place_card_system_1 = IPlaceCardDispatcher { contract_address: player1 };
-    let end_turn_system_1 = IEndTurnDispatcher { contract_address: player1 };
-    let attack_system_1 = IAttackDispatcher { contract_address: player1 };
+    'create_game'.print();
+    let contract_address_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
+    let place_card_system_1 = IPlaceCardDispatcher { contract_address: contract_address_place_card };
+
+    let contract_address_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+    let end_turn_system_1 = IEndTurnDispatcher { contract_address: contract_address_end_turn };
+
+    let contract_address_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
+    let attack_system_1 = IAttackDispatcher { contract_address: contract_address_attack };
     // Card number in the deck, Roles::Goalkeeper
-
+    'dispatcherCreated'.print();
     place_card_system_1.place_card(world, game_id, 0, Roles::Goalkeeper);
+    'place_card_system'.print();
     attack_system_1.attack(world, game_id);
-
+    'attack_system'.print();
     end_turn_system_1.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');

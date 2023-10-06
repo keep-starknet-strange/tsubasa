@@ -28,6 +28,7 @@ mod create_deck_system {
         token_list: Span<u256>, // Please ensure the StarkNet SDK supports Span<u256> in events.
     }
 
+    #[external(v0)]
     impl CreateDeckImpl of ICreateDeck<ContractState> {
         fn create_deck(
             self: @ContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8

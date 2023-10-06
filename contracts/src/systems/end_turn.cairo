@@ -63,7 +63,7 @@ mod end_turn_system {
         }
     }
 
-
+    #[external(v0)]
     impl EndTurnImpl of IEndTurn<ContractState> {
         /// Ends a turn and increments the energy of the player who ended the turn.
         ///

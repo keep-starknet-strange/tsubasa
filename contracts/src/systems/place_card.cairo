@@ -39,6 +39,7 @@ mod place_card_system {
         position: Roles
     }
 
+    #[external(v0)]
     impl PlaceCardImpl of IPlaceCard<ContractState> {
         fn place_card(
             self: @ContractState,

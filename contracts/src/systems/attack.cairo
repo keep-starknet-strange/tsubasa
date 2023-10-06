@@ -59,6 +59,7 @@ mod attack_system {
         false
     }
 
+    #[external(v0)]
     impl AttackImpl of IAttack<ContractState> {
         fn attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
