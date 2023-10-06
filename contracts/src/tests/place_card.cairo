@@ -9,7 +9,8 @@ use tsubasa::systems::place_card_system;
 use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use tsubasa::models::{Card, Roles, Player, Placement};
 use tsubasa::systems::{
-    IPlaceCardDispatcher, IEndTurnDispatcher, IPlaceCardDispatcherTrait, IEndTurnDispatcherTrait, end_turn_system
+    IPlaceCardDispatcher, IEndTurnDispatcher, IPlaceCardDispatcherTrait, IEndTurnDispatcherTrait,
+    end_turn_system
 };
 #[test]
 #[available_gas(300000000)]
@@ -35,7 +36,6 @@ fn test_place_card() {
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-
 
     // Card number in the deck, Roles::Defender
     let place_card_calldata = array![game_id, 1, 1];
@@ -204,7 +204,7 @@ fn test_place_card_is_captain() {
     set!(world, (card));
     set_contract_address(player1);
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
-    
+
     let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     // Card number in the deck, Roles::Goalkeeper

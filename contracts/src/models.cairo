@@ -27,89 +27,6 @@ struct Card {
     role: Roles,
 }
 
-// impl SchemaIntrospectionCard of SchemaIntrospection<Card> {
-//     #[inline(always)]
-//     fn size() -> usize {
-//         SchemaIntrospection::<u256>::size()
-//             + 5 * SchemaIntrospection::<u8>::size()
-//             + SchemaIntrospection::<Roles>::size()
-
-//     }
-
-//     #[inline(always)]
-//     fn layout(ref layout: Array<u8>) {
-//         SchemaIntrospection::<u256>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<Roles>::layout(ref layout);
-//     }
-
-//     #[inline(always)]
-//     fn ty() -> Ty {
-//         Ty::Struct(
-//             Struct {
-//                 name: 'Card',
-//                 attrs: array![].span(),
-//                 children: array![
-//                     serialize_member(
-//                         @Member {
-//                             name: 'token_id',
-//                             ty: SchemaIntrospection::<u256>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'dribble',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'current_dribble',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'defense',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'current_defense',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'cost',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'role',
-//                             ty: SchemaIntrospection::<Roles>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                 ]
-//                 .span()
-//             }
-//         )
-//     }
-// }
-
 /// Available roles for cards
 #[derive(Copy, PartialEq, Drop, Serde)]
 enum Roles {
@@ -169,90 +86,6 @@ struct Game {
     outcome: Outcome,
 }
 
-// impl SchemaIntrospectionGame of SchemaIntrospection<Game> {
-//     #[inline(always)]
-//     fn size() -> usize {
-//         SchemaIntrospection::<felt252>::size()
-//             + 2 * SchemaIntrospection::<ContractAddress>::size()
-//             + 2 * SchemaIntrospection::<u8>::size()
-//             + SchemaIntrospection::<u128>::size()
-//             + SchemaIntrospection::<Option<Outcome>>::size()
-//     }
-
-//     #[inline(always)]
-//     fn layout(ref layout: Array<u8>) {
-//         SchemaIntrospection::<felt252>::layout(ref layout);
-//         SchemaIntrospection::<ContractAddress>::layout(ref layout);
-//         SchemaIntrospection::<ContractAddress>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u128>::layout(ref layout);
-//         SchemaIntrospection::<Option<Outcome>>::layout(ref layout);
-//     }
-
-//     #[inline(always)]
-//     fn ty() -> Ty {
-//         Ty::Struct(
-//             Struct {
-//                 name: 'Game',
-//                 attrs: array![].span(),
-//                 children: array![
-//                     serialize_member(
-//                         @Member {
-//                             name: 'game_id',
-//                             ty: SchemaIntrospection::<felt252>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player1',
-//                             ty: SchemaIntrospection::<ContractAddress>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player2',
-//                             ty: SchemaIntrospection::<ContractAddress>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player1_score',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player2_score',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'turn',
-//                             ty: SchemaIntrospection::<u128>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'outcome',
-//                             ty: SchemaIntrospection::<Option<Outcome>>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                 ]
-//                 .span()
-//             }
-//         )
-//     }
-// }
-
 /// State for deck's cards
 #[derive(Copy, PartialEq, Drop, Serde)]
 enum CardState {
@@ -271,74 +104,6 @@ struct DeckCard {
     card_state: CardState,
     is_captain: bool
 }
-
-// impl SchemaIntrospectionDeckCard of SchemaIntrospection<DeckCard> {
-//     #[inline(always)]
-//     fn size() -> usize {
-//         SchemaIntrospection::<ContractAddress>::size()
-//             + SchemaIntrospection::<u8>::size()
-//             + SchemaIntrospection::<u256>::size()
-//             + SchemaIntrospection::<CardState>::size()
-//             + SchemaIntrospection::<bool>::size()
-//     }
-
-//     #[inline(always)]
-//     fn layout(ref layout: Array<u8>) {
-//         SchemaIntrospection::<ContractAddress>::layout(ref layout);
-//         SchemaIntrospection::<u8>::layout(ref layout);
-//         SchemaIntrospection::<u256>::layout(ref layout);
-//         SchemaIntrospection::<CardState>::layout(ref layout);
-//         SchemaIntrospection::<bool>::layout(ref layout);
-//     }
-
-//     #[inline(always)]
-//     fn ty() -> Ty {
-//         Ty::Struct(
-//             Struct {
-//                 name: 'DeckCard',
-//                 attrs: array![].span(),
-//                 children: array![
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player',
-//                             ty: SchemaIntrospection::<ContractAddress>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'card_index',
-//                             ty: SchemaIntrospection::<u8>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'token_id',
-//                             ty: SchemaIntrospection::<u256>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'card_state',
-//                             ty: SchemaIntrospection::<CardState>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'is_captain',
-//                             ty: SchemaIntrospection::<bool>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                 ]
-//                 .span()
-//             }
-//         )
-//     }
-// }
 
 impl CardStateSchemaIntrospectionImpl of SchemaIntrospection<CardState> {
     #[inline(always)]
@@ -384,89 +149,6 @@ struct Player {
     remaining_energy: u128,
 }
 
-// impl SchemaIntrospectionPlayer of SchemaIntrospection<Player> {
-//     #[inline(always)]
-//     fn size() -> usize {
-//         SchemaIntrospection::<felt252>::size()
-//             + SchemaIntrospection::<ContractAddress>::size()
-//             + 4 * SchemaIntrospection::<Option<Placement>>::size()
-//             + SchemaIntrospection::<u128>::size()
-//     }
-
-//     #[inline(always)]
-//     fn layout(ref layout: Array<u8>) {
-//         SchemaIntrospection::<felt252>::layout(ref layout);
-//         SchemaIntrospection::<ContractAddress>::layout(ref layout);
-//         SchemaIntrospection::<Option<Placement>>::layout(ref layout);
-//         SchemaIntrospection::<Option<Placement>>::layout(ref layout);
-//         SchemaIntrospection::<Option<Placement>>::layout(ref layout);
-//         SchemaIntrospection::<Option<Placement>>::layout(ref layout);
-//         SchemaIntrospection::<u128>::layout(ref layout);
-//     }
-
-//     #[inline(always)]
-//     fn ty() -> Ty {
-//         Ty::Struct(
-//             Struct {
-//                 name: 'Player',
-//                 attrs: array![].span(),
-//                 children: array![
-//                     serialize_member(
-//                         @Member {
-//                             name: 'game_id',
-//                             ty: SchemaIntrospection::<felt252>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'player',
-//                             ty: SchemaIntrospection::<ContractAddress>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'goalkeeper',
-//                             ty: SchemaIntrospection::<Option<Placement>>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'defender',
-//                             ty: SchemaIntrospection::<Option<Placement>>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'midfielder',
-//                             ty: SchemaIntrospection::<Option<Placement>>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'attacker',
-//                             ty: SchemaIntrospection::<Option<Placement>>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                     serialize_member(
-//                         @Member {
-//                             name: 'remaining_energy',
-//                             ty: SchemaIntrospection::<u128>::ty(),
-//                             attrs: array![].span()
-//                         }
-//                     ),
-//                 ]
-//                 .span()
-//             }
-//         )
-//     }
-// }
-
 #[derive(Drop, Copy, Serde, PartialEq, SchemaIntrospection)]
 enum Placement {
     Side,
@@ -501,21 +183,6 @@ impl PlacementSchemaIntrospectionImpl of SchemaIntrospection<Placement> {
         )
     }
 }
-// #[generate_trait]
-// impl GetTokenId of GetTokenIdTrait {
-//     #[inline(always)]
-//     fn get_token_id(self: Option<Placement>) -> Option<u256> {
-//         match self {
-//             Option::Some(placement) => {
-//                 match placement {
-//                     Placement::Side(_) => Option::None,
-//                     Placement::Field(val) => Option::Some(val),
-//                 }
-//             },
-//             Option::None => Option::None,
-//         }
-//     }
-// }
 
 #[derive(Model, Copy, Drop, Serde, PartialEq, SchemaIntrospection)]
 enum Outcome {
@@ -554,22 +221,6 @@ impl OptionOutcomeIntrospection of SchemaIntrospection<Outcome> {
         )
     }
 }
-// #[generate_trait]
-// impl PlayerImpl of PlayerTrait {
-//     /// Moves a card on the field if necessary.
-//     #[inline(always)]
-//     fn update_card_placement(ref self: Option<Placement>) {
-//         self = match self {
-//             Option::Some(placement) => {
-//                 match placement {
-//                     Placement::Side(card_id) => Option::Some(Placement::Field(card_id)),
-//                     Placement::Field(card_id) => Option::Some(Placement::Field(card_id)),
-//                 }
-//             },
-//             Option::None => Option::None
-//         }
-//     }
-// }
 
 #[generate_trait]
 impl PlayerImpl of PlayerTrait {
@@ -633,25 +284,23 @@ impl PlayerImpl of PlayerTrait {
 impl OutcomePrint of debug::PrintTrait<Outcome> {
     fn print(self: Outcome) {
         match self {
-              
-                    Outcome::Player1(address) => {
-                        'Player1 :'.print();
-                    // address.print();
-                    },
-                    Outcome::Player2(address) => {
-                        'Player2 :'.print();
-                    // address.print();
-                    },
-                    Outcome::Pending => {
-                        'Pending'.print();
-                    },
-                    Outcome::Draw => {
-                        'Is Draw:'.print();
-                    }
-                }
+            Outcome::Player1(address) => {
+                'Player1 :'.print();
+            // address.print();
+            },
+            Outcome::Player2(address) => {
+                'Player2 :'.print();
+            // address.print();
+            },
+            Outcome::Pending => {
+                'Pending'.print();
+            },
+            Outcome::Draw => {
+                'Is Draw:'.print();
             }
         }
-    
+    }
+}
 
 
 #[cfg(test)]

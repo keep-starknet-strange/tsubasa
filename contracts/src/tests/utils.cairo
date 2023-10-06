@@ -39,15 +39,19 @@ fn create_game(
 ) -> felt252 {
     // use player1 address
     starknet::testing::set_contract_address(player1);
-    
-    let contract_address_game = deploy_contract(create_game_system::TEST_CLASS_HASH, array![].span());
+
+    let contract_address_game = deploy_contract(
+        create_game_system::TEST_CLASS_HASH, array![].span()
+    );
     let create_game_system = ICreateGameDispatcher { contract_address: contract_address_game };
-   
+
     // create game
     create_game_system.create_game(world, player2);
-    
+
     let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
-    let contract_address_deck = deploy_contract(create_deck_system::TEST_CLASS_HASH, array![].span());
+    let contract_address_deck = deploy_contract(
+        create_deck_system::TEST_CLASS_HASH, array![].span()
+    );
     let create_deck_system = ICreateDeckDispatcher { contract_address: contract_address_deck };
     create_deck_system.create_deck(world, token_ids1.span(), 7);
 

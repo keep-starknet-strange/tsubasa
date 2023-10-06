@@ -74,7 +74,7 @@ mod attack_system {
             };
             let mut attacker = get!(world, (game_id, attacker_address), Player);
             let mut defender = get!(world, (game_id, defender_address), Player);
-            
+
             let mut i: usize = 3;
             let mut j: usize = 3;
             let has_scored = loop {

@@ -12,7 +12,8 @@ use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place
 use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_in_hand};
 use tsubasa::systems::{
     IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait,
-    IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait, create_card_system,
+    IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait,
+    create_card_system,
 };
 
 #[test]
@@ -23,13 +24,11 @@ fn test_end_turn() {
     let (player1, player2, _) = get_players();
 
     let game_id = create_game(:world, :player1, :player2);
-  
+
     let contract_address_place_card = deploy_contract(
         place_card_system::TEST_CLASS_HASH, array![].span()
     );
-    let place_card_system = IPlaceCardDispatcher {
-        contract_address: contract_address_place_card
-    };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_address_place_card };
 
     let contract_address_end_turn = deploy_contract(
         end_turn_system::TEST_CLASS_HASH, array![].span()
@@ -48,7 +47,6 @@ fn test_end_turn() {
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
-  
     let game = get!(world, game_id, Game);
 
     let expected_game = Game {
@@ -66,14 +64,12 @@ fn test_end_turn() {
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
 
-    
-    assert(game.outcome== Outcome::Pending, 'Wrong outcome value');
+    assert(game.outcome == Outcome::Pending, 'Wrong outcome value');
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     let player = get!(world, (game_id, player1), Player);
     // Check that player energy is correclty incremented at the end of each turn.
     assert(player.remaining_energy == 2, 'Wrong player energy value');
-
 }
 
 #[test]
@@ -83,11 +79,12 @@ fn test_end_game() {
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
 
-    let contract_create_card = deploy_contract(create_card_system::TEST_CLASS_HASH, array![].span());
+    let contract_create_card = deploy_contract(
+        create_card_system::TEST_CLASS_HASH, array![].span()
+    );
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
     let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
-
 
     let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
     let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
@@ -95,33 +92,33 @@ fn test_end_game() {
     let attack_system = IAttackDispatcher { contract_address: contract_attack };
 
     // Token_id, Dribble, Defense, Cost, Role
-    create_card_system.create_card(world, 0, 22, 17,1, Roles::Goalkeeper, true);
+    create_card_system.create_card(world, 0, 22, 17, 1, Roles::Goalkeeper, true);
     // Card number in the deck, Roles::Goalkeeper
-   
-     place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
 
     end_turn_system.end_turn(world, game_id);
-   
+
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
-    
+
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     set_contract_address(player2);
-    
+
     end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player1');
-    
+
     set_contract_address(player1);
     attack_system.attack(world, game_id);
     attack_system.attack(world, game_id);
-    
+
     end_turn_system.end_turn(world, game_id);
-    
+
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
     let mut game = get!(world, game_id, Game);
-   
+
     let expected_game = Game {
         game_id,
         player1,
@@ -136,8 +133,7 @@ fn test_end_game() {
     assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
-    
-    
+
     // let outcome = game.outcome.unwrap();
     // 'unwrap'.print();
     assert(game.outcome == Outcome::Player1, 'Wrong winner');
@@ -191,7 +187,6 @@ fn test_end_turn_right_players_twice() {
     let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
 
     let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
-
 
     end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');

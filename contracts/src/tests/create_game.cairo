@@ -21,7 +21,9 @@ fn test_create_game() {
 
     // use player1 address
     set_contract_address(player1);
-    let contract_Create_game = deploy_contract(create_game_system::TEST_CLASS_HASH, array![].span());
+    let contract_Create_game = deploy_contract(
+        create_game_system::TEST_CLASS_HASH, array![].span()
+    );
 
     let create_game_system = ICreateGameDispatcher { contract_address: contract_Create_game };
     // create game
@@ -35,7 +37,7 @@ fn test_create_game() {
     assert(game.player2 == player2, 'invalid player 2');
     assert(game.player1_score == 0, 'invalid player 1 score');
     assert(game.player2_score == 0, 'invalid player 2 score');
-    assert(game.outcome==Outcome::Pending, 'invalid outcome');
+    assert(game.outcome == Outcome::Pending, 'invalid outcome');
 
     let player1 = get!(world, (game_id, game.player1), Player);
     let player2 = get!(world, (game_id, game.player2), Player);

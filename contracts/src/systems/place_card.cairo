@@ -55,7 +55,7 @@ mod place_card_system {
             );
 
             let mut player = get!(world, game_player_key, Player);
-            
+
             let deck_card = get!(
                 world,
                 (Into::<ContractAddress, felt252>::into(starknet::get_caller_address()), card_id),

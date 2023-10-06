@@ -34,7 +34,7 @@ mod create_game_system {
             let player1 = starknet::get_caller_address();
 
             let game_id = pedersen::pedersen(player1.into(), player2.into());
-        
+
             set!(
                 world,
                 Game {
@@ -47,7 +47,7 @@ mod create_game_system {
                     outcome: Outcome::Pending,
                 }
             );
-        
+
             set!(
                 world,
                 (
