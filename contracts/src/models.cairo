@@ -166,7 +166,7 @@ struct Game {
     /// Current turn of the round.
     turn: u128,
     /// Winner of the game. As long as it is `None` it means that the game is playing.
-    outcome: Option<Outcome>,
+    outcome: Outcome,
 }
 
 // impl SchemaIntrospectionGame of SchemaIntrospection<Game> {
@@ -521,14 +521,15 @@ impl PlacementSchemaIntrospectionImpl of SchemaIntrospection<Placement> {
 enum Outcome {
     Player1,
     Player2,
+    Pending,
     Draw,
 }
 
-impl OptionOutcomeIntrospection of SchemaIntrospection<Option<Outcome>> {
+impl OptionOutcomeIntrospection of SchemaIntrospection<Outcome> {
     #[inline(always)]
     fn size() -> usize {
         // 1 (option variant) + 1 (variant id size) + 1 (value contained by the variant)
-        3
+        1
     }
 
     #[inline(always)]
@@ -545,6 +546,7 @@ impl OptionOutcomeIntrospection of SchemaIntrospection<Option<Outcome>> {
                 children: array![
                     ('Player1', serialize_member_type(@Ty::Tuple(array![].span()))),
                     ('Player2', serialize_member_type(@Ty::Tuple(array![].span()))),
+                    ('Pending', serialize_member_type(@Ty::Tuple(array![].span()))),
                     ('Draw', serialize_member_type(@Ty::Tuple(array![].span()))),
                 ]
                     .span()
@@ -628,11 +630,10 @@ impl PlayerImpl of PlayerTrait {
 
 
 #[cfg(test)]
-impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
-    fn print(self: Option<Outcome>) {
+impl OutcomePrint of debug::PrintTrait<Outcome> {
+    fn print(self: Outcome) {
         match self {
-            Option::Some(Outcome) => {
-                match Outcome {
+              
                     Outcome::Player1(address) => {
                         'Player1 :'.print();
                     // address.print();
@@ -641,17 +642,17 @@ impl OutcomePrint of debug::PrintTrait<Option<Outcome>> {
                         'Player2 :'.print();
                     // address.print();
                     },
+                    Outcome::Pending => {
+                        'Pending'.print();
+                    },
                     Outcome::Draw => {
                         'Is Draw:'.print();
                     }
                 }
-            },
-            Option::None(_) => {
-                'None'.print();
-            },
+            }
         }
-    }
-}
+    
+
 
 #[cfg(test)]
 impl RolesPrint of debug::PrintTrait<Roles> {

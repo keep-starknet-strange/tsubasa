@@ -14,7 +14,6 @@ mod end_turn_system {
     use traits::Into;
     use starknet::info::{get_block_timestamp, get_block_number};
     use starknet::ContractAddress;
-
     use tsubasa::models::{Game, DeckCard, CardState, Player, Outcome, PlayerTrait, Placement};
     use tsubasa::systems::check_turn;
 
@@ -75,7 +74,7 @@ mod end_turn_system {
             let mut game = get!(world, game_id, Game);
 
             check_turn(@game, @starknet::get_caller_address());
-
+    
             let mut cards_drawn = game.turn / 2;
             let drawer = if starknet::get_caller_address() == game.player2 {
                 game.player1
@@ -85,7 +84,7 @@ mod end_turn_system {
             if cards_drawn < 8 {
                 draw_card(self, world, 8 - cards_drawn, drawer);
             }
-
+         
             emit!(world, EndTurn { game_id, turn: game.turn });
 
             game.turn += 1;
@@ -97,6 +96,7 @@ mod end_turn_system {
             player.midfielder_placement.update_card_placement();
             player.attacker_placement.update_card_placement();
 
+       
             set!(world, (player));
 
             // End the Game
@@ -104,13 +104,13 @@ mod end_turn_system {
             game
                 .outcome =
                     if (game.player1_score == 2) {
-                        Option::Some(Outcome::Player1)
+                        Outcome::Player1
                     } else if (game.player2_score == 2) {
-                        Option::Some(Outcome::Player2)
+                        Outcome::Player2
                     } else {
-                        Option::None
+                        Outcome::Pending
                     };
-
+           
             set!(world, (game));
         }
     /// Draw a card from the deck.

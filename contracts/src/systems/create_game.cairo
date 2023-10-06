@@ -12,7 +12,7 @@ mod create_game_system {
     use super::ICreateGame;
     use traits::Into;
     use starknet::ContractAddress;
-    use tsubasa::models::{Game, Player, Placement};
+    use tsubasa::models::{Game, Player, Placement, Outcome};
     use debug::PrintTrait;
 
     #[event]
@@ -34,8 +34,7 @@ mod create_game_system {
             let player1 = starknet::get_caller_address();
 
             let game_id = pedersen::pedersen(player1.into(), player2.into());
-
-            'aaaa'.print();
+        
             set!(
                 world,
                 Game {
@@ -45,10 +44,10 @@ mod create_game_system {
                     player1_score: 0,
                     player2_score: 0,
                     turn: 0,
-                    outcome: Option::None
+                    outcome: Outcome::Pending,
                 }
             );
-            'setDone'.print();
+        
             set!(
                 world,
                 (
@@ -80,9 +79,7 @@ mod create_game_system {
                     }
                 )
             );
-            'SetPlayerDOne'.print();
             emit!(world, GameCreated { game_id, player1, player2 })
-        // 'emitDone'.print();
         }
     }
 }
