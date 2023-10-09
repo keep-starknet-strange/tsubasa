@@ -1,62 +1,94 @@
+use starknet::ContractAddress;
+
+use dojo::world::IWorldDispatcher;
+
+use tsubasa::models::{Game, Player};
+
+#[starknet::interface]
+trait ICreateGame<TContractState> {
+    fn create_game(self: @TContractState, world: IWorldDispatcher, player2: ContractAddress) -> ();
+}
+
 #[system]
 mod create_game_system {
+    use super::ICreateGame;
+
     use traits::Into;
     use starknet::ContractAddress;
-    use array::ArrayTrait;
 
-    use dojo::world::Context;
+    use tsubasa::models::{Game, Player, Placement, Outcome};
 
-    use tsubasa::events::GameCreated;
-    use tsubasa::components::{Game, Player};
+    #[event]
+    #[derive(Copy, Drop, starknet::Event)]
+    enum Event {
+        GameCreated: GameCreated
+    }
 
-    /// Creates a new game and initializes the 2 players with 1 energy.
-    ///
-    /// # Arguments
-    ///
-    /// * `ctx` - Dojo context.
-    /// * `player2` - The second player of the game.
-    fn execute(ctx: Context, player2: ContractAddress) {
-        let player1 = ctx.origin;
+    #[derive(Copy, Drop, starknet::Event)]
+    struct GameCreated {
+        game_id: felt252,
+        player1: ContractAddress,
+        player2: ContractAddress
+    }
 
-        let game_id = pedersen(player1.into(), player2.into());
+    #[external(v0)]
+    impl CreateGameImpl of ICreateGame<ContractState> {
+        /// Creates a new tsubasa game.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `player2` - The 2nd player.
+        fn create_game(self: @ContractState, world: IWorldDispatcher, player2: ContractAddress) {
+            let player1 = starknet::get_caller_address();
 
-        set!(
-            ctx.world,
-            Game {
-                game_id,
-                player1,
-                player2,
-                player1_score: 0,
-                player2_score: 0,
-                turn: 0,
-                outcome: Option::None
-            }
-        );
+            let game_id = pedersen::pedersen(player1.into(), player2.into());
 
-        set!(
-            ctx.world,
-            (
-                Player {
+            set!(
+                world,
+                Game {
                     game_id,
-                    player: player1,
-                    goalkeeper: Option::None,
-                    defender: Option::None,
-                    midfielder: Option::None,
-                    attacker: Option::None,
-                    remaining_energy: 1,
-                },
-                Player {
-                    game_id,
-                    player: player2,
-                    goalkeeper: Option::None,
-                    defender: Option::None,
-                    midfielder: Option::None,
-                    attacker: Option::None,
-                    remaining_energy: 1,
+                    player1,
+                    player2,
+                    player1_score: 0,
+                    player2_score: 0,
+                    turn: 0,
+                    outcome: Outcome::Pending,
                 }
-            )
-        );
+            );
 
-        emit!(ctx.world, GameCreated { game_id, player1, player2 })
+            set!(
+                world,
+                (
+                    Player {
+                        game_id,
+                        player: player1,
+                        goalkeeper_placement: Placement::Outside,
+                        goalkeeper_id: 0,
+                        defender_placement: Placement::Outside,
+                        defender_id: 0,
+                        midfielder_placement: Placement::Outside,
+                        midfielder_id: 0,
+                        attacker_placement: Placement::Outside,
+                        attacker_id: 0,
+                        remaining_energy: 1,
+                    },
+                    Player {
+                        game_id,
+                        player: player2,
+                        goalkeeper_placement: Placement::Outside,
+                        goalkeeper_id: 0,
+                        defender_placement: Placement::Outside,
+                        defender_id: 0,
+                        midfielder_placement: Placement::Outside,
+                        midfielder_id: 0,
+                        attacker_placement: Placement::Outside,
+                        attacker_id: 0,
+                        remaining_energy: 1,
+                    }
+                )
+            );
+            emit!(world, GameCreated { game_id, player1, player2 })
+        }
     }
 }

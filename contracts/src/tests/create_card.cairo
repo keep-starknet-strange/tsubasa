@@ -4,10 +4,11 @@ use serde::Serde;
 use option::{Option, OptionTrait};
 use debug::PrintTrait;
 use dojo::world::IWorldDispatcherTrait;
-
-use tsubasa::components::{Game, Roles, Card};
+use dojo::test_utils::{deploy_contract};
+use tsubasa::models::{Game, Roles, Card};
 use tsubasa::tests::utils::spawn_world;
 use tsubasa::systems::create_card_system;
+use tsubasa::systems::{ICreateCardDispatcher, ICreateCardDispatcherTrait};
 
 #[test]
 #[available_gas(30000000)]
@@ -17,12 +18,13 @@ fn test_create_card() {
 
     let world = spawn_world();
 
+    let contract_create_card = deploy_contract(
+        create_card_system::TEST_CLASS_HASH, array![].span()
+    );
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
     // Token_id, Dribble, Defense, Cost, Role, is captain
-    let mut create_card_calldata = array![1, 0, 22, 17, 10, 3, 1];
-    world.execute('create_card_system', create_card_calldata);
-
-    let mut create_card_calldata_player2 = array![2, 0, 10, 15, 15, 1, 0];
-    world.execute('create_card_system', create_card_calldata_player2);
+    create_card_system.create_card(world, 1, 22, 17, 10, Roles::Attacker, true);
+    create_card_system.create_card(world, 2, 10, 15, 15, Roles::Defender, false);
 
     let mut token_id_player1: u256 = 1;
     let mut token_id_player2: u256 = 2;

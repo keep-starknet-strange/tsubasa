@@ -1,30 +1,50 @@
 use array::ArrayTrait;
-use option::{Option, OptionTrait};
+use clone::Clone;
+use debug::PrintTrait;
 use serde::Serde;
 use starknet::ContractAddress;
 use starknet::testing::set_contract_address;
+
+use dojo::test_utils::{deploy_contract};
 use dojo::world::IWorldDispatcherTrait;
-use clone::Clone;
-use debug::PrintTrait;
-use tsubasa::components::{Game, Player, Outcome, Card, Roles, Placement};
+
+use tsubasa::models::{Game, Player, Outcome, Card, Roles, Placement};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_in_hand};
+use tsubasa::systems::{
+    IAttackDispatcher, IAttackDispatcherTrait, ICreateCardDispatcher, ICreateCardDispatcherTrait,
+    IEndTurnDispatcher, IEndTurnDispatcherTrait, IPlaceCardDispatcher, IPlaceCardDispatcherTrait,
+    create_card_system,
+};
 
 #[test]
 #[available_gas(300000000)]
 fn test_end_turn() {
     let world = spawn_world();
+
     let (player1, player2, _) = get_players();
+
     let game_id = create_game(:world, :player1, :player2);
+
+    let contract_address_place_card = deploy_contract(
+        place_card_system::TEST_CLASS_HASH, array![].span()
+    );
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_address_place_card };
+
+    let contract_address_end_turn = deploy_contract(
+        end_turn_system::TEST_CLASS_HASH, array![].span()
+    );
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_address_end_turn };
+
+    let contract_address_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
+    let attack_system = IAttackDispatcher { contract_address: contract_address_attack };
     // Card number in the deck, Roles::Goalkeeper
-    let mut place_card_calldata = array![game_id, 0, 0];
-    world.execute('place_card_system', place_card_calldata);
 
-    let mut attack_calldata = array![game_id];
-    world.execute('attack_system', attack_calldata);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
 
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', end_turn_calldata);
+    attack_system.attack(world, game_id);
+
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
@@ -37,15 +57,15 @@ fn test_end_turn() {
         player1_score: 0,
         player2_score: 0,
         turn: 1,
-        outcome: Option::None
+        outcome: Outcome::Pending
     };
 
     assert(game.game_id == expected_game.game_id, 'invalid game_id');
     assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
-    // Check that option is None
-    assert(game.outcome.is_none(), 'Wrong outcome value');
+
+    assert(game.outcome == Outcome::Pending, 'Wrong outcome value');
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     let player = get!(world, (game_id, player1), Player);
@@ -54,38 +74,47 @@ fn test_end_turn() {
 }
 
 #[test]
-#[available_gas(300000000)]
+#[available_gas(300000000000)]
 fn test_end_game() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
+
+    let contract_create_card = deploy_contract(
+        create_card_system::TEST_CLASS_HASH, array![].span()
+    );
+    let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+    let contract_attack = deploy_contract(attack_system::TEST_CLASS_HASH, array![].span());
+
+    let create_card_system = ICreateCardDispatcher { contract_address: contract_create_card };
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+    let attack_system = IAttackDispatcher { contract_address: contract_attack };
+
     // Token_id, Dribble, Defense, Cost, Role
-    let create_card_calldata = array![0, 0, 22, 17, 0, 1, 0];
-    world.execute('create_card_system', create_card_calldata);
-
+    create_card_system.create_card(world, 0, 22, 17, 1, Roles::Goalkeeper, true);
     // Card number in the deck, Roles::Goalkeeper
-    let place_card_calldata = array![game_id, 0, 0];
-    world.execute('place_card_system', place_card_calldata);
 
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', end_turn_calldata);
+    place_card_system.place_card(world, game_id, 0, Roles::Goalkeeper);
+
+    end_turn_system.end_turn(world, game_id);
+
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
+
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     set_contract_address(player2);
 
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', end_turn_calldata);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player1');
 
     set_contract_address(player1);
-    let mut attack_calldata = array![game_id];
-    world.execute('attack_system', attack_calldata);
-    let mut attack_calldata_again = array![game_id];
-    world.execute('attack_system', attack_calldata_again);
+    attack_system.attack(world, game_id);
+    attack_system.attack(world, game_id);
 
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', end_turn_calldata);
+    end_turn_system.end_turn(world, game_id);
+
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
 
@@ -98,72 +127,78 @@ fn test_end_game() {
         player1_score: 2,
         player2_score: 0,
         turn: 3,
-        outcome: Option::Some(Outcome::Player2(player2)),
+        outcome: Outcome::Player2,
     };
 
     assert(game.game_id == expected_game.game_id, 'invalid game_id');
     assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
-
-    // Check that option is Some
-    assert(game.outcome.is_some(), 'Wrong outcome value');
-    let outcome = game.outcome.unwrap();
-    assert(outcome == Outcome::Player1(player1), 'Wrong winner');
+    assert(game.outcome == Outcome::Player1, 'Wrong winner');
 
     let player = get!(world, (game_id, player1), Player);
+
     // Check that player energy is correclty incremented at the end of each turn.
     assert(player.remaining_energy == 3, 'Wrong player energy value');
 }
 
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Player 1\'s turn', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_end_turn_wrong_player() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player2);
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', end_turn_calldata);
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+
+    end_turn_system.end_turn(world, game_id);
 }
 
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Player 2\'s turn', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_end_turn_right_player_then_wrong_player() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player1);
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
-    world.execute('end_turn_system', end_turn_calldata);
+    end_turn_system.end_turn(world, game_id);
 }
 
 #[test]
-#[available_gas(300000000)]
+#[available_gas(30000000000)]
 fn test_end_turn_right_players_twice() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
     let game_id = create_game(:world, :player1, :player2);
     set_contract_address(player1);
-    let end_turn_calldata = array![game_id];
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong nb of cards drawn player1');
     set_contract_address(player2);
-    world.execute('end_turn_system', end_turn_calldata);
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong nb of cards drawn player1');
 }
@@ -186,140 +221,134 @@ fn test_end_turn_with_card_on_side() {
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    // Card number in the deck, Roles::Defender
-    let place_card_calldata = array![game_id, 1, 1];
-    world.execute('place_card_system', place_card_calldata);
 
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
+    let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
+
+    let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+
+    // Card number in the deck, Roles::Defender
+    place_card_system.place_card(world, game_id, 1, Roles::Defender);
     let player = get!(world, (game_id, player1), Player);
-    match player.defender {
-        Option::Some(placement) => {
-            match placement {
-                Placement::Side(id) => assert(id == 2, 'Token id should be 2'),
-                Placement::Field(_) => panic_with_felt252('Wrong Placement'),
-            }
-        },
-        Option::None => panic_with_felt252('Should be some'),
-    }
-    let end_turn_calldata: Array = array![game_id];
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    assert(player.defender_placement == Placement::Side, 'Def should be on the side');
+    assert(player.defender_id == 2, 'Token id should be 2');
+
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong nb of cards drawn player2');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong nb of cards drawn player1');
 
     let player = get!(world, (game_id, player1), Player);
-    match player.defender {
-        Option::Some(placement) => {
-            match placement {
-                Placement::Side(_) => panic_with_felt252('Wrong Placement'),
-                Placement::Field(id) => assert(id == 2, 'Token id should be 2'),
-            }
-        },
-        Option::None => panic_with_felt252('Should be some'),
-    }
+    assert(player.defender_placement == Placement::Field, 'Def should be on the Field');
+    assert(player.defender_id == 2, 'Token id should be 2');
 }
+
 #[test]
 #[available_gas(3000000000)]
 fn test_end_turn_draw_card_capped_at_max() {
     let world = spawn_world();
     let (player1, player2, executor) = get_players();
     let game_id = create_game(:world, :player1, :player2);
+    let contract_end_turn = deploy_contract(end_turn_system::TEST_CLASS_HASH, array![].span());
 
-    let end_turn_calldata: Array = array![game_id];
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    let end_turn_system = IEndTurnDispatcher { contract_address: contract_end_turn };
+
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong cards nb player2 turn 1');
     assert(count_cards_in_hand(world, player1) == 0, 'Wrong cards nb player1 turn 1');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 1, 'Wrong cards nb player2 turn 2');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong cards nb player1 turn 2');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong cards nb player2 turn 3');
     assert(count_cards_in_hand(world, player1) == 1, 'Wrong cards nb player1 turn 3');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 2, 'Wrong cards nb player2 turn 4');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong cards nb player1 turn 4');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 3, 'Wrong cards nb player2 turn 5');
     assert(count_cards_in_hand(world, player1) == 2, 'Wrong cards nb player1 turn 5');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 3, 'Wrong cards nb player2 turn 6');
     assert(count_cards_in_hand(world, player1) == 3, 'Wrong cards nb player1 turn 6');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 4, 'Wrong cards nb player2 turn 7');
     assert(count_cards_in_hand(world, player1) == 3, 'Wrong cards nb player1 turn 7');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 4, 'Wrong cards nb player2 turn 8');
     assert(count_cards_in_hand(world, player1) == 4, 'Wrong cards nb player1 turn 8');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 5, 'Wrong cards nb player2 turn 9');
     assert(count_cards_in_hand(world, player1) == 4, 'Wrong cards nb player1 turn 9');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 5, 'Wrong cards nb player2 turn 10');
     assert(count_cards_in_hand(world, player1) == 5, 'Wrong cards nb player1 turn 10');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 6, 'Wrong cards nb player2 turn 11');
     assert(count_cards_in_hand(world, player1) == 5, 'Wrong cards nb player1 turn 11');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 6, 'Wrong cards nb player2 turn 12');
     assert(count_cards_in_hand(world, player1) == 6, 'Wrong cards nb player1 turn 12');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 7, 'Wrong cards nb player2 turn 13');
     assert(count_cards_in_hand(world, player1) == 6, 'Wrong cards nb player1 turn 13');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 7, 'Wrong cards nb player2 turn 14');
     assert(count_cards_in_hand(world, player1) == 7, 'Wrong cards nb player1 turn 14');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 15');
     assert(count_cards_in_hand(world, player1) == 7, 'Wrong cards nb player1 turn 15');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 16');
     assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 16');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 17');
     assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 17');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 18');
     assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 18');
 
     set_contract_address(player1);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 19');
     assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 19');
 
     set_contract_address(player2);
-    world.execute('end_turn_system', (@end_turn_calldata).clone());
+    end_turn_system.end_turn(world, game_id);
     assert(count_cards_in_hand(world, player2) == 8, 'Wrong cards nb player2 turn 20');
     assert(count_cards_in_hand(world, player1) == 8, 'Wrong cards nb player1 turn 20');
 }

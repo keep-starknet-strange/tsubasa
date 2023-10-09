@@ -1,77 +1,137 @@
-#[system]
-mod place_card_system {
-    use array::ArrayTrait;
-    use option::OptionTrait;
-    use serde::Serde;
-    use starknet::ContractAddress;
-    use traits::Into;
-    use array::SpanTrait;
-    use dojo::world::Context;
-    use traits::Index;
+use starknet::ContractAddress;
 
-    use tsubasa::components::{Card, CardState, DeckCard, Game, Roles, Placement, Player};
-    use tsubasa::events::CardPlaced;
-    use tsubasa::systems::check_turn;
-    use debug::PrintTrait;
-    /// Places a card and puts it in pending state. Deducts its energy cost from the 
-    /// remaining energy of the player. Will fail if the player doesn't have enough energy
-    ///
-    /// # Arguments
-    ///
-    /// * `ctx` - Dojo context.
-    /// * `game_id` - The current game_id.
-    /// * `card_id` - The position in the player's deck of the card to be placed.
-    /// * `position` - The position at which the card will be placed
-    fn execute(ctx: Context, game_id: felt252, card_id: u8, position: Roles) {
-        let game = get!(ctx.world, game_id, Game);
-        check_turn(@game, @ctx.origin);
-        let game_player_key: (felt252, felt252) = (game_id, ctx.origin.into());
-        let mut player = get!(ctx.world, game_player_key, Player);
-        let deck_card = get!(
-            ctx.world, (Into::<ContractAddress, felt252>::into(ctx.origin), card_id), DeckCard
-        );
-        let mut card = get!(ctx.world, (deck_card.token_id), Card);
-        assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
+use dojo::world::IWorldDispatcher;
 
-        let is_on_its_role = match position {
-            Roles::Goalkeeper => {
-                assert(player.goalkeeper.is_none(), 'Goalkeeper already placed');
-                player.goalkeeper = Option::Some(Placement::Side(deck_card.token_id));
-                card.role == Roles::Goalkeeper
-            },
-            Roles::Defender => {
-                assert(player.defender.is_none(), 'Defender already placed');
-                player.defender = Option::Some(Placement::Side(deck_card.token_id));
-                card.role == Roles::Defender
-            },
-            Roles::Midfielder => {
-                assert(player.midfielder.is_none(), 'Midfielder already placed');
-                player.midfielder = Option::Some(Placement::Side(deck_card.token_id));
-                card.role == Roles::Midfielder
-            },
-            Roles::Attacker => {
-                assert(player.attacker.is_none(), 'Attacker already placed');
-                player.attacker = Option::Some(Placement::Side(deck_card.token_id));
-                card.role == Roles::Attacker
-            }
-        };
+use tsubasa::models::Roles;
 
-        if (is_on_its_role) {
-            card.current_dribble += 1;
-            card.current_defense += 1;
-        }
-        if (deck_card.is_captain) {
-            card.current_dribble += 1;
-            card.current_defense += 1;
-        }
-
-        player.remaining_energy -= card.cost.into();
-        set!(ctx.world, (card));
-        set!(ctx.world, (player));
-        emit!(
-            ctx.world,
-            CardPlaced { game_id, player: ctx.origin, card_id: deck_card.token_id, position }
-        )
-    }
+#[starknet::interface]
+trait IPlaceCard<TContractState> {
+    fn place_card(
+        self: @TContractState,
+        world: IWorldDispatcher,
+        game_id: felt252,
+        card_id: u8,
+        position: Roles
+    );
 }
 
+#[system]
+mod place_card_system {
+    use super::IPlaceCard;
+
+    use array::ArrayTrait;
+    use traits::Into;
+    use starknet::info::{get_block_timestamp, get_block_number};
+    use starknet::ContractAddress;
+
+    use tsubasa::models::{Card, CardState, DeckCard, Game, Roles, Placement, Player};
+    use tsubasa::systems::check_turn;
+
+    #[event]
+    #[derive(Copy, Drop, starknet::Event)]
+    enum Event {
+        CardPlaced: CardPlaced
+    }
+
+    #[derive(Copy, Drop, starknet::Event)]
+    struct CardPlaced {
+        game_id: felt252,
+        player: ContractAddress,
+        card_id: u8,
+        position: Roles
+    }
+
+    #[external(v0)]
+    impl PlaceCardImpl of IPlaceCard<ContractState> {
+        /// Places a card on the game board.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `game_id` - The id of the current game.
+        /// * `card_id` - The index of the card in the deck that will be placed.
+        /// * `position` - On what slot the card will be placed.
+        fn place_card(
+            self: @ContractState,
+            world: IWorldDispatcher,
+            game_id: felt252,
+            card_id: u8,
+            position: Roles
+        ) {
+            let game = get!(world, game_id, Game);
+            check_turn(@game, @starknet::get_caller_address());
+            let game_player_key: (felt252, felt252) = (
+                game_id, starknet::get_caller_address().into()
+            );
+
+            let mut player = get!(world, game_player_key, Player);
+
+            let deck_card = get!(
+                world,
+                (Into::<ContractAddress, felt252>::into(starknet::get_caller_address()), card_id),
+                DeckCard
+            );
+            let mut card = get!(world, (deck_card.token_id), Card);
+            assert(player.remaining_energy >= card.cost.into(), 'Not enough energy');
+
+            let is_on_its_role = match position {
+                Roles::Goalkeeper => {
+                    assert(
+                        player.goalkeeper_placement == Placement::Outside,
+                        'Goalkeeper already placed'
+                    );
+                    player.goalkeeper_placement = Placement::Side;
+                    player.goalkeeper_id = deck_card.token_id;
+                    card.role == Roles::Goalkeeper
+                },
+                Roles::Defender => {
+                    assert(
+                        player.defender_placement == Placement::Outside, 'Defender already placed'
+                    );
+                    player.defender_placement = Placement::Side;
+                    player.defender_id = deck_card.token_id;
+                    card.role == Roles::Defender
+                },
+                Roles::Midfielder => {
+                    assert(
+                        player.midfielder_placement == Placement::Outside,
+                        'Midfielder already placed'
+                    );
+                    player.midfielder_placement = Placement::Side;
+                    player.midfielder_id = deck_card.token_id;
+                    card.role == Roles::Midfielder
+                },
+                Roles::Attacker => {
+                    assert(
+                        player.attacker_placement == Placement::Outside, 'Attacker already placed'
+                    );
+                    player.attacker_placement = Placement::Side;
+                    player.attacker_id = deck_card.token_id;
+                    card.role == Roles::Attacker
+                }
+            };
+
+            if is_on_its_role {
+                card.current_dribble += 1;
+                card.current_defense += 1;
+            }
+            if deck_card.is_captain {
+                card.current_dribble += 1;
+                card.current_defense += 1;
+            }
+
+            player.remaining_energy -= card.cost.into();
+            set!(world, (card));
+            set!(world, (player));
+            emit!(
+                world,
+                CardPlaced {
+                    game_id,
+                    player: starknet::get_caller_address(),
+                    card_id: deck_card.card_index,
+                    position
+                }
+            )
+        }
+    }
+}

@@ -1,15 +1,18 @@
 use array::ArrayTrait;
 use starknet::ContractAddress;
-use traits::Into;
 use serde::Serde;
+use traits::Into;
 
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
+use dojo::test_utils::{deploy_contract};
+use debug::PrintTrait;
 
-use tsubasa::components::{Card, DeckCard, CardState, card, Game, game};
+use tsubasa::models::{Card, DeckCard, CardState, card, Game, game};
 use tsubasa::systems::{
     place_card_system, attack_system, create_card_system, create_game_system, create_deck_system,
-    end_turn_system
+    end_turn_system, ICreateGameDispatcher, ICreateGameDispatcherTrait, ICreateDeckDispatcher,
+    ICreateDeckDispatcherTrait
 };
 
 /// Spawns a mock dojo world.
@@ -17,18 +20,8 @@ fn spawn_world() -> IWorldDispatcher {
     // components
     let mut components = array![game::TEST_CLASS_HASH, card::TEST_CLASS_HASH];
 
-    // systems
-    let mut systems = array![
-        create_game_system::TEST_CLASS_HASH,
-        place_card_system::TEST_CLASS_HASH,
-        attack_system::TEST_CLASS_HASH,
-        end_turn_system::TEST_CLASS_HASH,
-        create_card_system::TEST_CLASS_HASH,
-        create_deck_system::TEST_CLASS_HASH,
-    ];
-
     // deploy executor, world and register components/systems
-    spawn_test_world(components, systems)
+    spawn_test_world(components)
 }
 
 /// Returns 1_ContractAddress, 2_ContractAddress
@@ -47,28 +40,29 @@ fn create_game(
     // use player1 address
     starknet::testing::set_contract_address(player1);
 
-    let create_game_calldata = array![player2.into()];
+    let contract_address_game = deploy_contract(
+        create_game_system::TEST_CLASS_HASH, array![].span()
+    );
+    let create_game_system = ICreateGameDispatcher { contract_address: contract_address_game };
 
     // create game
-    world.execute('create_game_system', create_game_calldata);
+    create_game_system.create_game(world, player2);
 
-    let mut create_deck_calldata1 = array![];
-    let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
-    token_ids1.serialize(ref create_deck_calldata1);
-    // Captain index.
-    create_deck_calldata1.append(7);
-    world.execute('create_deck_system', create_deck_calldata1);
+    let token_ids1 = array![0, 2, 4, 6, 8, 10, 12, 14];
+    let contract_address_deck = deploy_contract(
+        create_deck_system::TEST_CLASS_HASH, array![].span()
+    );
+    let create_deck_system = ICreateDeckDispatcher { contract_address: contract_address_deck };
+    create_deck_system.create_deck(world, token_ids1.span(), 7);
 
     starknet::testing::set_contract_address(player2);
-    let mut create_deck_calldata2 = array![];
-    let token_ids2 = array![1_u256, 3, 5, 7, 9, 11, 13, 15];
-    token_ids2.serialize(ref create_deck_calldata2);
-    // Captain index.
-    create_deck_calldata2.append(7);
-    world.execute('create_deck_system', create_deck_calldata2);
+    let create_deck_system2 = ICreateDeckDispatcher { contract_address: contract_address_deck };
+    let token_ids2 = array![1, 3, 5, 7, 9, 11, 13, 15];
+
+    create_deck_system2.create_deck(world, token_ids2.span(), 7);
 
     starknet::testing::set_contract_address(player1);
-    pedersen(player1.into(), player2.into())
+    pedersen::pedersen(player1.into(), player2.into())
 }
 
 fn count_cards_in_hand(world: IWorldDispatcher, player: ContractAddress) -> u8 {
