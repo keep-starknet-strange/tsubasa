@@ -1,5 +1,5 @@
 use starknet::ContractAddress;
-use option::{Option, OptionTrait};
+
 use dojo::database::schema::{
     Enum, Member, Ty, Struct, SchemaIntrospection, serialize_member, serialize_member_type
 };

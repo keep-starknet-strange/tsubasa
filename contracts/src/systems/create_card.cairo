@@ -1,4 +1,5 @@
 use dojo::world::IWorldDispatcher;
+
 use tsubasa::models::{Card, Roles};
 
 #[starknet::interface]
@@ -12,12 +13,13 @@ trait ICreateCard<TContractState> {
         cost: u8,
         role: Roles,
         is_captain: bool
-    ) -> ();
+    );
 }
 
 #[system]
 mod create_card_system {
     use super::ICreateCard;
+
     use tsubasa::models::{Card, Roles};
 
     #[external(v0)]

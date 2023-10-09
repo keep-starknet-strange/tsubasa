@@ -1,5 +1,6 @@
-use tsubasa::models::Player;
 use dojo::world::IWorldDispatcher;
+
+use tsubasa::models::Player;
 
 #[starknet::interface]
 trait IAttack<TContractState> {
@@ -8,9 +9,9 @@ trait IAttack<TContractState> {
 
 #[system]
 mod attack_system {
-    use tsubasa::models::PlayerTrait;
     use super::IAttack;
-    use tsubasa::models::{Game, Placement, Player, Card};
+
+    use tsubasa::models::{Game, Placement, Player, PlayerTrait, Card};
     use tsubasa::systems::check_turn;
 
     fn internal_attack(

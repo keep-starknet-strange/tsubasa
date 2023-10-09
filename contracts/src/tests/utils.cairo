@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use starknet::ContractAddress;
-use traits::Into;
 use serde::Serde;
+use traits::Into;
 
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use dojo::test_utils::spawn_test_world;
@@ -58,7 +58,6 @@ fn create_game(
     starknet::testing::set_contract_address(player2);
     let create_deck_system2 = ICreateDeckDispatcher { contract_address: contract_address_deck };
     let token_ids2 = array![1, 3, 5, 7, 9, 11, 13, 15];
-    // Captain index.
 
     create_deck_system2.create_deck(world, token_ids2.span(), 7);
 

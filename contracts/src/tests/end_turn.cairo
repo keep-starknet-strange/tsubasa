@@ -1,12 +1,13 @@
 use array::ArrayTrait;
-use option::{Option, OptionTrait};
+use clone::Clone;
+use debug::PrintTrait;
 use serde::Serde;
 use starknet::ContractAddress;
 use starknet::testing::set_contract_address;
+
 use dojo::test_utils::{deploy_contract};
 use dojo::world::IWorldDispatcherTrait;
-use clone::Clone;
-use debug::PrintTrait;
+
 use tsubasa::models::{Game, Player, Outcome, Card, Roles, Placement};
 use tsubasa::systems::{create_game_system, attack_system, end_turn_system, place_card_system};
 use tsubasa::tests::utils::{get_players, create_game, spawn_world, count_cards_in_hand};
@@ -133,9 +134,6 @@ fn test_end_game() {
     assert(game.player1_score == expected_game.player1_score, 'Wrong player1 score');
     assert(game.player2_score == expected_game.player2_score, 'Wrong player2 score');
     assert(game.turn == expected_game.turn, 'Wrong turn value');
-
-    // let outcome = game.outcome.unwrap();
-    // 'unwrap'.print();
     assert(game.outcome == Outcome::Player1, 'Wrong winner');
 
     let player = get!(world, (game_id, player1), Player);

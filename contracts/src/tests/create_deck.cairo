@@ -1,10 +1,11 @@
-use traits::Into;
 use debug::PrintTrait;
-use dojo::world::IWorldDispatcherTrait;
 use starknet::ContractAddress;
+use starknet::testing::set_contract_address;
+use traits::Into;
+
+use dojo::world::IWorldDispatcherTrait;
 use dojo::test_utils::{deploy_contract};
 
-use starknet::testing::set_contract_address;
 
 use tsubasa::models::{Game, Roles, DeckCard};
 use tsubasa::tests::utils::{spawn_world, get_players, create_game};

@@ -1,10 +1,12 @@
-use traits::{Into, Default};
 use array::ArrayTrait;
+use debug::PrintTrait;
+use traits::{Into, Default};
 use serde::Serde;
 use starknet::testing::set_contract_address;
-use debug::PrintTrait;
+
 use dojo::world::IWorldDispatcherTrait;
 use dojo::test_utils::{deploy_contract};
+
 use tsubasa::systems::place_card_system;
 use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_in_hand};
 use tsubasa::models::{Card, Roles, Player, Placement};
@@ -13,6 +15,7 @@ use tsubasa::systems::{
     end_turn_system, create_deck_system
 };
 use tsubasa::systems::{ICreateDeckDispatcher, ICreateDeckDispatcherTrait};
+
 #[test]
 #[available_gas(300000000)]
 fn test_place_card() {

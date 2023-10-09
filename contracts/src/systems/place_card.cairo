@@ -1,5 +1,7 @@
-use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
+
+use dojo::world::IWorldDispatcher;
+
 use tsubasa::models::Roles;
 
 #[starknet::interface]
@@ -10,12 +12,13 @@ trait IPlaceCard<TContractState> {
         game_id: felt252,
         card_id: u8,
         position: Roles
-    ) -> ();
+    );
 }
 
 #[system]
 mod place_card_system {
     use super::IPlaceCard;
+
     use array::ArrayTrait;
     use traits::Into;
     use starknet::info::{get_block_timestamp, get_block_number};
@@ -23,7 +26,6 @@ mod place_card_system {
 
     use tsubasa::models::{Card, CardState, DeckCard, Game, Roles, Placement, Player};
     use tsubasa::systems::check_turn;
-    use debug::PrintTrait;
 
     #[event]
     #[derive(Copy, Drop, starknet::Event)]

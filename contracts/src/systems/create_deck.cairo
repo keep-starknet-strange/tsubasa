@@ -6,15 +6,17 @@ use array::SpanTrait;
 trait ICreateDeck<TContractState> {
     fn create_deck(
         self: @TContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
-    ) -> ();
+    );
 }
 
 #[system]
 mod create_deck_system {
     use super::ICreateDeck;
-    use tsubasa::models::{DeckCard, CardState};
+
     use array::SpanTrait;
     use starknet::ContractAddress;
+
+    use tsubasa::models::{DeckCard, CardState};
 
     #[event]
     #[derive(Copy, Drop, starknet::Event)]

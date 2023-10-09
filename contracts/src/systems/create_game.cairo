@@ -1,5 +1,7 @@
-use dojo::world::IWorldDispatcher;
 use starknet::ContractAddress;
+
+use dojo::world::IWorldDispatcher;
+
 use tsubasa::models::{Game, Player};
 
 #[starknet::interface]
@@ -10,10 +12,11 @@ trait ICreateGame<TContractState> {
 #[system]
 mod create_game_system {
     use super::ICreateGame;
+
     use traits::Into;
     use starknet::ContractAddress;
+
     use tsubasa::models::{Game, Player, Placement, Outcome};
-    use debug::PrintTrait;
 
     #[event]
     #[derive(Copy, Drop, starknet::Event)]
