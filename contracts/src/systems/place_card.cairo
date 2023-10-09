@@ -43,6 +43,14 @@ mod place_card_system {
 
     #[external(v0)]
     impl PlaceCardImpl of IPlaceCard<ContractState> {
+        /// Places a card on the game board.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `game_id` - The id of the current game.
+        /// * `card_id` - The index of the card in the deck that will be placed.
+        /// * `position` - On what slot the card will be placed.
         fn place_card(
             self: @ContractState,
             world: IWorldDispatcher,

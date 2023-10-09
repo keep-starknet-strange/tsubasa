@@ -32,6 +32,13 @@ mod create_deck_system {
 
     #[external(v0)]
     impl CreateDeckImpl of ICreateDeck<ContractState> {
+        /// Creates a new deck from a list of token ids.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `token_list` - The list of cards token ids to put in the deck.
+        /// * `captain_index` - The index of the captain in `token_list`.
         fn create_deck(
             self: @ContractState, world: IWorldDispatcher, token_list: Span<u256>, captain_index: u8
         ) {

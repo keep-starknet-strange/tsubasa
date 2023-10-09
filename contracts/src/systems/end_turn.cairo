@@ -32,6 +32,13 @@ mod end_turn_system {
         turn: u128,
     }
 
+    /// Draw a random card from the deck.
+    ///
+    /// # Arguments
+    ///
+    /// * `world` - Dojo world.
+    /// * `remaining_cards` - Number of cards remaining in the deck.
+    /// * `player` - Current player address.
     fn draw_card(
         self: @ContractState,
         world: IWorldDispatcher,
@@ -67,11 +74,13 @@ mod end_turn_system {
 
     #[external(v0)]
     impl EndTurnImpl of IEndTurn<ContractState> {
-        /// Ends a turn and increments the energy of the player who ended the turn.
+        /// Ends a turn increments the energy of the player who ended the turn, draws a card
+        /// for the oponent, places on the field all the cards that were on the side and checks
+        /// if the game should end.
         ///
         /// # Arguemnt
         ///
-        /// * world: IWorldDispatcher
+        /// * `world` - Dojo world.
         /// * `game_id` - The current game id.
         fn end_turn(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
@@ -115,14 +124,6 @@ mod end_turn_system {
 
             set!(world, (game));
         }
-    /// Draw a card from the deck.
-    ///
-    /// # Arguments
-    ///
-    /// * world: IWorldDispatcher
-    /// * `remaining_cards` - Number of cards remaining in the deck.
-    /// * `player` - Player drawing the card.
-
     }
 }
 

@@ -33,6 +33,12 @@ mod create_game_system {
 
     #[external(v0)]
     impl CreateGameImpl of ICreateGame<ContractState> {
+        /// Creates a new tsubasa game.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `player2` - The 2nd player.
         fn create_game(self: @ContractState, world: IWorldDispatcher, player2: ContractAddress) {
             let player1 = starknet::get_caller_address();
 

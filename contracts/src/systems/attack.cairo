@@ -14,6 +14,19 @@ mod attack_system {
     use tsubasa::models::{Game, Placement, Player, PlayerTrait, Card};
     use tsubasa::systems::check_turn;
 
+    /// Attack a card and  updates the stats and position of each card.
+    ///
+    /// # Arguments
+    ///
+    /// * `world` - Dojo world.
+    /// * `i` -  The card index of the attacking card.
+    /// * `j` - The card index of the defending card.
+    /// * `attacker` - The attacker board.
+    /// * `defender` - The defender board.
+    ///
+    /// # Returns
+    ///
+    /// * `[bool]` - Has scored a goal.
     fn internal_attack(
         world: IWorldDispatcher,
         ref i: usize,
@@ -61,6 +74,12 @@ mod attack_system {
 
     #[external(v0)]
     impl AttackImpl of IAttack<ContractState> {
+        /// The current player's cards will attack the oponent's.
+        ///
+        /// # Arguments
+        ///
+        /// * `world` - Dojo world.
+        /// * `game_id` - The current game id.
         fn attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
             check_turn(@game, @starknet::get_caller_address());
