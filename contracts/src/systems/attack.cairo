@@ -12,9 +12,6 @@ mod attack_system {
     use super::IAttack;
     use tsubasa::models::{Game, Placement, Player, Card};
     use tsubasa::systems::check_turn;
-    use option::OptionTrait;
-    use debug::PrintTrait;
-    // use dojo::world::IWorldDispatcher;
 
     fn internal_attack(
         world: IWorldDispatcher,
@@ -65,7 +62,7 @@ mod attack_system {
     impl AttackImpl of IAttack<ContractState> {
         fn attack(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
             let mut game = get!(world, game_id, Game);
-            // check_turn(@game, @starknet::get_caller_address());
+            check_turn(@game, @starknet::get_caller_address());
             let (attacker_address, defender_address) = if starknet::get_caller_address() == game
                 .player1 {
                 (game.player1, game.player2)

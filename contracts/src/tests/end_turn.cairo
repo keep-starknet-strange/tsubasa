@@ -145,8 +145,8 @@ fn test_end_game() {
 }
 
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Player 1\'s turn', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_end_turn_wrong_player() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();
@@ -160,8 +160,8 @@ fn test_end_turn_wrong_player() {
 }
 
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Player 2\'s turn', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_end_turn_right_player_then_wrong_player() {
     let world = spawn_world();
     let (player1, player2, _) = get_players();

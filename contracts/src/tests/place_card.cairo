@@ -10,8 +10,9 @@ use tsubasa::tests::utils::{create_game, get_players, spawn_world, count_cards_i
 use tsubasa::models::{Card, Roles, Player, Placement};
 use tsubasa::systems::{
     IPlaceCardDispatcher, IEndTurnDispatcher, IPlaceCardDispatcherTrait, IEndTurnDispatcherTrait,
-    end_turn_system
+    end_turn_system, create_deck_system
 };
+use tsubasa::systems::{ICreateDeckDispatcher, ICreateDeckDispatcherTrait};
 #[test]
 #[available_gas(300000000)]
 fn test_place_card() {
@@ -56,8 +57,8 @@ fn test_place_card() {
     assert(player.defender_id == 2, 'Token id should be 2')
 }
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Not enough energy', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_place_card_overflow() {
     let world = spawn_world();
     let (player1, player2, executor) = get_players();
@@ -73,13 +74,17 @@ fn test_place_card_overflow() {
     };
 
     let contract_place_card = deploy_contract(place_card_system::TEST_CLASS_HASH, array![].span());
+    let contract_ceate_deck = deploy_contract(create_deck_system::TEST_CLASS_HASH, array![].span());
+    let create_deck_calldata = array![0, 1, 2, 3, 4, 5, 6, 7];
+    let create_deck_system = ICreateDeckDispatcher { contract_address: contract_ceate_deck };
+
+    // create deck
+    create_deck_system.create_deck(world, create_deck_calldata.span(), 1);
     let place_card_system = IPlaceCardDispatcher { contract_address: contract_place_card };
 
     set_contract_address(executor);
     set!(world, (card));
     set_contract_address(player1);
-    // card_id.low, card_id.high, Roles::Defender
-    let place_card_calldata = array![game_id, 1, 0, 1];
     let player = get!(world, (game_id, player1), Player);
 
     assert(player.remaining_energy == 1, 'energy should be 1');
@@ -216,8 +221,8 @@ fn test_place_card_is_captain() {
 }
 
 #[test]
-#[should_panic]
-#[available_gas(30000000)]
+#[should_panic(expected: ('Player 1\'s turn', 'ENTRYPOINT_FAILED'))]
+#[available_gas(300000000)]
 fn test_place_card_wrong_player() {
     let world = spawn_world();
     let (player1, player2, executor) = get_players();
