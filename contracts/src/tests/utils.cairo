@@ -48,7 +48,7 @@ fn create_game(
     // create game
     create_game_system.create_game(world, player2);
 
-    let token_ids1 = array![0_u256, 2, 4, 6, 8, 10, 12, 14];
+    let token_ids1 = array![0, 2, 4, 6, 8, 10, 12, 14];
     let contract_address_deck = deploy_contract(
         create_deck_system::TEST_CLASS_HASH, array![].span()
     );
@@ -57,7 +57,7 @@ fn create_game(
 
     starknet::testing::set_contract_address(player2);
     let create_deck_system2 = ICreateDeckDispatcher { contract_address: contract_address_deck };
-    let token_ids2 = array![1_u256, 3, 5, 7, 9, 11, 13, 15];
+    let token_ids2 = array![1, 3, 5, 7, 9, 11, 13, 15];
     // Captain index.
 
     create_deck_system2.create_deck(world, token_ids2.span(), 7);

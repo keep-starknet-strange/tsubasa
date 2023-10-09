@@ -21,7 +21,7 @@ fn test_create_deck() {
 
     let game_id = create_game(world, player1, player2);
     let contract_ceate_deck = deploy_contract(create_deck_system::TEST_CLASS_HASH, array![].span());
-    let mut create_deck_calldata = array![8, 0, 0, 1, 0, 2, 0, 3];
+    let mut create_deck_calldata = array![0, 1, 2, 3, 4, 5, 6, 7];
     let create_deck_system = ICreateDeckDispatcher { contract_address: contract_ceate_deck };
 
     // create deck
