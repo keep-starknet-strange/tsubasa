@@ -1,15 +1,14 @@
-use dojo::world::IWorldDispatcher;
-
-use tsubasa::models::Player;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
 trait IAttack<TContractState> {
     fn attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 }
 
-#[system]
+#[starknet::contract]
 mod attack_system {
     use super::IAttack;
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use tsubasa::models::{Game, Placement, Player, PlayerTrait, Card};
     use tsubasa::systems::check_turn;
@@ -71,6 +70,9 @@ mod attack_system {
         set!(world, (attacker_card, defender_card));
         false
     }
+
+     #[storage]
+    struct Storage {}
 
     #[external(v0)]
     impl AttackImpl of IAttack<ContractState> {

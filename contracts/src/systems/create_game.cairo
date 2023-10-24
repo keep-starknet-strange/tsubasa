@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 
-use dojo::world::IWorldDispatcher;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 use tsubasa::models::{Game, Player};
 
@@ -9,8 +9,10 @@ trait ICreateGame<TContractState> {
     fn create_game(self: @TContractState, world: IWorldDispatcher, player2: ContractAddress) -> ();
 }
 
-#[system]
+#[starknet::contract]
 mod create_game_system {
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    
     use super::ICreateGame;
 
     use traits::Into;
@@ -90,5 +92,9 @@ mod create_game_system {
             );
             emit!(world, GameCreated { game_id, player1, player2 })
         }
+    }
+
+    #[storage]
+    struct Storage {
     }
 }

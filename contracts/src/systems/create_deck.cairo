@@ -1,4 +1,4 @@
-use dojo::world::IWorldDispatcher;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use tsubasa::models::{DeckCard, CardState};
 use array::SpanTrait;
 
@@ -9,9 +9,10 @@ trait ICreateDeck<TContractState> {
     );
 }
 
-#[system]
+#[starknet::contract]
 mod create_deck_system {
     use super::ICreateDeck;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::SpanTrait;
     use starknet::ContractAddress;
@@ -66,5 +67,9 @@ mod create_deck_system {
 
             emit!(world, DeckCreated { player: starknet::get_caller_address(), token_list });
         }
+    }
+
+    #[storage]
+    struct Storage {
     }
 }
