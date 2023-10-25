@@ -2,6 +2,7 @@ mod attack;
 mod end_turn;
 mod place_card;
 mod create_game;
+mod join_game;
 mod create_card;
 mod create_deck;
 
@@ -20,6 +21,10 @@ use place_card::IPlaceCardDispatcherTrait;
 use create_game::create_game_system;
 use create_game::ICreateGameDispatcher;
 use create_game::ICreateGameDispatcherTrait;
+
+use join_game::join_game_system;
+use join_game::IJoinGameDispatcher;
+use join_game::IJoinGameDispatcherTrait;
 
 use create_card::create_card_system;
 use create_card::ICreateCardDispatcher;

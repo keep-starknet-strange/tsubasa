@@ -14,6 +14,7 @@ import type {
 } from "@dnd-kit/core";
 import EndTurnButton from "@/components/buttons/EndTurnButton";
 import { testcards } from "@/helpers/testCards";
+import JoinOrCreateModal from "@/components/JoinOrCreateModal";
 
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
@@ -31,6 +32,17 @@ export default function Home() {
     useState<string>("");
   const [playersInBench, setPlayersInBench] =
     useState<ExtendedCardProps[]>(testcards);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
+  const handleCreateGame = () => {
+    handleCloseModal();
+  };
+  const handleJoinGame = () => {
+    handleCloseModal();
+  };
 
   useEffect(() => {
     setPlayersInBench((prev) => {
@@ -136,6 +148,15 @@ export default function Home() {
           </div>
           <EndTurnButton isWaiting={isWaiting} />
         </DndContext>
+        <button onClick={handleOpenModal}>Créer ou rejoindre une partie</button>
+
+        {/* La modale */}
+        <JoinOrCreateModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onCreate={handleCreateGame}
+          onJoin={handleJoinGame}
+        />
       </div>
     </main>
   );
