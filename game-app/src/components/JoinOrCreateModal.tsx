@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import GenericButton from "./buttons/GenericButton";
+import { useDojo } from "@/DojoContext";
 
 interface Props {
   isOpen: boolean;
@@ -17,7 +18,12 @@ const JoinOrCreateModal: React.FC<Props> = ({
   onJoin,
 }) => {
   const [address, setAddress] = useState("");
-
+  const {
+    setup: {
+      systemCalls: { create_game, join_game },
+    },
+    account: { account },
+  } = useDojo();
   if (!isOpen) return null;
 
   const handleJoinClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,6 +34,7 @@ const JoinOrCreateModal: React.FC<Props> = ({
 
   const handleCreateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Create");
+    create_game({ account, player_2_address: address });
     onCreate(address);
     onClose();
   };
@@ -57,20 +64,8 @@ const JoinOrCreateModal: React.FC<Props> = ({
         <div className="mt-3 flex justify-around">
           {/* Flexbox for centering */}
           <GenericButton label={"CREATE"} onClick={handleCreateClick} />
-          {/* <button
-            className="mr-4 rounded-2xl bg-green-700 p-3"
-            onClick={() => onCreate(address)}
-          > */}
-          {/* Increased margin on the right */}
-          {/* Create a Game
-          </button> */}
+
           <GenericButton label={"JOIN"} onClick={handleJoinClick} />
-          {/* <button
-            className="rounded-2xl bg-green-700 p-3"
-            onClick={() => onJoin(address)}
-          > */}
-          {/* Join a Game
-          </button> */}
         </div>
       </div>
     </div>

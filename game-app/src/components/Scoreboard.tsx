@@ -10,7 +10,7 @@ export default function Scoreboard() {
 
   const {
     setup: {
-      systemCalls: { create_game },
+      systemCalls: { create_game, join_game },
     },
     account: { account },
   } = useDojo();
@@ -44,7 +44,13 @@ export default function Scoreboard() {
         )}
       </button>
       <button
-        onClick={() => void create_game({ account, player_2_address })}
+        onClick={() => void join_game({ account, player_address })}
+        className="p-2 text-xl uppercase"
+      >
+        join game
+      </button>
+      <button
+        onClick={() => void create_game({ account, player_address })}
         className="p-2 text-xl uppercase"
       >
         start game

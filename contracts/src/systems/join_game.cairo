@@ -1,10 +1,10 @@
 use starknet::ContractAddress;
 
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use dojo::world::IWorldDispatcher;
 
 #[starknet::interface]
 trait IJoinGame<TContractState> {
-    fn join_game(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
+    fn join_game(self: @TContractState, world: IWorldDispatcher, player1: ContractAddress);
 }
 
 #[starknet::contract]
@@ -26,7 +26,7 @@ mod join_game_system {
 
     #[derive(Copy, Drop, starknet::Event)]
     struct GameJoined {
-        game_id: felt252,
+        player1: ContractAddress,
         player2: ContractAddress
     }
 
@@ -38,15 +38,17 @@ mod join_game_system {
         ///
         /// * `world` - Dojo world.
         /// * `game_id` - The id of the game to be joined.
-        fn join_game(self: @ContractState, world: IWorldDispatcher, game_id: felt252) {
+        fn join_game(self: @ContractState, world: IWorldDispatcher, player1: ContractAddress) {
             let player2 = starknet::get_caller_address();
+            let game_id = pedersen::pedersen(player1.into(), player2.into());
+
             let mut game = get!(world, game_id, Game);
 
             game.player2 = player2;
             game.outcome = Outcome::Pending;
 
-            set!(world, (game_id, game));
-            emit!(world, GameJoined { game_id, player2 });
+            set!(world, (game));
+            emit!(world, GameJoined { player1, player2 });
         }
     }
 
