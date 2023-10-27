@@ -35,22 +35,10 @@ export function createSystemCalls(
   // Add Systems here:
   const create_game = async ({ account, player_2_address }: CreateGame) => {
     try {
-      const calls: Call[] = [
-        {
-          contractAddress: process.env.NEXT_PUBLIC_ACTION_ADDRESS || "",
-          entrypoint: EntryPoints.CREATE_GAME,
-          calldata: [
-            process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
-            player_2_address,
-          ],
-        },
-      ];
-      const tx = await execute(
-        account,
-        "create_game_system",
-        "create_game",
-        calls
-      );
+      const tx = await execute(account, "create_game_system", "create_game", [
+        process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
+        player_2_address,
+      ]);
       // const tx = await execute(account, EntryPoints.CREATE_GAME, [
       //   player_2_address,
       // ]);

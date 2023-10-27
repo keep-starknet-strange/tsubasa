@@ -32,16 +32,10 @@ export function setupNetwork() {
     execute: async (
       signer: Account,
       contract: string,
-      entrypoint: string,
-      calls: AllowArray<Call>
+      system: string,
+      call_data: num.BigNumberish[]
     ) => {
-      return provider.executeMulti(signer, [
-        {
-          contractAddress: contract,
-          entrypoint: entrypoint,
-          calldata: calls,
-        },
-      ]);
+      return provider.execute(signer, contract, system, call_data);
     },
     entity: async (component: string, query: Query) =>
       provider.entity(component, query),
