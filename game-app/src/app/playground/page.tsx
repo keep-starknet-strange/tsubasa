@@ -15,11 +15,13 @@ import type {
 import EndTurnButton from "@/components/buttons/EndTurnButton";
 import { testcards } from "@/helpers/testCards";
 import JoinOrCreateModal from "@/components/JoinOrCreateModal";
+import { useComponentStates } from "@/hooks/useComponentState";
 
 export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
   const [isWaiting, setIsWaiting] = useState(false);
-
+  const contractState = useComponentStates();
+  console.log("CONTRACT STATE", contractState);
   useEffect(() => {
     if (window.innerWidth < 1024) {
       setCardSize("xs");

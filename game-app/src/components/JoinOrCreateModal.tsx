@@ -28,6 +28,7 @@ const JoinOrCreateModal: React.FC<Props> = ({
 
   const handleJoinClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Join");
+    join_game({ account, player_1_address: address });
     onJoin(address);
     onClose();
   };
