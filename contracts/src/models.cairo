@@ -354,9 +354,11 @@ impl PlayerImpl of PlayerTrait {
 impl OutcomePrint of debug::PrintTrait<Outcome> {
     fn print(self: Outcome) {
         match self {
-            Outcome::Player1(address) => { 'Player1 :'.print(); // address.print();
+            Outcome::Player1(address) => {
+                'Player1 :'.print(); // address.print();
             },
-            Outcome::Player2(address) => { 'Player2 :'.print(); // address.print();
+            Outcome::Player2(address) => {
+                'Player2 :'.print(); // address.print();
             },
             Outcome::Pending => { 'Pending'.print(); },
         }
