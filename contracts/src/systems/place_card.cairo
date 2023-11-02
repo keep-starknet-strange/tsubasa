@@ -15,7 +15,7 @@ trait IPlaceCard<TContractState> {
     );
 }
 
-#[system]
+#[dojo::contract]
 mod place_card_system {
     use super::IPlaceCard;
 

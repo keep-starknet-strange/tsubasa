@@ -7,7 +7,7 @@ trait IAttack<TContractState> {
     fn attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 }
 
-#[system]
+#[dojo::contract]
 mod attack_system {
     use super::IAttack;
 

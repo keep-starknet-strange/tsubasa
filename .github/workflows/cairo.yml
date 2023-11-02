@@ -6,11 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: contracts
+      dojo_version: v0.3.3
     steps:
       - name: Install dojo
         run: |-
-          wget https://github.com/dojoengine/dojo/releases/download/v0.3.0-rc2/dojo_v0.3.0-rc2_linux_amd64.tar.gz
-          tar -xzf dojo_v0.3.0-rc2_linux_amd64.tar.gz
+          curl -L https://install.dojoengine.org | bash
+          /home/runner/.config/.dojo/bin/dojoup --version ${{ env.DOJO_VERSION }}
           sudo mv sozo /usr/local/bin/
           sudo mv katana /usr/local/bin/
 

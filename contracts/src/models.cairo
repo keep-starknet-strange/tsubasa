@@ -354,17 +354,11 @@ impl PlayerImpl of PlayerTrait {
 impl OutcomePrint of debug::PrintTrait<Outcome> {
     fn print(self: Outcome) {
         match self {
-            Outcome::Player1(address) => {
-                'Player1 :'.print();
-            // address.print();
+            Outcome::Player1(address) => { 'Player1 :'.print(); // address.print();
             },
-            Outcome::Player2(address) => {
-                'Player2 :'.print();
-            // address.print();
+            Outcome::Player2(address) => { 'Player2 :'.print(); // address.print();
             },
-            Outcome::Pending => {
-                'Pending'.print();
-            },
+            Outcome::Pending => { 'Pending'.print(); },
         }
     }
 }
@@ -386,15 +380,9 @@ impl RolesPrint of debug::PrintTrait<Roles> {
 impl PlacementPrint of debug::PrintTrait<Placement> {
     fn print(self: Placement) {
         match self {
-            Placement::Side => {
-                ('Side '.print());
-            },
-            Placement::Field => {
-                ('Field '.print());
-            },
-            Placement::Outside => {
-                ('Outside '.print());
-            },
+            Placement::Side => { ('Side '.print()); },
+            Placement::Field => { ('Field '.print()); },
+            Placement::Outside => { ('Outside '.print()); },
         }
     }
 }

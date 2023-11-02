@@ -8,7 +8,7 @@ trait IEndTurn<TContractState> {
 // fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
 }
 
-#[system]
+#[dojo::contract]
 mod end_turn_system {
     use super::IEndTurn;
 
