@@ -8,10 +8,12 @@ jobs:
       working-directory: contracts
       dojo_version: v0.3.3
     steps:
+      - name: Install dojoup
+        run: curl -L https://install.dojoengine.org | bash
+
       - name: Install dojo
         run: |-
-          curl -L https://install.dojoengine.org | bash
-          /home/runner/.config/.dojo/bin/dojoup --version ${{ env.DOJO_VERSION }}
+          /home/runner/.config/.dojo/bin/dojoup --version ${{ env.dojo_version }}
           sudo mv sozo /usr/local/bin/
           sudo mv katana /usr/local/bin/
 
