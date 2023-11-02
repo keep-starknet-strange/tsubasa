@@ -16,7 +16,7 @@ trait ICreateCard<TContractState> {
     );
 }
 
-#[system]
+#[dojo::contract]
 mod create_card_system {
     use super::ICreateCard;
 

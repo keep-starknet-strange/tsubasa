@@ -9,7 +9,7 @@ trait ICreateDeck<TContractState> {
     );
 }
 
-#[system]
+#[dojo::contract]
 mod create_deck_system {
     use super::ICreateDeck;
 

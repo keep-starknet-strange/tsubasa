@@ -9,7 +9,7 @@ trait ICreateGame<TContractState> {
     fn create_game(self: @TContractState, world: IWorldDispatcher, player2: ContractAddress) -> ();
 }
 
-#[system]
+#[dojo::contract]
 mod create_game_system {
     use super::ICreateGame;
 
