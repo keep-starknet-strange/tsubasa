@@ -12,10 +12,7 @@ jobs:
         run: curl -L https://install.dojoengine.org | bash
 
       - name: Install dojo
-        run: |-
-          /home/runner/.config/.dojo/bin/dojoup --version ${{ env.dojo_version }}
-          sudo mv sozo /usr/local/bin/
-          sudo mv katana /usr/local/bin/
+        run: /home/runner/.config/.dojo/bin/dojoup --version ${{ env.dojo_version }}
 
       - uses: actions/checkout@v3
       - uses: software-mansion/setup-scarb@v1
@@ -26,15 +23,15 @@ jobs:
 
       - name: Run cairo tests
         working-directory: ${{env.working-directory}}
-        run: sozo test
+        run: /home/runner/.config/.dojo/bin/sozo test
 
       - name: Build
         working-directory: ${{env.working-directory}}
-        run: sozo build
+        run: /home/runner/.config/.dojo/bin/sozo build
 
       - name: Start katana
-        run: katana --disable-fee &
+        run: /home/runner/.config/.dojo/bin/katana --disable-fee &
 
       - name: Deploy
         working-directory: ${{env.working-directory}}
-        run: sozo migrate --name World
+        run: /home/runner/.config/.dojo/bin/sozo migrate --name World
