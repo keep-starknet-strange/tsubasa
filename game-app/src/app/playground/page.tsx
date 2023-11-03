@@ -21,7 +21,6 @@ export default function Home() {
   const [cardSize, setCardSize] = useState<CardSize>("xs");
   const [isWaiting, setIsWaiting] = useState(false);
   const contractState = useComponentStates();
-  console.log("CONTRACT STATE", contractState);
   useEffect(() => {
     if (window.innerWidth < 1024) {
       setCardSize("xs");
@@ -29,6 +28,10 @@ export default function Home() {
       setCardSize("sm");
     }
   }, []);
+
+  useEffect(() => {
+    console.log("NEWCONTRACT STATE", contractState);
+  }, [contractState]);
   const [currentPickedCard, setCurrentPickedCard] = useState<string>("");
   const [currentHoveredPlaceholder, setCurrentHoveredPlaceholder] =
     useState<string>("");

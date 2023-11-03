@@ -53,10 +53,14 @@ export function defineContractComponents(world: World) {
         {
           game_id: RecsType.Number,
           player: RecsType.Number,
-          goalkeeper: RecsType.Number,
-          defender: RecsType.Number,
-          midfielder: RecsType.Number,
-          attacker: RecsType.Number,
+          goalkeeper_placement: RecsType.Number,
+          goalkeeper_id: RecsType.Number,
+          defender_placement: RecsType.Number,
+          defender_id: RecsType.Number,
+          midfielder_placement: RecsType.Number,
+          midfielder_id: RecsType.Number,
+          attacker_placement: RecsType.Number,
+          attacker_id: RecsType.Number,
           remaining_energy: RecsType.Number,
         },
         {

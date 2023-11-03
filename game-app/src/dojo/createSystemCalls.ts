@@ -1,6 +1,5 @@
 import type { SetupNetworkResult } from "./setupNetwork";
 // import { Account, InvokeTransactionReceiptResponse, shortString } from "starknet";
-// import { EntityIndex, getComponentValue, setComponent } from "@latticexyz/recs";
 // import { uuid } from "@latticexyz/utils";
 import { getEvents, setComponentsFromEvents } from "@dojoengine/utils";
 import type { ClientComponents } from "./createClientComponents";
@@ -31,7 +30,7 @@ interface JoinGame extends SystemCall {
 
 export function createSystemCalls(
   { execute, contractComponents }: SetupNetworkResult,
-  {}: ClientComponents
+  { Game }: ClientComponents
 ) {
   // Add Systems here:
   const create_game = async ({ account, player_2_address }: CreateGame) => {
@@ -40,13 +39,9 @@ export function createSystemCalls(
         process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
         player_2_address,
       ]);
-
-      console.log("execute tx");
       const receipt = await account.waitForTransaction(tx.transaction_hash, {
         retryInterval: 100,
       });
-      console.log("CALL PASSED");
-      console.log(receipt);
       setComponentsFromEvents(contractComponents, getEvents(receipt));
     } catch (e) {
       console.log(e);

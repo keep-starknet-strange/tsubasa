@@ -17,7 +17,7 @@
     "@dojoengine/core": "0.1.30",
     "@dojoengine/create-burner": "0.1.30",
     "@dojoengine/react": "^0.0.3",
-    "@dojoengine/utils": "^0.1.30",
+    "@dojoengine/utils": "^0.1.32",
     "@headlessui/react": "^1.7.17",
     "@latticexyz/react": "^2.0.0-next.11",
     "@latticexyz/recs": "^2.0.0-next.11",
