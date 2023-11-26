@@ -28,6 +28,17 @@ interface JoinGame extends SystemCall {
   player_1_address: string;
 }
 
+interface CreateCard extends SystemCall {
+  account: any;
+  player_address: string;
+  token_id: bigint;
+  dribble: number;
+  defense: number;
+  cost: number;
+  role: number;
+  is_captain: boolean;
+}
+
 export function createSystemCalls(
   { execute, contractComponents }: SetupNetworkResult,
   { Game }: ClientComponents
@@ -67,16 +78,71 @@ export function createSystemCalls(
     return;
   };
 
-  // const create_card = async ({ }) => { };
+  const create_card = async ({
+    account,
+    player_address,
+    token_id,
+    dribble,
+    defense,
+    cost,
+    role,
+    is_captain,
+  }: CreateCard) => {
+    const isCaptainNumeric = is_captain ? 1 : 0;
+    try {
+      const tx = await execute(account, "create_card_system", "create_card", [
+        process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
+        player_address,
+        token_id,
+        dribble,
+        defense,
+        cost,
+        role,
+        isCaptainNumeric,
+      ]);
+      const receipt = await account.waitForTransaction(tx.transaction_hash, {
+        retryInterval: 100,
+      });
+      console.log(receipt);
+      setComponentsFromEvents(contractComponents, getEvents(receipt));
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  };
 
   // const attack = async () => { }
 
   // const end_turn = async () => { }
 
-  // const place_card = async () => { }
+  const place_card = async (
+    account: any,
+    game_id: number,
+    card_id: number,
+    position: number
+  ) => {
+    try {
+      const tx = await execute(account, "place_card_system", "place_card", [
+        process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
+        game_id,
+        card_id,
+        position,
+      ]);
+      const receipt = await account.waitForTransaction(tx.transaction_hash, {
+        retryInterval: 100,
+      });
+      console.log(receipt);
+      setComponentsFromEvents(contractComponents, getEvents(receipt));
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  };
 
   return {
     create_game,
     join_game,
+    create_card,
+    place_card,
   };
 }

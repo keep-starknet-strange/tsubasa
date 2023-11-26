@@ -20,23 +20,47 @@ const JoinOrCreateModal: React.FC<Props> = ({
   const [address, setAddress] = useState("");
   const {
     setup: {
-      systemCalls: { create_game, join_game },
+      systemCalls: { create_game, join_game, create_card, place_card },
     },
     account: { account },
   } = useDojo();
   if (!isOpen) return null;
 
-  const handleJoinClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleJoinClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Join");
-    join_game({ account, player_1_address: address });
+    await join_game({ account, player_1_address: address });
     onJoin(address);
+    await create_card({
+      account,
+      player_address: address,
+      cost: Number(BigInt(1)),
+      token_id: BigInt(1),
+      defense: Number(BigInt(1)),
+      dribble: Number(BigInt(1)),
+      role: Number(BigInt(1)),
+      is_captain: true,
+    });
+    await place_card(account, 1, 2, 1);
+    //create cards
     onClose();
   };
 
-  const handleCreateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCreateClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Create");
-    create_game({ account, player_2_address: address });
+    await create_game({ account, player_2_address: address });
     onCreate(address);
+    await create_card({
+      account,
+      player_address: address,
+      cost: Number(BigInt(1)),
+      token_id: BigInt(1),
+      defense: Number(BigInt(1)),
+      dribble: Number(BigInt(1)),
+      role: Number(BigInt(1)),
+      is_captain: true,
+    });
+    await place_card(account, 1, 2, 1);
+    // create cards
     onClose();
   };
 
