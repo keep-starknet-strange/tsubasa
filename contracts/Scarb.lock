@@ -3,16 +3,15 @@ version = 1
 
 [[package]]
 name = "dojo"
-version = "0.3.1"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.3.1#4ae61b3fa8e39af9387f05af264e1c24865e971c"
+version = "0.3.3"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.3.3#3c9f109e667ca5d12739e6553fdb8261378f4ecf"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
 name = "dojo_plugin"
-version = "0.3.1"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.3.1#4ae61b3fa8e39af9387f05af264e1c24865e971c"
+version = "0.3.3"
 
 [[package]]
 name = "tsubasa"

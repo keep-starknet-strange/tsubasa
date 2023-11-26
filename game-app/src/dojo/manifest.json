@@ -1,8 +1,8 @@
 {
   "world": {
     "name": "world",
-    "address": "0x26acd2a93f7415ad66e6ef0eea45a603e79944fb311e8d9dd15ace8d6a44262",
-    "class_hash": "0x5179c281a8d3cca6cfb820201fa7a81150b56f9db492405a29e9564222370b8",
+    "address": "0xcbaf6f1ab44beb1dbd16deebc39ba20cd117bb1b0c62ba4842d59be96c861e",
+    "class_hash": "0x6441e7fc96d795ec94fca66634e6d87edf84362e564ef80eb13f459914b8b",
     "abi": [
       {
         "type": "impl",
@@ -733,12 +733,14 @@
           }
         ]
       }
-    ]
+    ],
+    "reads": [],
+    "writes": []
   },
   "executor": {
     "name": "executor",
     "address": null,
-    "class_hash": "0x2b35dd4816731188ed1ad16caa73bde76075c9d9cb8cbfa3e447d3ab9b1ab33",
+    "class_hash": "0x54ee9d99457d82d53e21030920f7e6f43509b98ea62282b5c2520050264a28c",
     "abi": [
       {
         "type": "impl",
@@ -791,11 +793,13 @@
         "kind": "enum",
         "variants": []
       }
-    ]
+    ],
+    "reads": [],
+    "writes": []
   },
   "base": {
     "name": "base",
-    "class_hash": "0x7aec2b7d7064c1294a339cd90060331ff704ab573e4ee9a1b699be2215c11c9",
+    "class_hash": "0x5a2c567ed06c8059c8d1199684796a0a0ef614f9a2ab628700e804524816b5c",
     "abi": [
       {
         "type": "impl",
@@ -857,8 +861,8 @@
   "contracts": [
     {
       "name": "attack_system",
-      "address": "0x7b970dc9edc5aad63b1599286f8fe813ee07f3ee80d11bd87e8ea21e4a27317",
-      "class_hash": "0xf18b085f570fc3a98169edebe27c95cef0950c8b72c6599f22a60e45ab46eb",
+      "address": "0x1ff0f76d41228e66d5a26e270daff2b6eb701a6e2ea94aa3787ee72be8777af",
+      "class_hash": "0x24edbc280976a8737a5f6a001cf9f65e48aec70fc394df2bfd80b91e0169539",
       "abi": [
         {
           "type": "impl",
@@ -903,349 +907,22 @@
           "kind": "enum",
           "variants": []
         }
-      ]
-    },
-    {
-      "name": "end_turn_system",
-      "address": "0x2de2fb1734486882b0ea58ed1716eb6c4f603bc3cd58eadb87d30200926b00",
-      "class_hash": "0x5154ea89822fdf8c9118769431a48a545e0988cd3e3e725b7a6b48a392162fd",
-      "abi": [
-        {
-          "type": "impl",
-          "name": "EndTurnImpl",
-          "interface_name": "tsubasa::systems::end_turn::IEndTurn"
-        },
-        {
-          "type": "struct",
-          "name": "dojo::world::IWorldDispatcher",
-          "members": [
-            {
-              "name": "contract_address",
-              "type": "core::starknet::contract_address::ContractAddress"
-            }
-          ]
-        },
-        {
-          "type": "interface",
-          "name": "tsubasa::systems::end_turn::IEndTurn",
-          "items": [
-            {
-              "type": "function",
-              "name": "end_turn",
-              "inputs": [
-                {
-                  "name": "world",
-                  "type": "dojo::world::IWorldDispatcher"
-                },
-                {
-                  "name": "game_id",
-                  "type": "core::felt252"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "view"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::end_turn::end_turn_system::EndTurn",
-          "kind": "struct",
-          "members": [
-            {
-              "name": "game_id",
-              "type": "core::felt252",
-              "kind": "data"
-            },
-            {
-              "name": "turn",
-              "type": "core::integer::u128",
-              "kind": "data"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::end_turn::end_turn_system::Event",
-          "kind": "enum",
-          "variants": [
-            {
-              "name": "EndTurn",
-              "type": "tsubasa::systems::end_turn::end_turn_system::EndTurn",
-              "kind": "nested"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "place_card_system",
-      "address": "0x672aafeac491cb837f79f1f080e95ab75412327416d7d7dade1f9dbf0e5ce5c",
-      "class_hash": "0x20482eedf94ad1500c1061329f58637f0b6f2b453a89a374d302792fff836a9",
-      "abi": [
-        {
-          "type": "impl",
-          "name": "PlaceCardImpl",
-          "interface_name": "tsubasa::systems::place_card::IPlaceCard"
-        },
-        {
-          "type": "struct",
-          "name": "dojo::world::IWorldDispatcher",
-          "members": [
-            {
-              "name": "contract_address",
-              "type": "core::starknet::contract_address::ContractAddress"
-            }
-          ]
-        },
-        {
-          "type": "enum",
-          "name": "tsubasa::models::Roles",
-          "variants": [
-            {
-              "name": "Goalkeeper",
-              "type": "()"
-            },
-            {
-              "name": "Defender",
-              "type": "()"
-            },
-            {
-              "name": "Midfielder",
-              "type": "()"
-            },
-            {
-              "name": "Attacker",
-              "type": "()"
-            }
-          ]
-        },
-        {
-          "type": "interface",
-          "name": "tsubasa::systems::place_card::IPlaceCard",
-          "items": [
-            {
-              "type": "function",
-              "name": "place_card",
-              "inputs": [
-                {
-                  "name": "world",
-                  "type": "dojo::world::IWorldDispatcher"
-                },
-                {
-                  "name": "game_id",
-                  "type": "core::felt252"
-                },
-                {
-                  "name": "card_id",
-                  "type": "core::integer::u8"
-                },
-                {
-                  "name": "position",
-                  "type": "tsubasa::models::Roles"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "view"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::place_card::place_card_system::CardPlaced",
-          "kind": "struct",
-          "members": [
-            {
-              "name": "game_id",
-              "type": "core::felt252",
-              "kind": "data"
-            },
-            {
-              "name": "player",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "data"
-            },
-            {
-              "name": "card_id",
-              "type": "core::integer::u8",
-              "kind": "data"
-            },
-            {
-              "name": "position",
-              "type": "tsubasa::models::Roles",
-              "kind": "data"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::place_card::place_card_system::Event",
-          "kind": "enum",
-          "variants": [
-            {
-              "name": "CardPlaced",
-              "type": "tsubasa::systems::place_card::place_card_system::CardPlaced",
-              "kind": "nested"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "create_game_system",
-      "address": "0x65a11db84fd1ad9705dea082ca38dd4f665bc33fb7c68b264f46b5b9ff75b24",
-      "class_hash": "0x7284419426ba5c4b9aaa20146b78416ade13627849e76bc09631b2f0cff3755",
-      "abi": [
-        {
-          "type": "impl",
-          "name": "CreateGameImpl",
-          "interface_name": "tsubasa::systems::create_game::ICreateGame"
-        },
-        {
-          "type": "struct",
-          "name": "dojo::world::IWorldDispatcher",
-          "members": [
-            {
-              "name": "contract_address",
-              "type": "core::starknet::contract_address::ContractAddress"
-            }
-          ]
-        },
-        {
-          "type": "interface",
-          "name": "tsubasa::systems::create_game::ICreateGame",
-          "items": [
-            {
-              "type": "function",
-              "name": "create_game",
-              "inputs": [
-                {
-                  "name": "world",
-                  "type": "dojo::world::IWorldDispatcher"
-                },
-                {
-                  "name": "player2",
-                  "type": "core::starknet::contract_address::ContractAddress"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "view"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::create_game::create_game_system::GameCreated",
-          "kind": "struct",
-          "members": [
-            {
-              "name": "game_id",
-              "type": "core::felt252",
-              "kind": "data"
-            },
-            {
-              "name": "player1",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "data"
-            },
-            {
-              "name": "player2",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "data"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::create_game::create_game_system::Event",
-          "kind": "enum",
-          "variants": [
-            {
-              "name": "GameCreated",
-              "type": "tsubasa::systems::create_game::create_game_system::GameCreated",
-              "kind": "nested"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "join_game_system",
-      "address": "0x3f6bacbeeafedd29106094e711e951235b5b2628d6222a16a39a2d46fde0605",
-      "class_hash": "0x4ae34baa9c90bd981727762ea86dadbe4940d095f78e064b56dcb2433151d1",
-      "abi": [
-        {
-          "type": "impl",
-          "name": "JoinGameImpl",
-          "interface_name": "tsubasa::systems::join_game::IJoinGame"
-        },
-        {
-          "type": "struct",
-          "name": "dojo::world::IWorldDispatcher",
-          "members": [
-            {
-              "name": "contract_address",
-              "type": "core::starknet::contract_address::ContractAddress"
-            }
-          ]
-        },
-        {
-          "type": "interface",
-          "name": "tsubasa::systems::join_game::IJoinGame",
-          "items": [
-            {
-              "type": "function",
-              "name": "join_game",
-              "inputs": [
-                {
-                  "name": "world",
-                  "type": "dojo::world::IWorldDispatcher"
-                },
-                {
-                  "name": "player1",
-                  "type": "core::starknet::contract_address::ContractAddress"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "view"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::join_game::join_game_system::GameJoined",
-          "kind": "struct",
-          "members": [
-            {
-              "name": "player1",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "data"
-            },
-            {
-              "name": "player2",
-              "type": "core::starknet::contract_address::ContractAddress",
-              "kind": "data"
-            }
-          ]
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::systems::join_game::join_game_system::Event",
-          "kind": "enum",
-          "variants": [
-            {
-              "name": "GameJoined",
-              "type": "tsubasa::systems::join_game::join_game_system::GameJoined",
-              "kind": "nested"
-            }
-          ]
-        }
+      ],
+      "reads": [
+        "Card",
+        "Game",
+        "Player"
+      ],
+      "writes": [
+        "Card",
+        "Game",
+        "Player"
       ]
     },
     {
       "name": "create_card_system",
-      "address": "0x50fadb72511a4fbe6a9f0b53b5d22f1a6322e7d03152c1eb5ae89fd34798a5e",
-      "class_hash": "0x50a86360baf07a91ed7e054819e444cd655caf32156d1febf0f0591da3ad87",
+      "address": "0x16a43437f673a910b7a3d3c4da65d4d5583ec8bf505c01238794236ff1915e8",
+      "class_hash": "0x1ef940182a5c851045d7fab9488c9735a7cf204c1a0656697cb456cf567a684",
       "abi": [
         {
           "type": "impl",
@@ -1360,12 +1037,16 @@
           "kind": "enum",
           "variants": []
         }
+      ],
+      "reads": [],
+      "writes": [
+        "Card"
       ]
     },
     {
       "name": "create_deck_system",
-      "address": "0x69f64cf82e73eb069406a629d2f22f3a1e78da2590fc5f22308e73a935b7f6c",
-      "class_hash": "0x51d9cf4568935bd31ebcc8cfbe055eaec2067d48c46d560d6a09305a802b9f2",
+      "address": "0xb6bce32770af8e6834a11ff81f950bb7649ee229110ad6b7d57321f97840dc",
+      "class_hash": "0x1c24e6c5cbf359952857aa7475f4765dbc7330f2d4327830bfb1fb1f48709a0",
       "abi": [
         {
           "type": "impl",
@@ -1461,6 +1142,377 @@
             }
           ]
         }
+      ],
+      "reads": [],
+      "writes": [
+        "DeckCard"
+      ]
+    },
+    {
+      "name": "create_game_system",
+      "address": "0x22480659519594a34688b188650ba100d936c5897feb5673c9f249fd85f1334",
+      "class_hash": "0x22ed057d08ea6a5969a49db2bd3e11bb2ea1949ce91351e4f18c2a22877ca2a",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "CreateGameImpl",
+          "interface_name": "tsubasa::systems::create_game::ICreateGame"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "tsubasa::systems::create_game::ICreateGame",
+          "items": [
+            {
+              "type": "function",
+              "name": "create_game",
+              "inputs": [
+                {
+                  "name": "world",
+                  "type": "dojo::world::IWorldDispatcher"
+                },
+                {
+                  "name": "player2",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::create_game::create_game_system::GameCreated",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "game_id",
+              "type": "core::felt252",
+              "kind": "data"
+            },
+            {
+              "name": "player1",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            },
+            {
+              "name": "player2",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::create_game::create_game_system::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "GameCreated",
+              "type": "tsubasa::systems::create_game::create_game_system::GameCreated",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [],
+      "writes": [
+        "Game",
+        "Player"
+      ]
+    },
+    {
+      "name": "end_turn_system",
+      "address": "0x261d8a967239fcec5f90fed035ff3c36b266e6272054dd673887e2c0ed91259",
+      "class_hash": "0x4b4990334433fbd66297d4158b150cb40187732f93b34552463daf9d45177e",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "EndTurnImpl",
+          "interface_name": "tsubasa::systems::end_turn::IEndTurn"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "tsubasa::systems::end_turn::IEndTurn",
+          "items": [
+            {
+              "type": "function",
+              "name": "end_turn",
+              "inputs": [
+                {
+                  "name": "world",
+                  "type": "dojo::world::IWorldDispatcher"
+                },
+                {
+                  "name": "game_id",
+                  "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::end_turn::end_turn_system::EndTurn",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "game_id",
+              "type": "core::felt252",
+              "kind": "data"
+            },
+            {
+              "name": "turn",
+              "type": "core::integer::u128",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::end_turn::end_turn_system::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "EndTurn",
+              "type": "tsubasa::systems::end_turn::end_turn_system::EndTurn",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [
+        "DeckCard",
+        "Game",
+        "Player"
+      ],
+      "writes": [
+        "Game",
+        "Player"
+      ]
+    },
+    {
+      "name": "join_game_system",
+      "address": "0x6fd2375a87de5d76d418be86c5e08e40391bab21fc4dfd9bfd71e13b904ba86",
+      "class_hash": "0x52fd9a31d9a2d0f27c7beb424d5f6a4b121201012147142a9d83b3b7d9e03be",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "JoinGameImpl",
+          "interface_name": "tsubasa::systems::join_game::IJoinGame"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "tsubasa::systems::join_game::IJoinGame",
+          "items": [
+            {
+              "type": "function",
+              "name": "join_game",
+              "inputs": [
+                {
+                  "name": "world",
+                  "type": "dojo::world::IWorldDispatcher"
+                },
+                {
+                  "name": "player1",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::join_game::join_game_system::GameJoined",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "player1",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            },
+            {
+              "name": "player2",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::join_game::join_game_system::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "GameJoined",
+              "type": "tsubasa::systems::join_game::join_game_system::GameJoined",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [
+        "Game"
+      ],
+      "writes": [
+        "Game"
+      ]
+    },
+    {
+      "name": "place_card_system",
+      "address": "0x46daa98685dcb6e3553ada64f20293a5b1d175a0d635afe48599e984b071740",
+      "class_hash": "0x6436aac4457bba44037e5b60ac106c51528458860e37af87fac52b2efde3a77",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "PlaceCardImpl",
+          "interface_name": "tsubasa::systems::place_card::IPlaceCard"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "tsubasa::models::Roles",
+          "variants": [
+            {
+              "name": "Goalkeeper",
+              "type": "()"
+            },
+            {
+              "name": "Defender",
+              "type": "()"
+            },
+            {
+              "name": "Midfielder",
+              "type": "()"
+            },
+            {
+              "name": "Attacker",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "tsubasa::systems::place_card::IPlaceCard",
+          "items": [
+            {
+              "type": "function",
+              "name": "place_card",
+              "inputs": [
+                {
+                  "name": "world",
+                  "type": "dojo::world::IWorldDispatcher"
+                },
+                {
+                  "name": "game_id",
+                  "type": "core::felt252"
+                },
+                {
+                  "name": "card_id",
+                  "type": "core::integer::u8"
+                },
+                {
+                  "name": "position",
+                  "type": "tsubasa::models::Roles"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::place_card::place_card_system::CardPlaced",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "game_id",
+              "type": "core::felt252",
+              "kind": "data"
+            },
+            {
+              "name": "player",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            },
+            {
+              "name": "card_id",
+              "type": "core::integer::u8",
+              "kind": "data"
+            },
+            {
+              "name": "position",
+              "type": "tsubasa::models::Roles",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::systems::place_card::place_card_system::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "CardPlaced",
+              "type": "tsubasa::systems::place_card::place_card_system::CardPlaced",
+              "kind": "nested"
+            }
+          ]
+        }
+      ],
+      "reads": [
+        "Card",
+        "DeckCard",
+        "Game",
+        "Player"
+      ],
+      "writes": [
+        "Card",
+        "Player"
       ]
     }
   ],
@@ -1504,7 +1556,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x4607f460945c862ec2a42a592e8c7cb73aac254ff4d57d817837f0e659bbf1f",
+      "class_hash": "0x7960c4214197a033fd2fab87e0a3f773335024fb65406e8c57dd49a525e4896",
       "abi": [
         {
           "type": "function",
@@ -1668,208 +1720,6 @@
       ]
     },
     {
-      "name": "Game",
-      "members": [
-        {
-          "name": "game_id",
-          "type": "felt252",
-          "key": true
-        },
-        {
-          "name": "player1",
-          "type": "ContractAddress",
-          "key": false
-        },
-        {
-          "name": "player2",
-          "type": "ContractAddress",
-          "key": false
-        },
-        {
-          "name": "player1_score",
-          "type": "u8",
-          "key": false
-        },
-        {
-          "name": "player2_score",
-          "type": "u8",
-          "key": false
-        },
-        {
-          "name": "turn",
-          "type": "u128",
-          "key": false
-        },
-        {
-          "name": "outcome",
-          "type": "Outcome",
-          "key": false
-        }
-      ],
-      "class_hash": "0x7ab7c27d690e6bc74b6ba117310ad355c03942b43f2011acf5316010261d9f0",
-      "abi": [
-        {
-          "type": "function",
-          "name": "name",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::felt252"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "unpacked_size",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::integer::u32"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "packed_size",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::integer::u32"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::integer::u8>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::integer::u8>"
-            }
-          ]
-        },
-        {
-          "type": "function",
-          "name": "layout",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "core::array::Span::<core::integer::u8>"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::felt252>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::felt252>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<core::array::Span::<core::felt252>>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "dojo::database::schema::Struct",
-          "members": [
-            {
-              "name": "name",
-              "type": "core::felt252"
-            },
-            {
-              "name": "attrs",
-              "type": "core::array::Span::<core::felt252>"
-            },
-            {
-              "name": "children",
-              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>",
-          "members": [
-            {
-              "name": "snapshot",
-              "type": "@core::array::Array::<(core::felt252, core::array::Span::<core::felt252>)>"
-            }
-          ]
-        },
-        {
-          "type": "struct",
-          "name": "dojo::database::schema::Enum",
-          "members": [
-            {
-              "name": "name",
-              "type": "core::felt252"
-            },
-            {
-              "name": "attrs",
-              "type": "core::array::Span::<core::felt252>"
-            },
-            {
-              "name": "children",
-              "type": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>"
-            }
-          ]
-        },
-        {
-          "type": "enum",
-          "name": "dojo::database::schema::Ty",
-          "variants": [
-            {
-              "name": "Primitive",
-              "type": "core::felt252"
-            },
-            {
-              "name": "Struct",
-              "type": "dojo::database::schema::Struct"
-            },
-            {
-              "name": "Enum",
-              "type": "dojo::database::schema::Enum"
-            },
-            {
-              "name": "Tuple",
-              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
-            }
-          ]
-        },
-        {
-          "type": "function",
-          "name": "schema",
-          "inputs": [],
-          "outputs": [
-            {
-              "type": "dojo::database::schema::Ty"
-            }
-          ],
-          "state_mutability": "view"
-        },
-        {
-          "type": "event",
-          "name": "tsubasa::models::game::Event",
-          "kind": "enum",
-          "variants": []
-        }
-      ]
-    },
-    {
       "name": "DeckCard",
       "members": [
         {
@@ -1898,7 +1748,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x29555264785194a98f22b36210e7c8fa60e8619e71da0cb7720056185346eb4",
+      "class_hash": "0x12779735c0c73c1b93c56c7ec18ec78f8ffcb8bb4dadfe39acc651dc7da28be",
       "abi": [
         {
           "type": "function",
@@ -2062,6 +1912,208 @@
       ]
     },
     {
+      "name": "Game",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "felt252",
+          "key": true
+        },
+        {
+          "name": "player1",
+          "type": "ContractAddress",
+          "key": false
+        },
+        {
+          "name": "player2",
+          "type": "ContractAddress",
+          "key": false
+        },
+        {
+          "name": "player1_score",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "player2_score",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "turn",
+          "type": "u128",
+          "key": false
+        },
+        {
+          "name": "outcome",
+          "type": "Outcome",
+          "key": false
+        }
+      ],
+      "class_hash": "0x120db054ee3fa40c644b9e29d9051ff651c72fe85faa27689a479a0a90fbfc2",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "unpacked_size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "packed_size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "layout",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Span::<core::integer::u8>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::array::Span::<core::felt252>>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::array::Span::<core::felt252>>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::schema::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, core::array::Span::<core::felt252>)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::schema::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, core::array::Span::<core::felt252>)>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::database::schema::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::database::schema::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::database::schema::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<core::array::Span::<core::felt252>>"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "dojo::database::schema::Ty"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "tsubasa::models::game::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
       "name": "Player",
       "members": [
         {
@@ -2120,7 +2172,7 @@
           "key": false
         }
       ],
-      "class_hash": "0x580067fee76dc2c87341d67cf5811ee3daf0735eae7ca8540e64a6f445a5113",
+      "class_hash": "0x2442d061997c97bc2aa53da0937eb78f58b3ca9c3d97f34f326b9c292f54087",
       "abi": [
         {
           "type": "function",
