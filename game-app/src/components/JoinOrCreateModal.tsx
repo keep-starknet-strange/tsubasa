@@ -20,7 +20,13 @@ const JoinOrCreateModal: React.FC<Props> = ({
   const [address, setAddress] = useState("");
   const {
     setup: {
-      systemCalls: { create_game, join_game, create_card, place_card },
+      systemCalls: {
+        create_game,
+        join_game,
+        create_card,
+        place_card,
+        end_turn,
+      },
     },
     account: { account },
   } = useDojo();
@@ -59,6 +65,8 @@ const JoinOrCreateModal: React.FC<Props> = ({
       role: Number(BigInt(1)),
       is_captain: true,
     });
+    // fixer cet appel
+    await end_turn(account, 1);
     await place_card(account, 1, 2, 1);
     // create cards
     onClose();

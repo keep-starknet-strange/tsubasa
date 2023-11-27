@@ -38,6 +38,9 @@ interface CreateCard extends SystemCall {
   role: number;
   is_captain: boolean;
 }
+interface Attack extends SystemCall {
+  game_id: bigint;
+}
 
 export function createSystemCalls(
   { execute, contractComponents }: SetupNetworkResult,
@@ -111,9 +114,23 @@ export function createSystemCalls(
     return;
   };
 
-  // const attack = async () => { }
+  const attack = async ({ account, game_id }: Attack) => {
+    try {
+      const tx = await execute(account, "attack_system", "attack", [
+        process.env.NEXT_PUBLIC_WORLD_ADDRESS || "",
+        game_id,
+      ]);
 
-  // const end_turn = async () => { }
+      const receipt = await account.waitForTransaction(tx.transaction_hash, {
+        retryInterval: 100,
+      });
+      console.log(receipt);
+      setComponentsFromEvents(contractComponents, getEvents(receipt));
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  };
 
   const place_card = async (
     account: any,
@@ -139,10 +156,28 @@ export function createSystemCalls(
     return;
   };
 
+  const end_turn = async (account: any, game_id: number) => {
+    try {
+      const tx = await execute(account, "end_turn_system", "end_turn", [
+        game_id,
+      ]);
+      const receipt = await account.waitForTransaction(tx.transaction_hash, {
+        retryInterval: 100,
+      });
+      console.log(receipt);
+      setComponentsFromEvents(contractComponents, getEvents(receipt));
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  };
+
   return {
     create_game,
     join_game,
     create_card,
     place_card,
+    end_turn,
+    attack,
   };
 }
