@@ -14,6 +14,7 @@ const config = {
   rules: {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-redundant-type-constituents": "off",
