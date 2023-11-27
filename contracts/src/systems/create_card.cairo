@@ -16,6 +16,7 @@ trait ICreateCard<TContractState> {
     );
 }
 
+
 #[starknet::contract]
 mod create_card_system {
     use super::ICreateCard;

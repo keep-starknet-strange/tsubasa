@@ -5,6 +5,7 @@ trait IAttack<TContractState> {
     fn attack(self: @TContractState, world: IWorldDispatcher, game_id: felt252) -> ();
 }
 
+
 #[starknet::contract]
 mod attack_system {
     use super::IAttack;
