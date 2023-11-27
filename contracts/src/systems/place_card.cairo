@@ -19,7 +19,7 @@ trait IPlaceCard<TContractState> {
 #[starknet::contract]
 mod place_card_system {
     use super::IPlaceCard;
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::ArrayTrait;
     use traits::Into;
@@ -137,6 +137,5 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
         }
     }
     #[storage]
-    struct Storage {
-    }
+    struct Storage {}
 }

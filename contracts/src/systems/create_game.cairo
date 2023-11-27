@@ -11,8 +11,8 @@ trait ICreateGame<TContractState> {
 
 #[starknet::contract]
 mod create_game_system {
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+
     use super::ICreateGame;
 
     use traits::Into;
@@ -95,6 +95,5 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     }
 
     #[storage]
-    struct Storage {
-    }
+    struct Storage {}
 }

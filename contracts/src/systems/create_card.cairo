@@ -19,7 +19,7 @@ trait ICreateCard<TContractState> {
 #[starknet::contract]
 mod create_card_system {
     use super::ICreateCard;
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use tsubasa::models::{Card, Roles};
 
@@ -61,6 +61,6 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
         }
     }
 
-         #[storage]
+    #[storage]
     struct Storage {}
 }

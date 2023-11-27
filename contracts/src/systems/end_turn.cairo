@@ -1,4 +1,3 @@
-
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
@@ -10,7 +9,7 @@ trait IEndTurn<TContractState> {
 #[starknet::contract]
 mod end_turn_system {
     use super::IEndTurn;
-  use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::ArrayTrait;
     use traits::Into;
@@ -126,7 +125,6 @@ mod end_turn_system {
         }
     }
     #[storage]
-    struct Storage {
-    }
+    struct Storage {}
 }
 

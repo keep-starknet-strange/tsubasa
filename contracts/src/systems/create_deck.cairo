@@ -12,7 +12,7 @@ trait ICreateDeck<TContractState> {
 #[starknet::contract]
 mod create_deck_system {
     use super::ICreateDeck;
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::SpanTrait;
     use starknet::ContractAddress;
@@ -70,6 +70,5 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     }
 
     #[storage]
-    struct Storage {
-    }
+    struct Storage {}
 }

@@ -71,7 +71,7 @@ mod attack_system {
         false
     }
 
-     #[storage]
+    #[storage]
     struct Storage {}
 
     #[external(v0)]

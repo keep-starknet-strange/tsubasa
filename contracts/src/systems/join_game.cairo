@@ -10,7 +10,7 @@ trait IJoinGame<TContractState> {
 #[starknet::contract]
 mod join_game_system {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    
+
     use super::IJoinGame;
 
     use traits::Into;
@@ -53,6 +53,5 @@ mod join_game_system {
     }
 
     #[storage]
-    struct Storage {
-    }
+    struct Storage {}
 }
