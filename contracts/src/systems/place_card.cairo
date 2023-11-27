@@ -16,6 +16,7 @@ trait IPlaceCard<TContractState> {
     );
 }
 
+
 #[starknet::contract]
 mod place_card_system {
     use super::IPlaceCard;
