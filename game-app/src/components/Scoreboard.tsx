@@ -44,13 +44,15 @@ export default function Scoreboard() {
         )}
       </button>
       <button
-        onClick={() => void join_game({ account, player_address })}
+        onClick={() =>
+          void join_game({ account, player_1_address: player_2_address })
+        }
         className="p-2 text-xl uppercase"
       >
         join game
       </button>
       <button
-        onClick={() => void create_game({ account, player_address })}
+        onClick={() => void create_game({ account, player_2_address })}
         className="p-2 text-xl uppercase"
       >
         start game
