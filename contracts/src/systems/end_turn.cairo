@@ -1,6 +1,4 @@
-use starknet::ContractAddress;
-
-use dojo::world::IWorldDispatcher;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 #[starknet::interface]
 trait IEndTurn<TContractState> {
@@ -8,15 +6,15 @@ trait IEndTurn<TContractState> {
 // fn draw_card(self: @TContractState,  world: IWorldDispatcher , remaining_cards: u128, player: ContractAddress) -> ();
 }
 
-#[dojo::contract]
+#[starknet::contract]
 mod end_turn_system {
     use super::IEndTurn;
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::ArrayTrait;
     use traits::Into;
-    use starknet::info::{get_block_timestamp, get_block_number};
-    use starknet::ContractAddress;
-
+    use starknet::{ContractAddress, get_block_timestamp, get_block_info};
+    use starknet::info::get_block_number;
     use tsubasa::models::{Game, DeckCard, CardState, Player, Outcome, PlayerTrait, Placement};
     use tsubasa::systems::check_turn;
 
@@ -52,6 +50,7 @@ mod end_turn_system {
         } else {
             0
         };
+
         let mut cards_in_deck_seen = 0_u128;
         let mut i = 0_u128;
         loop {
@@ -125,5 +124,7 @@ mod end_turn_system {
             set!(world, (game));
         }
     }
+    #[storage]
+    struct Storage {}
 }
 

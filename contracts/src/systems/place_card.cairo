@@ -1,6 +1,7 @@
 use starknet::ContractAddress;
 
-use dojo::world::IWorldDispatcher;
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+
 
 use tsubasa::models::Roles;
 
@@ -15,9 +16,11 @@ trait IPlaceCard<TContractState> {
     );
 }
 
-#[dojo::contract]
+
+#[starknet::contract]
 mod place_card_system {
     use super::IPlaceCard;
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use array::ArrayTrait;
     use traits::Into;
@@ -134,4 +137,6 @@ mod place_card_system {
             )
         }
     }
+    #[storage]
+    struct Storage {}
 }
