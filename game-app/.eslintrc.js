@@ -18,6 +18,7 @@ const config = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-redundant-type-constituents": "off",
     "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
   },
   ignorePatterns: ["**/*.js"],
