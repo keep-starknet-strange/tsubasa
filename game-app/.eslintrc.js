@@ -13,8 +13,10 @@ const config = {
   ],
   rules: {
     "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-redundant-type-constituents": "off",
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
   },
